@@ -1,0 +1,21 @@
+source 'http://rubygems.org'
+
+gem 'sinatra', require: "sinatra/base"
+gem 'rake'
+gem 'puma'
+gem 'mongo'
+gem "rack-cache"
+gem 'require_all'
+
+group :development, :test do
+  gem 'awesome_print'
+  gem 'pry'
+  gem 'pry-byebug'
+  gem 'pry-bond'
+  gem 'pry-clipboard'
+  gem 'looksee'
+  gem 'hirb'
+  gem 'sinatra-contrib'
+  gem 'better_errors'
+end
+

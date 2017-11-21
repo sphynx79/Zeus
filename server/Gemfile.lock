@@ -1,0 +1,79 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    awesome_print (1.8.0)
+    backports (3.10.3)
+    better_errors (2.4.0)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
+    bond (0.5.1)
+    bson (4.2.2)
+    byebug (9.1.0)
+    clipboard (1.1.1)
+    coderay (1.1.2)
+    erubi (1.7.0)
+    hirb (0.7.3)
+    looksee (4.0.0)
+    method_source (0.9.0)
+    mongo (2.4.3)
+      bson (>= 4.2.1, < 5.0.0)
+    multi_json (1.12.2)
+    mustermann (1.0.1)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-bond (0.0.1)
+      bond (~> 0.5)
+      rb-readline (~> 0.5)
+    pry-byebug (3.5.0)
+      byebug (~> 9.1)
+      pry (~> 0.10)
+    pry-clipboard (0.1.1)
+      clipboard
+      pry
+    puma (3.11.0)
+    rack (2.0.3)
+    rack-cache (1.7.1)
+      rack (>= 0.4)
+    rack-protection (2.0.0)
+      rack
+    rake (12.3.0)
+    rb-readline (0.5.5)
+    require_all (1.4.0)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
+    sinatra-contrib (2.0.0)
+      backports (>= 2.0)
+      multi_json
+      mustermann (~> 1.0)
+      rack-protection (= 2.0.0)
+      sinatra (= 2.0.0)
+      tilt (>= 1.3, < 3)
+    tilt (2.0.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  better_errors
+  hirb
+  looksee
+  mongo
+  pry
+  pry-bond
+  pry-byebug
+  pry-clipboard
+  puma
+  rack-cache
+  rake
+  require_all
+  sinatra
+  sinatra-contrib
+
+BUNDLED WITH
+   1.15.4
