@@ -7,7 +7,7 @@ class ApplicationController < Sinatra::Base
 
   configure(:production) do
     p "Start Production mode"
-    ip = Socket.ip_address_list.keep_if{|intf| intf.ipv4_private? && intf.ip_address =~ /^10/}[0].ip_address
+    ip = Socket.ip_address_list.keep_if{|intf| intf.ipv4_private? && (intf.ip_address =~ /^10/ || intf.ip_address =~ /^192/)}[0].ip_address
     File.open("ip.txt", 'w') { |file| file.write(ip) }
     set :server_adress, ip
     db = Mongo::Client.new([ '10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018' ], :database => 'transmission')

@@ -8,12 +8,12 @@ module.exports = {
     context: resolve(__dirname, 'src'),
     entry: [
         './styles/vendor-scss.js',
-        './index.js',
+        './js/index.js',
     ],
     output: {
-        path: resolve(__dirname, 'dist/'),
-        filename: '[name]-bundle.js',
-        chunkFilename: '[name]-chunk.js',
+        path: resolve(__dirname, 'public/'),
+        filename: './js/[name]-bundle.js',
+        chunkFilename: './js/[name]-chunk.js',
     },
     module: {
         rules: [{
