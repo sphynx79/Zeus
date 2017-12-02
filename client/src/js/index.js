@@ -8,8 +8,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 //Define your routes here
-var IndexPage = require('../src/views/landing-page');
-var Splash = require('../src/views/splash-page');
+var IndexPage = require('./views/landing-page');
+var Splash = require('./views/splash-page');
 
 m.route(document.body.querySelector('#root'), '/splash', {
     '/splash': Splash,
