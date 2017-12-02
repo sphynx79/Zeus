@@ -4,11 +4,12 @@
 # dependencies
 /node_modules
 /bower_components
-
+/public
 # misc
 .sass-cache
 .eslintcache
 npm-debug.log*
+*.gitignore
 
 # mac
 .DS_Store
