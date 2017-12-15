@@ -6,6 +6,7 @@ gem 'puma'
 gem 'mongo'
 gem "rack-cache"
 gem 'require_all'
+gem 'rack-gzip-file'
 
 group :development, :test do
   gem 'awesome_print'

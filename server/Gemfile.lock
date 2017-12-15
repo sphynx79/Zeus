@@ -36,6 +36,8 @@ GEM
     rack (2.0.3)
     rack-cache (1.7.1)
       rack (>= 0.4)
+    rack-gzip-file (0.0.1)
+      rack (>= 1.5.0)
     rack-protection (2.0.0)
       rack
     rake (12.3.0)
@@ -70,10 +72,11 @@ DEPENDENCIES
   pry-clipboard
   puma
   rack-cache
+  rack-gzip-file
   rake
   require_all
   sinatra
   sinatra-contrib
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

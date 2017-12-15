@@ -10,6 +10,8 @@ require "sinatra/base"
 require "sinatra/json"
 require "sinatra/namespace"
 require 'rack/cache'
+require 'net/http'
+require 'rack/gzip_static'
 
 Mongo::Logger.logger.level = ::Logger::FATAL
 

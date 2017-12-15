@@ -7,13 +7,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     context: resolve(__dirname, 'src'),
     entry: [
-        './styles/vendor-scss.js',
-        './js/index.js',
+        './pack/application.js',
     ],
     output: {
-        path: resolve(__dirname, 'public/'),
+        path: resolve(__dirname, 'dist/'),
         filename: './js/[name]-bundle.js',
-        chunkFilename: './js/[name]-chunk.js',
+        chunkFilename: '.js/[name]-chunk.js',
     },
     module: {
         rules: [{
@@ -45,6 +44,7 @@ module.exports = {
                 loader: 'babel-loader',
                 options: {
                     presets: ['es2015', 'env', 'stage-3'],
+                    plugins: [ "mopt" ]
                 },
             }],
         }],
@@ -56,6 +56,10 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             m: 'mithril', //Global access
+            // PubSubEs6: 'pub-sub-es6',
+            // dispatch: ['pub-sub-es6', 'dispatch'],
+            // receive: ['pub-sub-es6', 'receive'],
+            // on: ['pub-sub-es6', 'on']
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',

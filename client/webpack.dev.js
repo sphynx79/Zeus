@@ -7,7 +7,7 @@ module.exports = merge(common, {
     devtool: 'inline-source-map',
     devServer: {
         hot: true,
-        contentBase: './public',
+        contentBase: './dist',
         port: 3000,
         proxy: {
             '/api': 'http://localhost:3001',
@@ -31,22 +31,24 @@ module.exports = merge(common, {
                 // use style-loader in development
                 fallback: 'style-loader',
             })),
-        }, {
-            test: /\.js$/,
-            enforce: 'pre',
-            exclude: /node_modules/,
-            loader: 'eslint-loader',
-            options: {
-                cache: true,
-                emitWarning: true,
-                // Fail only on errors
-                failOnWarning: false,
-                failOnError: false,
-                // Toggle autofix
-                fix: false,
-                formatter: require('eslint/lib/formatters/stylish'),
-            },
-        }],
+        }, 
+        //     {
+        //     test: /\.js$/,
+        //     enforce: 'pre',
+        //     exclude: /node_modules/,
+        //     loader: 'eslint-loader',
+        //     options: {
+        //         cache: true,
+        //         emitWarning: true,
+        //         // Fail only on errors
+        //         failOnWarning: false,
+        //         failOnError: false,
+        //         // Toggle autofix
+        //         fix: false,
+        //         formatter: require('eslint/lib/formatters/stylish'),
+        //     },
+        // }
+        ],
     },
     plugins: [
         new ExtractTextPlugin({
