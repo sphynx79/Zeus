@@ -1,7 +1,7 @@
 // src/components/sidebar/sidebar.js
 
 import "./sidebar.css"
-import Button from "../button/button.js"
+import Button from "components/button/button.js"
 
 class SideBar {
 

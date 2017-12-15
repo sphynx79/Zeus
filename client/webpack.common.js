@@ -14,6 +14,12 @@ module.exports = {
         filename: './js/[name]-bundle.js',
         chunkFilename: '.js/[name]-chunk.js',
     },
+    resolve: {
+        extensions: ['.js'],
+        alias: {
+            components: resolve(__dirname, 'src/components')
+        }
+    },
     module: {
         rules: [{
             test: /\.html$/,

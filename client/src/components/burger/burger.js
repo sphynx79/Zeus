@@ -4,7 +4,7 @@ import "./burger.css"
 
 class Burger {
 
-    constructor(vnode) {
+    constructor() {
         this._componentName = this.constructor.name
     }
 

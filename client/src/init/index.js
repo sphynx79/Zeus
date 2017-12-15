@@ -1,2 +1,4 @@
 import "./index.css"
-import './routes.js';
+import "./model.js" 
+import "./routes.js"
+

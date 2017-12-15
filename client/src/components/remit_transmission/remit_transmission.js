@@ -1,7 +1,7 @@
 // src/components/remit_transmission/remit_transmission.js
 
 import "./remit_transmission.css"
-import MapBox from "../mapbox/mapbox.js"
+import MapBox from "components/mapbox/mapbox.js"
 
 class RemitTransmission {
 
