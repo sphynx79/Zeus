@@ -16,7 +16,6 @@ class Layout {
         appState.dispatch("hideSidebar")
     }
 
-
     view({attrs, state}) {
         return m("#layout", [
             m(attrs.sidebar, {class: (appState.sidebar ? "active" : "") + " " }),

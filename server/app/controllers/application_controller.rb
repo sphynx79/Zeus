@@ -34,8 +34,8 @@ class ApplicationController < Sinatra::Base
     BetterErrors.application_root = File.expand_path('..', __FILE__)
     set :raise_errors, true
     set :server_adress, "localhost"
-    # db = Mongo::Client.new(['localhost:27030'], :database => 'transmission')
-    # set :db_remit, db[:remit]
+    db = Mongo::Client.new(['localhost:27030'], :database => 'transmission')
+    set :db_remit, db[:remit]
     # la seguente riga mi permette di usare yarn watch
     # poi lancio guard nella cartella client
     # e con livereload ogni modifica che faccio al mio codice

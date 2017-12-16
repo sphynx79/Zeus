@@ -3,23 +3,45 @@
 import "./mapbox.css";
 import mapboxgl from 'mapbox-gl';
 
-let map
+var map
 
 class MapBox {
 
-    constructor(vnode) {
+    constructor() {
         this._componentName = this.constructor.name
         this._server        = window.location.hostname
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
     }
 
-    view({attrs}) {
+    _loadRemit() {
+        appState.dispatch("loadRemit")
+    }
+
+    view({attrs,state}) {
         return m('#mapid', attrs)
+    }
+
+    oninit({state}) {
+        state._loadRemit()
     }
 
     oncreate({attrs, state}) {
         this.initMap()
-        this.registerEvents(map);
+        map.on('load', () => {
+            this.addRemitToMap((() => {
+                // var features = map.queryRenderedFeatures({layers:['remit']})
+                var features = map.queryRenderedFeatures({layers:['linee-380']})
+                console.log(features)
+
+            })()
+            )
+            this.addHoverEffect()
+            console.log(map.getStyle().layers)
+            var features = map.queryRenderedFeatures({layers:['remit']})
+            console.log(features)
+        })
+        
+
 
         if (process.env.NODE_ENV !== 'production') {
             let logStateAttrs = {
@@ -41,18 +63,6 @@ class MapBox {
             maxZoom: 13,
             minZoom: 5
         })
-    }
-
-    registerEvents() {
-
-        map.on('load', () => {
-            this.addHoverEffect()
-        })
-
-        // vedere questo per gli eventi
-        // https://github.com/phegman/vue-mapbox-gl/blob/master/src/components/Mapbox.vue
-        // per emit vedere se usare questo https://github.com/unshiftio/ultron#ultronon
-
     }
 
     addHoverEffect(){
@@ -98,9 +108,26 @@ class MapBox {
         })
     }
 
-    addRemit() {
-
-
+    addRemitToMap() {
+        map.addLayer({
+            "id": "remit",
+            "type": "line",
+            "source": {
+                type: 'geojson',
+                data: appState.remit
+            },
+            "paint": {
+                "line-color": "#FF0000",
+                "line-opacity": 1,
+                'line-width': {
+                    base: 1,
+                    stops: [[6, 1], [9, 2], [14, 4]]
+                },
+            },
+        })
+        // debugger
+        // var features = map.queryRenderedFeatures({layers:['remit']});
+        // console.log(features)
     }
 }
 

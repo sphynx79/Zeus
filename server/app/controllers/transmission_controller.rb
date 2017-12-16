@@ -2,8 +2,8 @@ class TransmissionController < ApplicationController
 
   def initialize
     super()
-    # @linee_380        ||= linee_380
-    # @remit_collection ||= remit_collection
+    @linee_380        ||= linee_380
+    @remit_collection ||= remit_collection
   end
 
   map "/"
@@ -23,7 +23,6 @@ class TransmissionController < ApplicationController
     # erb :index
 
   end
-
 
   namespace '/api' do
 
@@ -71,6 +70,7 @@ class TransmissionController < ApplicationController
       end
 
       geojson_hash  = to_feature_collection features
+      ap geojson_hash
       geojson_hash.to_json
     end
 

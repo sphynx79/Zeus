@@ -2,6 +2,7 @@
 
 import "./remit_transmission.css"
 import MapBox from "components/mapbox/mapbox.js"
+import stream  from 'mithril/stream'
 
 class RemitTransmission {
 
