@@ -13,16 +13,12 @@ class MapBox {
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
     }
 
-    _loadRemit() {
-        appState.dispatch("loadRemit")
+    oninit({state}) {
+        state._loadRemit()
     }
 
     view({attrs,state}) {
         return m('#mapid', attrs)
-    }
-
-    oninit({state}) {
-        state._loadRemit()
     }
 
     oncreate({attrs, state}) {
@@ -40,8 +36,6 @@ class MapBox {
             var features = map.queryRenderedFeatures({layers:['remit']})
             console.log(features)
         })
-        
-
 
         if (process.env.NODE_ENV !== 'production') {
             let logStateAttrs = {
@@ -129,6 +123,11 @@ class MapBox {
         // var features = map.queryRenderedFeatures({layers:['remit']});
         // console.log(features)
     }
+
+    _loadRemit() {
+        appState.dispatch("loadRemit")
+    }
+
 }
 
 export default MapBox
