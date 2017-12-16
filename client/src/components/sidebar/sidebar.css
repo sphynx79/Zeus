@@ -5,6 +5,7 @@ nav#sidebar {
   top: 0px;
   width: 875px;
   left: -875px;
+  padding: 20px 20px;
   // opacity: 0;
   background-color: rgba(31, 26, 29, 0.73);
   height: 100%;

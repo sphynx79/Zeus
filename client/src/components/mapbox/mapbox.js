@@ -1,7 +1,7 @@
 // src/components/mapbox/mapbox.js
 
-import "./mapbox.css";
-import mapboxgl from 'mapbox-gl';
+import "./mapbox.css"
+import mapboxgl from 'mapbox-gl'
 
 var map
 
@@ -24,17 +24,8 @@ class MapBox {
     oncreate({attrs, state}) {
         this.initMap()
         map.on('load', () => {
-            this.addRemitToMap((() => {
-                // var features = map.queryRenderedFeatures({layers:['remit']})
-                var features = map.queryRenderedFeatures({layers:['linee-380']})
-                console.log(features)
-
-            })()
-            )
+            this.addRemitToMap()
             this.addHoverEffect()
-            console.log(map.getStyle().layers)
-            var features = map.queryRenderedFeatures({layers:['remit']})
-            console.log(features)
         })
 
         if (process.env.NODE_ENV !== 'production') {
@@ -44,6 +35,10 @@ class MapBox {
             }
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }
+    }
+
+    _loadRemit() {
+        appState.dispatch("loadRemit")
     }
 
     initMap(){
@@ -56,6 +51,25 @@ class MapBox {
             zoom: 7,
             maxZoom: 13,
             minZoom: 5
+        })
+    }
+
+    addRemitToMap() {
+        map.addLayer({
+            "id": "remit",
+            "type": "line",
+            "source": {
+                type: 'geojson',
+                data: appState.remit
+            },
+            "paint": {
+                "line-color": "#FF0000",
+                "line-opacity": 1,
+                'line-width': {
+                    base: 1,
+                    stops: [[6, 1], [9, 2], [14, 4]]
+                },
+            },
         })
     }
 
@@ -100,34 +114,11 @@ class MapBox {
         map.on("mouseout", 'linee-380', function() {
             map.setFilter("hover", ["==", "id", ""])
         })
-    }
-
-    addRemitToMap() {
-        map.addLayer({
-            "id": "remit",
-            "type": "line",
-            "source": {
-                type: 'geojson',
-                data: appState.remit
-            },
-            "paint": {
-                "line-color": "#FF0000",
-                "line-opacity": 1,
-                'line-width': {
-                    base: 1,
-                    stops: [[6, 1], [9, 2], [14, 4]]
-                },
-            },
-        })
-        // debugger
-        // var features = map.queryRenderedFeatures({layers:['remit']});
-        // console.log(features)
-    }
-
-    _loadRemit() {
-        appState.dispatch("loadRemit")
+    
     }
 
 }
 
 export default MapBox
+
+
