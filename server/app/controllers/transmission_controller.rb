@@ -70,7 +70,6 @@ class TransmissionController < ApplicationController
       end
 
       geojson_hash  = to_feature_collection features
-      ap geojson_hash
       geojson_hash.to_json
     end
 

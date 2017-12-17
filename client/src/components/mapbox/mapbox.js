@@ -13,10 +13,6 @@ class MapBox {
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
     }
 
-    oninit({state}) {
-        state._loadRemit()
-    }
-
     view({attrs,state}) {
         return m('#mapid', attrs)
     }
@@ -37,13 +33,6 @@ class MapBox {
         }
     }
 
-    _loadRemit() {
-       appState.dispatch("loadRemit")
-        
-        // console.log(appState.remit());
-       // appState.remit(appState.dispatch("loadRemit"))
-    }
-
     initMap(){
         mapboxgl.accessToken = this._accessToken
 
@@ -51,7 +40,7 @@ class MapBox {
             container: 'mapid',
             style: 'mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr',
             center: [11.88, 42.18],
-            zoom: 7,
+            zoom: 6,
             maxZoom: 13,
             minZoom: 5
         })
