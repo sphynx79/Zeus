@@ -11,7 +11,7 @@ var state = {
 
     sidebar: false,
     server: window.location.hostname,
-    remit: {},
+    remit: stream(),
 
     toggleSidebar: () => {
         state.sidebar ? state.sidebar = false : state.sidebar = true
@@ -27,7 +27,7 @@ var state = {
             url: `http://${state.server}:9292/api/remits/07-12-2017`,
             // url: "http://192.168.0.102:9292/api/remits/07-12-2017",
         })
-          .then(result => {state.remit = result})
+          .then(response => {state.remit(response)})
           .catch(err    => {console.log("Errore richiesta json linee 380", err)}
           )
     }

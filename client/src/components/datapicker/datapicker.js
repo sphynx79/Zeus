@@ -21,7 +21,6 @@ class DataPicker {
     }
 
     oncreate(vnode) {
-        console.log(vnode.dom.lastChild.lastElementChild)
         vnode.picker = new pikaday({
             field: vnode.dom.lastChild.lastElementChild,
             format: 'D-M-YYYY',

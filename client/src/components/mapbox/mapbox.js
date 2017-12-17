@@ -38,7 +38,10 @@ class MapBox {
     }
 
     _loadRemit() {
-        appState.dispatch("loadRemit")
+       appState.dispatch("loadRemit")
+        
+        // console.log(appState.remit());
+       // appState.remit(appState.dispatch("loadRemit"))
     }
 
     initMap(){

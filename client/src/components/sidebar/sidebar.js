@@ -3,6 +3,7 @@
 import "./sidebar.css"
 import Button from "components/button/button.js"
 import DataPicker from "components/datapicker/datapicker.js"
+import Table from "components/table/table.js"
 
 class SideBar {
 
@@ -28,7 +29,7 @@ class SideBar {
         // return m('nav#sidebar', attrs, [
         //     m('ul', this.navItems.map((item) => {return m(Button, {class: 'nav-item',href: item.href}, item.label)})),
         // ])
-        return m('nav#sidebar', attrs, [m(DataPicker)])
+        return m('nav#sidebar', attrs, [m(DataPicker), m(Table)])
     }
 
     oncreate({attrs, state}) {

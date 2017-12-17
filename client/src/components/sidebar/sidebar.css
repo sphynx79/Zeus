@@ -3,8 +3,8 @@
 nav#sidebar {
   position: fixed;
   top: 0px;
-  width: 875px;
-  left: -915px;
+  width: 800px;
+  left: -840px;
   padding: 20px 20px;
   // opacity: 0;
   background-color: rgba(31, 26, 29, 0.73);
