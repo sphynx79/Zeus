@@ -1,4 +1,4 @@
-// import stream  from 'mithril/stream'
+import stream  from 'mithril/stream'
 
 class App {
 
@@ -6,7 +6,9 @@ class App {
         this._modelName = this.constructor.name
         this.sidebar    = false
         this.server     = window.location.hostname
-        this.remit      = null
+        this.data       = stream()
+        this.remit      = this.data.map(value => this.fetchRemit(value))
+        this.selectLine = stream()
     }
 
     dispatch(action, args) {
@@ -24,17 +26,25 @@ class App {
         this.sidebar = false
     }
 
-    loadRemit() {
+    fetchRemit(data) {
         m.request({
             method: "GET",
-            url: `http://${this.server}:9292/api/remits/07-12-2017`,
+            url: `http://${this.server}:9292/api/remits/${this.data()}`,
             // url: "http://192.168.0.102:9292/api/remits/07-12-2017",
         })
-          .then(response => {this.remit = response})
+          .then(response => {this.remit(response)})
           .catch(err     => {console.log("Errore richiesta json linee 380", err)}
           )
     }
 
+    setData(data) {
+        this.data(data)
+    }
+
+    clickLine(line) {
+        this.selectLine(line)
+    }
+    
 }
 
 window.appState = new App()

@@ -9,10 +9,10 @@ class Table {
     }
 
     view({attrs,state}) {
-        return appState.remit ? m('table.darkTable', attrs, [
+        return appState.remit() ? m('table.darkTable', attrs, [
             m("tr",[this.header.map( key => m("th", key))]),
             this.featureValue.map((feature) => {
-                return m("tr", [
+                return m("tr", {onclick: (featere) => state._clickLine(feature)}, [
                     m("td", feature.properties.nome),
                     m("td", feature.properties.dt_upd),
                     m("td", feature.properties.start_dt),
@@ -36,13 +36,19 @@ class Table {
         }
     }
 
+    _clickLine(line) {
+        appState.dispatch("clickLine", [line])
+    }
+    
+
     get header() {
-        return Object.keys(appState.remit.features[0].properties)
+        return Object.keys(appState.remit().features[0].properties)
     }
 
     get featureValue() {
-        return appState.remit.features
+        return appState.remit().features
     }
+
 }
 
 export default Table

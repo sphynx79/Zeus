@@ -7,10 +7,10 @@ input[type=text], select {
     margin-top: 20px;
     background: 0 0;
     color: #ffffff;
-    width: 120px;
-    font-size: 14px;
+    width: 110px;
+    font-size: 12px;
     border: 1px solid #e2e2e2e0;
-    line-height: 20px;
+    line-height: 18px;
     position: relative;
     z-index: 3000;
     border-radius: 3px;
@@ -33,7 +33,7 @@ input{
     font-size: 16px;
     position:absolute; 
     top: 1px; 
-    left: 106px;
+    left: 96px;
 }
 
 .pika-title select {
