@@ -14,28 +14,6 @@ class MapBox {
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
     }
 
-    view({attrs,state}) {
-        return m('#mapid', attrs)
-    }
-
-    oncreate({attrs, state}) {
-        this.initMap()
-        map.on('load', () => {
-            this.initRemit()
-            this.addHoverEffect()
-        })
-        this.handleRefreshRemit()
-        this.handleSelectLine()
-
-        if (process.env.NODE_ENV !== 'production') {
-            let logStateAttrs = {
-                attrs: attrs,
-                state: state
-            }
-            console.log(`Component: ${this._componentName}`, logStateAttrs)
-        }
-    }
-
     handleRefreshRemit() {
         this.remit = appState.remit.map(value => map.getSource('remit') && map.getSource('remit').setData(value))
     }
@@ -68,6 +46,19 @@ class MapBox {
                 padding: 200,
                 maxZoom: 10
             })
+
+            let midle = Math.trunc(coordinates.length/2)
+            let popUps = document.getElementsByClassName('mapboxgl-popup');
+            if (popUps[0]) popUps[0].remove();
+            let popup = new mapboxgl.Popup()
+                .setLngLat(coordinates[midle])
+                .setHTML('<b>' + feature.properties.nome + '</b><br>'
+                    + '<b>' + 'dt_upd: '+ '</b>' + feature.properties.dt_upd + '<br>'
+                    + '<b>' + 'start_dt: '+ '</b>' + feature.properties.start_dt + '<br>'
+                    + '<b>' + 'end_dt:  '+ '</b>' + feature.properties.end_dt + '<br>'
+                )
+                .addTo(map);
+
 
 
 
@@ -130,7 +121,7 @@ class MapBox {
 
         map.on('mouseover', 'linee-380',function (e) {
             if (!map.loaded()) return
-            map.getCanvas().style.cursor = ''
+            map.getCanvas().style.cursor = 'pointer'
             var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
             var features = map.queryRenderedFeatures(bbox, {layers: ['linee-380']})
 
@@ -146,11 +137,33 @@ class MapBox {
         })
 
         map.on("mouseout", 'linee-380', function() {
+            map.getCanvas().style.cursor = ''
             map.setFilter("hover", ["==", "id", ""])
         })
 
     }
 
+    view({attrs,state}) {
+        return m('#mapid', attrs)
+    }
+
+    oncreate({attrs, state}) {
+        this.initMap()
+        map.on('load', () => {
+            this.initRemit()
+            this.addHoverEffect()
+        })
+        this.handleRefreshRemit()
+        this.handleSelectLine()
+
+        if (process.env.NODE_ENV !== 'production') {
+            let logStateAttrs = {
+                attrs: attrs,
+                state: state
+            }
+            console.log(`Component: ${this._componentName}`, logStateAttrs)
+        }
+    }
 }
 
 export default MapBox
