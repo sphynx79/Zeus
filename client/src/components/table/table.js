@@ -1,6 +1,7 @@
 // src/components/table/table.js
 
 import "./table.css"
+import stream  from 'mithril/stream'
 
 class Table {
 
@@ -8,11 +9,21 @@ class Table {
         this._componentName = this.constructor.name
     }
 
+    oninit({state}) {
+        state.activeLine = stream(-1);
+        appState.data.map(() => state.activeLine = stream(-1))
+    }
+
     view({attrs,state}) {
-        return appState.remit() ? m('table.darkTable', attrs, [
+        
+        return appState.remit() ? m('table.darkTable', [
             m("tr",[this.header.map( key => m("th", key))]),
-            this.featureValue.map((feature) => {
-                return m("tr", {onclick: (featere) => state._clickLine(feature)}, [
+            this.featureValue.map((feature, index) => {
+                return m("tr", {
+                    key: index,
+                    className: state.activeLine() === index ? 'active' : '',
+                    onclick: () => {state._clickLine(feature, index)}}, 
+                [
                     m("td", feature.properties.nome),
                     m("td", feature.properties.dt_upd),
                     m("td", feature.properties.start_dt),
@@ -26,6 +37,7 @@ class Table {
 
     }
 
+   
     oncreate({attrs, state}) {
         if (process.env.NODE_ENV !== 'production') {
             let logStateAttrs = {
@@ -36,11 +48,11 @@ class Table {
         }
     }
 
-    _clickLine(line) {
+    _clickLine(line, index) {
+        this.activeLine(index)
         appState.dispatch("clickLine", [line])
     }
     
-
     get header() {
         return Object.keys(appState.remit().features[0].properties)
     }

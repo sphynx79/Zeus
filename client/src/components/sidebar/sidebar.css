@@ -1,0 +1,20 @@
+/* src/components/sidebar/sidebar.css */
+
+nav#sidebar {
+  position: fixed;
+  top: 0px;
+  width: 760px;
+  left: -800px;
+  padding: 20px 20px;
+  // opacity: 0;
+  background-color: rgba(31, 26, 29, 0.73);
+  /* height: 100%; */
+  z-index: 4;
+  -webkit-transition: left 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
+  transition: left 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
+}
+
+nav#sidebar.active {
+  left: 0;
+}
+
