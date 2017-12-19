@@ -21,49 +21,52 @@ class MapBox {
     handleSelectLine() {
         appState.selectLine.map(feature => {
             let coordinates = feature.geometry.coordinates
-            let p1 = coordinates[0]
-            let p2 = coordinates[coordinates.length - 1]
-            let sw = []
-            let ne = []
-            if (p1[0] < p2[0]) {
-                sw[0] = p1[0]
-                ne[0] = p2[0]
-            } else {
-                sw[0] = p2[0]
-                ne[0] = p1[0]
+
+            flyTo()
+            showPopUp()
+
+            function flyTo(){
+                let p1 = coordinates[0]
+                let p2 = coordinates[coordinates.length - 1]
+                let sw = []
+                let ne = []
+                if (p1[0] < p2[0]) {
+                    sw[0] = p1[0]
+                    ne[0] = p2[0]
+                } else {
+                    sw[0] = p2[0]
+                    ne[0] = p1[0]
+                }
+                if (p1[1] < p2[1]) {
+                    sw[1] = p1[1]
+                    ne[1] = p2[1]
+                } else {
+                    sw[1] = p2[1]
+                    ne[1] = p1[1]
+                }
+                let bounds = new mapboxgl.LngLatBounds(sw , ne)
+
+                map.fitBounds(bounds, {
+                    padding: 200,
+                    maxZoom: 10
+                })
+
             }
-            if (p1[1] < p2[1]) {
-                sw[1] = p1[1]
-                ne[1] = p2[1]
-            } else {
-                sw[1] = p2[1]
-                ne[1] = p1[1]
+
+            function showPopUp(){
+                let midle = Math.trunc(coordinates.length/2)
+                let popUps = document.getElementsByClassName('mapboxgl-popup');
+                if (popUps[0]) popUps[0].remove()
+                let popup = new mapboxgl.Popup()
+                    .setLngLat(coordinates[midle])
+                    .setHTML('<b>' + feature.properties.nome + '</b><br>'
+                        + '<b>' + 'dt_upd: '+ '</b>' + feature.properties.dt_upd + '<br>'
+                        + '<b>' + 'start_dt: '+ '</b>' + feature.properties.start_dt + '<br>'
+                        + '<b>' + 'end_dt:  '+ '</b>' + feature.properties.end_dt + '<br>'
+                    )
+                    .addTo(map)
             }
-
-            var bounds = new mapboxgl.LngLatBounds(sw , ne)
-
-            map.fitBounds(bounds, {
-                padding: 200,
-                maxZoom: 10
-            })
-
-            let midle = Math.trunc(coordinates.length/2)
-            let popUps = document.getElementsByClassName('mapboxgl-popup');
-            if (popUps[0]) popUps[0].remove();
-            let popup = new mapboxgl.Popup()
-                .setLngLat(coordinates[midle])
-                .setHTML('<b>' + feature.properties.nome + '</b><br>'
-                    + '<b>' + 'dt_upd: '+ '</b>' + feature.properties.dt_upd + '<br>'
-                    + '<b>' + 'start_dt: '+ '</b>' + feature.properties.start_dt + '<br>'
-                    + '<b>' + 'end_dt:  '+ '</b>' + feature.properties.end_dt + '<br>'
-                )
-                .addTo(map);
-
-
-
-
-        }
-        )
+        })
     }
 
     initMap(){
@@ -98,7 +101,7 @@ class MapBox {
         })
     }
 
-    addHoverEffect(){
+    addHoverEffect() {
 
         map.addSource('line380', {
             "type": "vector",
@@ -143,6 +146,32 @@ class MapBox {
 
     }
 
+    clickShowPopUp() {
+        map.on('click', function(e) {
+            var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
+
+            var features = map.queryRenderedFeatures(bbox, {
+                layers: ['linee-380'] // replace this with the name of the layer
+            });
+
+            if (!features.length) {
+                return;
+            }
+
+            var feature = features[0];
+
+            var popup = new mapboxgl.Popup({ offset: [0, -15] })
+                .setLngLat(e.lngLat)
+                .setHTML('<b>' + feature.properties.nome + '</b><br>'
+                    + '<b>' + 'From: '+ '</b>' + feature.properties.p1 + '<br>'
+                    + '<b>' + 'To: '+ '</b>' + feature.properties.p2 + '<br>'
+                    + '<b>' + 'Lunghezza: '+ '</b>' + feature.properties.lunghezza + '<br>'
+                    + '<b>' + 'Voltage: '+ '</b>' + feature.properties.voltage + '<br>' )
+                .addTo(map);
+        })
+
+    }
+
     view({attrs,state}) {
         return m('#mapid', attrs)
     }
@@ -152,6 +181,7 @@ class MapBox {
         map.on('load', () => {
             this.initRemit()
             this.addHoverEffect()
+            this.clickShowPopUp()
         })
         this.handleRefreshRemit()
         this.handleSelectLine()
