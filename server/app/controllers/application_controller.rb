@@ -47,8 +47,8 @@ class ApplicationController < Sinatra::Base
   configure do
     set :root, APP_ROOT.to_path
     set :server, :puma
-    # set :sessions, true
-    # set :session_secret, ENV['SESSION_KEY'] || 'lighthouselabssecret'
+    set :sessions, true
+    set :session_secret, ENV['SESSION_KEY'] || 'lighthouselabssecret'
     set :views, 'app/views'
   end
 

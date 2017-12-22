@@ -17,10 +17,10 @@ class TransmissionController < ApplicationController
     # ap @linee_380
 
     # usare questo per usare un static index.html creato da webpack
-    # send_file File.join(settings.public_folder, 'index.html')
+    send_file File.join(settings.public_folder, 'index.html')
     # se invece voglio usare la directory view con i file erb e il layout
     # usare la seguente riga
-    erb :index
+    # erb :index
 
   end
 

@@ -36,7 +36,6 @@ class Table {
         ) : m('')
 
     }
-
    
     oncreate({attrs, state}) {
         if (process.env.NODE_ENV !== 'production') {
