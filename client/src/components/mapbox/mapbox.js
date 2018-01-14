@@ -105,7 +105,7 @@ class MapBox {
 
         map.addSource('line380', {
             "type": "vector",
-            "url": "mapbox://browserino.cj9l3jgn21kwg33s2edl2pe0o-171r0"
+            "url": "mapbox://browserino.cjcb6ahdv0daq2xnwfxp96z9t-142vr"
         })
 
         map.addLayer({

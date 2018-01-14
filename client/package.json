@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mapbox-gl": "^0.42.2",
+    "mapbox-gl": "^0.43.0",
     "mithril": "1.1.6",
     "normalize.css": "^7.0.0",
     "pikaday": "^1.6.1",
