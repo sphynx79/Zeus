@@ -7,15 +7,17 @@ class App {
         this.sidebar    = false
         this.server     = window.location.hostname
         this.data       = stream()
-        this.remit      = this.data.map(value => this.fetchRemit(value))
+        this.remit_380  = this.data.map(value => this.fetchRemit("380"))
+        this.remit_220  = this.data.map(value => this.fetchRemit("220"))
+        // this.remit_220  = this.data.map(value => this.fetchRemit(value, "220"))
         this.selectLine = stream()
     }
 
     dispatch(action, args) {
         this[action].apply(this, args || [])
-        requestAnimationFrame(function() {
-            localStorage["transmission"] = JSON.stringify(this)
-        })
+        // requestAnimationFrame(function() {
+        //     localStorage["transmission"] = JSON.stringify(this)
+        // })
     }
 
     toggleSidebar() {
@@ -26,16 +28,20 @@ class App {
         this.sidebar = false
     }
 
-    fetchRemit(data) {
+    fetchRemit(volt) {
         m.request({
             method: "GET",
-            url: `http://${this.server}:9292/api/remits/${this.data()}`,
+            url: `http://${this.server}:9292/api/remits/${this.data()}/${volt}`,
             // url: "http://192.168.0.102:9292/api/remits/07-12-2017",
         })
-          .then(response => {this.remit(response)})
-          .catch(err     => {console.log("Errore richiesta json linee 380", err)}
+          .then(response => {
+              volt == "380" ? this.remit_380(response) : this.remit_220(response)
+          })
+          .catch(err => {console.log(`Errore richiesta json linee ${volt}`, err)}
           )
     }
+
+   
 
     setData(data) {
         this.data(data)

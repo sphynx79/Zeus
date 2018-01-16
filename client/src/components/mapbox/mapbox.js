@@ -15,7 +15,7 @@ class MapBox {
     }
 
     handleRefreshRemit() {
-        this.remit = appState.remit.map(value => map.getSource('remit') && map.getSource('remit').setData(value))
+        this.remit_380 = appState.remit_380.map(value => map.getSource('remit') && map.getSource('remit').setData(value))
     }
 
     handleSelectLine() {
@@ -84,11 +84,11 @@ class MapBox {
 
     initRemit() {
         map.addLayer({
-            "id": "remit",
+            "id": "remit_380",
             "type": "line",
             "source": {
                 type: 'geojson',
-                data: appState.remit()
+                data: appState.remit_380()
             },
             "paint": {
                 "line-color": "#FF0000",
@@ -103,7 +103,7 @@ class MapBox {
 
     addHoverEffect() {
 
-        map.addSource('line380', {
+        map.addSource('tileset_transmission_380', {
             "type": "vector",
             "url": "mapbox://browserino.cjcb6ahdv0daq2xnwfxp96z9t-142vr"
         })
@@ -111,7 +111,7 @@ class MapBox {
         map.addLayer({
             "id": "hover",
             "type": "line",
-            "source": "line380",
+            "source": "tileset_transmission_380",
             "layout": {},
             'interactive': true,
             "source-layer": "transmission_380",
@@ -119,7 +119,7 @@ class MapBox {
                 "line-color": "#88CC55",
                 "line-width": 3
             },
-            "filter": ["==", "id", ""]
+            "filter": ["==", "nome", ""]
         })
 
         map.on('mouseover', 'linee-380',function (e) {
@@ -133,15 +133,15 @@ class MapBox {
             if (features.length) {
                 map.getCanvas().style.cursor = 'pointer'
                 var feature = features[0]
-                map.setFilter('hover',['==','id',features[0].properties.id])
+                map.setFilter('hover',['==', 'nome', feature.properties.nome])
             } else {
-                map.setFilter("hover", ["==", "id", ""])
+                map.setFilter("hover", ["==", "nome", ""])
             }
         })
 
         map.on("mouseout", 'linee-380', function() {
             map.getCanvas().style.cursor = ''
-            map.setFilter("hover", ["==", "id", ""])
+            map.setFilter("hover", ["==", "nome", ""])
         })
 
     }
@@ -159,6 +159,7 @@ class MapBox {
             }
 
             var feature = features[0];
+            console.log(feature.properties.id)
 
             var popup = new mapboxgl.Popup({ offset: [0, -15] })
                 .setLngLat(e.lngLat)

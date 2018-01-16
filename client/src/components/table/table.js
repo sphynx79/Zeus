@@ -16,7 +16,7 @@ class Table {
 
     view({attrs,state}) {
         
-        return appState.remit() ? m('table.darkTable', [
+        return appState.remit_380() ? m('table.darkTable', [
             m("tr",[this.header.map( key => m("th", key))]),
             this.featureValue.map((feature, index) => {
                 return m("tr", {
@@ -53,11 +53,11 @@ class Table {
     }
     
     get header() {
-        return Object.keys(appState.remit().features[0].properties)
+        return Object.keys(appState.remit_380().features[0].properties)
     }
 
     get featureValue() {
-        return appState.remit().features
+        return appState.remit_380().features
     }
 
 }
