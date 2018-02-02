@@ -126,20 +126,38 @@ class MapBox {
 
     }
 
-    addHoverEffect() {
+    initHoverEffect(){
+        this.addHoverEffect("380")
+        this.addHoverEffect("220")
+    }
 
-        map.addSource('tileset_transmission_380', {
+    addHoverEffect(volt){
+        if (volt == "380") {
+            var idLayer     = "hover_380"
+            var sourceName  = 'tileset_transmission_380'
+            var urlTileSet  = "mapbox://browserino.cjcb6ahdv0daq2xnwfxp96z9t-142vr"
+            var sourceLayer = "transmission_380"
+            var layer       = "linee-380"
+        } else {
+            var idLayer     = "hover_220"
+            var sourceName  = 'tileset_transmission_220'
+            var urlTileSet  = "mapbox://browserino.cjcfb90n41pub2xp6liaz7quj-69qt1"
+            var sourceLayer = "transmission_220"
+            var layer       = "linee-220"
+        }
+
+        map.addSource(sourceName, {
             "type": "vector",
-            "url": "mapbox://browserino.cjcb6ahdv0daq2xnwfxp96z9t-142vr"
+            "url":  urlTileSet
         })
 
         map.addLayer({
-            "id": "hover",
+            "id": idLayer,
             "type": "line",
-            "source": "tileset_transmission_380",
+            "source": sourceName,
             "layout": {},
             'interactive': true,
-            "source-layer": "transmission_380",
+            "source-layer": sourceLayer,
             "paint": {
                 "line-color": "#88CC55",
                 "line-width": 3
@@ -147,29 +165,30 @@ class MapBox {
             "filter": ["==", "nome", ""]
         })
 
-        map.on('mouseover', 'linee-380', function (e) {
+        map.on('mouseover', layer, function (e) {
             if (!map.loaded()) return
             map.getCanvas().style.cursor = 'pointer'
             var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
-            var features = map.queryRenderedFeatures(bbox, {layers: ['linee-380']})
+            var features = map.queryRenderedFeatures(bbox, {layers: [layer]})
 
             if (!features.length) return
 
             if (features.length) {
                 map.getCanvas().style.cursor = 'pointer'
-                var feature = features[0]
-                map.setFilter('hover',['==', 'nome', feature.properties.nome])
+                let feature = features[0]
+                map.setFilter(idLayer,['==', 'nome', feature.properties.nome])
             } else {
-                map.setFilter("hover", ["==", "nome", ""])
+                map.setFilter(idLayer, ["==", "nome", ""])
             }
         })
 
-        map.on("mouseout", 'linee-380', function() {
+        map.on("mouseout", layer, function() {
             map.getCanvas().style.cursor = ''
-            map.setFilter("hover", ["==", "nome", ""])
+            map.setFilter(idLayer, ["==", "nome", ""])
         })
 
     }
+
 
     clickShowPopUp() {
         map.on('click', function(e) {
@@ -184,7 +203,6 @@ class MapBox {
             }
 
             var feature = features[0];
-            console.log(feature.properties.id)
 
             var popup = new mapboxgl.Popup({ offset: [0, -5] })
                 .setLngLat(e.lngLat)
@@ -206,7 +224,7 @@ class MapBox {
         this.initMap()
         map.on('load', () => {
             this.initRemit()
-            this.addHoverEffect()
+            this.initHoverEffect()
             this.clickShowPopUp()
         })
         this.handleRefreshRemit()
