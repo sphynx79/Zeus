@@ -15,7 +15,16 @@ class MapBox {
     }
 
     handleRefreshRemit() {
-        this.remit_380 = appState.remit_380.map(value => map.getSource('remit') && map.getSource('remit').setData(value))
+
+        this.remit_380 = appState.remit_380.map(value => {
+            map.getSource('remit_380') && map.getSource('remit_380').setData(value)
+
+        })
+
+        this.remit_220 = appState.remit_220.map(value => {
+            map.getSource('remit_220') && map.getSource('remit_220').setData(value)
+        })
+
     }
 
     handleSelectLine() {
@@ -76,29 +85,45 @@ class MapBox {
             container: 'mapid',
             style: 'mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr',
             center: [11.88, 42.18],
-            zoom: 6,
+            zoom: 5.7,
             maxZoom: 13,
             minZoom: 5
         })
     }
 
     initRemit() {
-        map.addLayer({
-            "id": "remit_380",
+        this.addLayerRemit("380")
+        this.addLayerRemit("220")
+    }
+
+    addLayerRemit(volt) {
+        if (volt == "380") {
+            var remitId   = "remit_380"
+            var color     = "#CC3333"
+            var remitData = appState.remit_380()
+        } else {
+            var remitId   = "remit_200"
+            var color     = "#70E600"
+            var remitData = appState.remit_220()
+        }
+
+        map.addLayer( {
+            "id": remitId,
             "type": "line",
             "source": {
                 type: 'geojson',
-                data: appState.remit_380()
+                data: remitData
             },
             "paint": {
-                "line-color": "#FF0000",
+                "line-color": color,
                 "line-opacity": 1,
                 'line-width': {
                     base: 1,
-                    stops: [[6, 1], [9, 2], [14, 4]]
+                    stops: [[6, 2],  [14, 4]]
                 },
             },
         })
+
     }
 
     addHoverEffect() {
@@ -122,7 +147,7 @@ class MapBox {
             "filter": ["==", "nome", ""]
         })
 
-        map.on('mouseover', 'linee-380',function (e) {
+        map.on('mouseover', 'linee-380', function (e) {
             if (!map.loaded()) return
             map.getCanvas().style.cursor = 'pointer'
             var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
@@ -161,7 +186,7 @@ class MapBox {
             var feature = features[0];
             console.log(feature.properties.id)
 
-            var popup = new mapboxgl.Popup({ offset: [0, -15] })
+            var popup = new mapboxgl.Popup({ offset: [0, -5] })
                 .setLngLat(e.lngLat)
                 .setHTML('<b>' + feature.properties.nome + '</b><br>'
                     + '<b>' + 'From: '+ '</b>' + feature.properties.p1 + '<br>'
@@ -195,6 +220,7 @@ class MapBox {
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }
     }
+
 }
 
 export default MapBox

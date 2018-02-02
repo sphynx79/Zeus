@@ -1,8 +1,6 @@
 ENV['RACK_ENV'] ||= 'development'
 ENV['TZ']       ||= 'UTC'
 
-require 'rubygems'
-require 'bundler'
 require 'bundler/setup'
 require 'mongo'
 require 'require_all'
@@ -12,6 +10,13 @@ require "sinatra/namespace"
 require 'rack/cache'
 require 'net/http'
 require 'rack/gzip_static'
+
+if ENV['RACK_ENV'] == 'development'
+  require 'hirb'
+  # extend Hirb::Console
+  Hirb.enable
+end
+  
 
 Mongo::Logger.logger.level = ::Logger::FATAL
 

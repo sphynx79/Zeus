@@ -9,7 +9,6 @@ class App {
         this.data       = stream()
         this.remit_380  = this.data.map(value => this.fetchRemit("380"))
         this.remit_220  = this.data.map(value => this.fetchRemit("220"))
-        // this.remit_220  = this.data.map(value => this.fetchRemit(value, "220"))
         this.selectLine = stream()
     }
 
@@ -32,7 +31,6 @@ class App {
         m.request({
             method: "GET",
             url: `http://${this.server}:9292/api/remits/${this.data()}/${volt}`,
-            // url: "http://192.168.0.102:9292/api/remits/07-12-2017",
         })
           .then(response => {
               volt == "380" ? this.remit_380(response) : this.remit_220(response)
@@ -40,8 +38,6 @@ class App {
           .catch(err => {console.log(`Errore richiesta json linee ${volt}`, err)}
           )
     }
-
-   
 
     setData(data) {
         this.data(data)

@@ -76,7 +76,23 @@ class TransmissionController < ApplicationController
         feature["geometry"]               = instance_variable_get("@linee_#{volt}").lazy.select{|f| f[:id]== id_transmission }.first[:geometry]
         feature
       end
-
+      # feature_debug = features
+      # if volt == "220"
+      #   
+      #   puts "###############################################220##########################################" 
+      #   f = feature_debug.each { |h| h.delete("geometry") }
+      #   f = f.each { |h| h.delete("type") }
+      #   f = f.map do |x| x["properties"] end;
+      #   print Hirb::Helpers::Table.render(f, {:width => 290, :height => 500, :formatter=> true, :number=> true, :headers => {:hirb_number => "Riga"}})
+      # end
+      # if volt == "380"
+      #   puts "###############################################380##########################################" 
+      #   f = feature_debug.each { |h| h.delete("geometry") }
+      #   f = f.each { |h| h.delete("type") }
+      #   f = f.map do |x| x["properties"] end;
+      #   print Hirb::Helpers::Table.render(f, {:width => 290, :height => 500, :formatter=> true, :number=> true, :headers => {:hirb_number => "Riga"}})
+      # end
+      #
       geojson_hash  = to_feature_collection features
       geojson_hash.to_json
     end
