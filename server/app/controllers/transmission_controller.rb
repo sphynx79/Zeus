@@ -73,7 +73,7 @@ class TransmissionController < ApplicationController
         feature["properties"]["dt_upd"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["start_dt"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["end_dt"]   = x["end_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["geometry"]               = instance_variable_get("@linee_#{volt}").lazy.select{|f| f[:id]== id_transmission }.first[:geometry]
+        feature["geometry"]               = instance_variable_get("@linee_#{volt}").lazy.select{|f| f["id"] == id_transmission }.first["geometry"]
         feature
       end
       # feature_debug = features
@@ -94,7 +94,7 @@ class TransmissionController < ApplicationController
       # end
       #
       geojson_hash  = to_feature_collection features
-      geojson_hash.to_json
+      Oj.dump(geojson_hash,:mode => :compat)
     end
 
 
@@ -103,7 +103,7 @@ class TransmissionController < ApplicationController
   helpers do
 
     def to_feature_collection features
-      {"type": "FeatureCollection", "features": features}
+      {"type" => "FeatureCollection", "features" => features}
     end
 
     def get_linee_380
@@ -112,7 +112,7 @@ class TransmissionController < ApplicationController
       http          = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl  = true
       geojson       = http.get(uri.request_uri).body
-      JSON.parse(geojson, :symbolize_names => true)[:features]
+      Oj.load(geojson, :mode => :compat)["features"]
     end
     
     def get_linee_220
@@ -121,7 +121,7 @@ class TransmissionController < ApplicationController
       http          = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl  = true
       geojson       = http.get(uri.request_uri).body
-      JSON.parse(geojson, :symbolize_names => true)[:features]
+      Oj.load(geojson, :mode => :compat)["features"]
     end
 
     def remit_collection
@@ -131,3 +131,4 @@ class TransmissionController < ApplicationController
   end
 
 end
+

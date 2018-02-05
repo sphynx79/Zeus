@@ -17,12 +17,11 @@ class MapBox {
     handleRefreshRemit() {
 
         this.remit_380 = appState.remit_380.map(value => {
-            map.getSource('remit_380') && map.getSource('remit_380').setData(value)
-
+            value && map.getSource('remit_380') && map.getSource('remit_380').setData(value)
         })
 
         this.remit_220 = appState.remit_220.map(value => {
-            map.getSource('remit_220') && map.getSource('remit_220').setData(value)
+            value && map.getSource('remit_220') && map.getSource('remit_220').setData(value)
         })
 
     }
@@ -89,6 +88,7 @@ class MapBox {
             maxZoom: 13,
             minZoom: 5
         })
+        // map.addControl(new mapboxgl.FullscreenControl());
     }
 
     initRemit() {
@@ -102,7 +102,7 @@ class MapBox {
             var color     = "#CC3333"
             var remitData = appState.remit_380()
         } else {
-            var remitId   = "remit_200"
+            var remitId   = "remit_220"
             var color     = "#70E600"
             var remitData = appState.remit_220()
         }
@@ -126,12 +126,12 @@ class MapBox {
 
     }
 
-    initHoverEffect(){
+    initHoverEffect() {
         this.addHoverEffect("380")
         this.addHoverEffect("220")
     }
 
-    addHoverEffect(volt){
+    addHoverEffect(volt) {
         if (volt == "380") {
             var idLayer     = "hover_380"
             var sourceName  = 'tileset_transmission_380'
@@ -148,7 +148,7 @@ class MapBox {
 
         map.addSource(sourceName, {
             "type": "vector",
-            "url":  urlTileSet
+            "url":  urlTileSet,
         })
 
         map.addLayer({
@@ -158,6 +158,7 @@ class MapBox {
             "layout": {},
             'interactive': true,
             "source-layer": sourceLayer,
+            "maxzoom": 13,
             "paint": {
                 "line-color": "#88CC55",
                 "line-width": 3
@@ -189,13 +190,23 @@ class MapBox {
 
     }
 
+    initShowPopUp() {
+        this.addShowPopUp("380")
+        this.addShowPopUp("220")
+    }
 
-    clickShowPopUp() {
+    addShowPopUp(volt) {
+        if (volt == "380") {
+            var layer = 'linee-380'
+        } else { 
+            var layer = 'linee-220'
+        }
+
         map.on('click', function(e) {
             var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
 
             var features = map.queryRenderedFeatures(bbox, {
-                layers: ['linee-380'] // replace this with the name of the layer
+                layers: [layer] // replace this with the name of the layer
             });
 
             if (!features.length) {
@@ -225,7 +236,7 @@ class MapBox {
         map.on('load', () => {
             this.initRemit()
             this.initHoverEffect()
-            this.clickShowPopUp()
+            this.initShowPopUp()
         })
         this.handleRefreshRemit()
         this.handleSelectLine()
@@ -242,5 +253,6 @@ class MapBox {
 }
 
 export default MapBox
+
 
 
