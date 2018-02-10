@@ -1,6 +1,6 @@
 // src/components/burger/burger.js
 
-import "./burger.css"
+import "./burger.scss"
 
 class Burger {
 
@@ -9,7 +9,7 @@ class Burger {
     }
 
     view({attrs}){
-        return m('#burger', attrs, [m('#top'), m('#middle'), m('#bottom')])
+        return m('.burger', attrs, [m('#top'), m('#middle'), m('#bottom')])
     }
 
     oncreate({attrs, state}) {
