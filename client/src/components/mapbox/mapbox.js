@@ -96,14 +96,43 @@ class MapBox {
         this.addLayerRemit("220")
     }
 
+    loop(fn) {
+        (function animLoop() {
+            fn()
+            setTimeout(function() {
+                requestAnimationFrame(animLoop);
+                // Drawing code goes here
+            }, 1000 / 10);
+
+        })();
+    }
+
+    enableLineAnimation(layerId) {
+      var step = 0;
+      let dashArraySeq = [
+        [0, 4, 3],
+        [1, 4, 2],
+        [2, 4, 1],
+        [3, 4, 0],
+        [0, 1, 3, 3],
+        [0, 2, 3, 2],
+        [0, 3, 3, 1]
+      ];
+      
+      this.loop( () => {
+       step = (step + 1) % dashArraySeq.length;
+       map.setPaintProperty(layerId, 'line-dasharray', dashArraySeq[step]);
+      })
+    }
+
     addLayerRemit(volt) {
         if (volt == "380") {
             var remitId   = "remit_380"
-            var color     = "#CC3333"
+            var color     = "#FFFF00"
             var remitData = appState.remit_380()
         } else {
             var remitId   = "remit_220"
-            var color     = "#70E600"
+            var color     = "#FFFF00"
             var remitData = appState.remit_220()
         }
 
@@ -119,12 +148,17 @@ class MapBox {
                 "line-opacity": 1,
                 'line-width': {
                     base: 1,
-                    stops: [[6, 2],  [14, 4]]
+                    stops: [[6, 2],  [14, 3]]
                 },
+                "line-dasharray": [0, 4, 3],
             },
         })
+        this.enableLineAnimation(remitId)
 
     }
+
+  
+
 
     initHoverEffect() {
         this.addHoverEffect("380")
