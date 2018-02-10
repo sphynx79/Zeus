@@ -15,7 +15,7 @@ class DataPicker {
     }
 
     oninit({state}) {
-        let data = new Date();
+        let data      = new Date();
         let tomorrow  = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate() + 1}`
         state._setData(tomorrow)
     }

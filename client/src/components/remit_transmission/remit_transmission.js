@@ -10,12 +10,12 @@ class RemitTransmission {
         this._componentName = this.constructor.name
     }
 
-    _fetchRemit() {
-        appState.dispatch("fetchRemit")
-    }
+    // _fetchRemit() {
+    //     appState.dispatch("fetchRemit")
+    // }
 
     oninit({state}) {
-        state._fetchRemit()
+        // state._fetchRemit()
     }
 
     view({attrs}) {

@@ -9,27 +9,13 @@ class SideBar {
 
     constructor() {
         this._componentName = this.constructor.name
-        // this.navItems = [
-        //     {
-        //         label: 'Home',
-        //         href: '/'
-        //     },
-        //     {
-        //         label: 'About',
-        //         href: '/about'
-        //     },
-        //     {
-        //         label: 'Contact',
-        //         href: '/contact'
-        //     }
-        // ]
     }
 
     view({attrs}) {
         // return m('nav#sidebar', attrs, [
         //     m('ul', this.navItems.map((item) => {return m(Button, {class: 'nav-item',href: item.href}, item.label)})),
         // ])
-        return m('nav#sidebar', attrs, [m(DataPicker), m(Table)])
+        return m('nav#sidebar', attrs, [m(DataPicker), m(Table, {volt: "380"}), m(Table, {volt: "220"})])
     }
 
     oncreate({attrs, state}) {

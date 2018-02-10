@@ -12,4 +12,11 @@
 
 .mapboxgl-popup-content{
   color: black;
+  background: hsla(0, 0%, 100%, 0.9);
+  padding: 18px 18px;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 400 15px/21px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
 }
