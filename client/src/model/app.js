@@ -3,13 +3,14 @@ import stream  from 'mithril/stream'
 class App {
 
     constructor() {
-        this._modelName = this.constructor.name
-        this.sidebar    = false
-        this.server     = window.location.hostname
-        this.data       = stream()
-        this.remit_380  = this.data.map(value => this.fetchRemit("380"))
-        this.remit_220  = this.data.map(value => this.fetchRemit("220"))
-        this.selectLine = stream()
+        this._modelName    = this.constructor.name
+        this.sidebarLeft   = false
+        this.sidebarRight  = false
+        this.server        = window.location.hostname
+        this.data          = stream()
+        this.remit_380     = this.data.map(value => this.fetchRemit("380"))
+        this.remit_220     = this.data.map(value => this.fetchRemit("220"))
+        this.selectLine    = stream()
     }
 
     dispatch(action, args) {
@@ -19,12 +20,17 @@ class App {
         // })
     }
 
-    toggleSidebar() {
-        this.sidebar ? this.sidebar = false : this.sidebar = true
+    toggleSidebar(type) {
+        if (type == "left") {
+            this.sidebarLeft ? this.sidebarLeft = false : this.sidebarLeft = true
+        } else { 
+            this.sidebarRight ? this.sidebarRight = false : this.sidebarRight = true
+        }
     }
 
     hideSidebar() {
-        this.sidebar = false
+       this.sidebarLeft   = false
+       this.sidebarRight = false
     }
 
     fetchRemit(volt) {

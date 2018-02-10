@@ -7,6 +7,13 @@ import Burger            from "components/burger/burger.js"
 m.route.prefix('')
 
 m.route(document.getElementById("app"), '/', {
-    '/': {render: () => {return m(Layout,{remitTransmission: RemitTransmission, sidebar: SideBar, burger: Burger, })}}
-    })
+    '/': {render: () => {return m(Layout,{
+                                          remitTransmission: RemitTransmission,
+                                          sidebarLeft: SideBar,
+                                          burgerLeft: Burger,
+                                          sidebarRight: SideBar,
+                                          burgerRight: Burger,
+    }
+    )}}
+})
 
