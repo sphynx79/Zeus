@@ -80,9 +80,9 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             m: 'mithril', //Global access
-            // PubSubEs6: 'pub-sub-es6',
-            // dispatch: ['pub-sub-es6', 'dispatch'],
-            // receive: ['pub-sub-es6', 'receive'],
+            PubSubEs6: 'pub-sub-es6',
+            dispatch: ['pub-sub-es6', 'dispatch'],
+            receive: ['pub-sub-es6', 'receive'],
             // on: ['pub-sub-es6', 'on']
         }),
         new webpack.optimize.CommonsChunkPlugin({

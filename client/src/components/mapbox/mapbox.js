@@ -2,7 +2,6 @@
 
 import "./mapbox.css"
 import mapboxgl from 'mapbox-gl'
-import stream  from 'mithril/stream'
 
 var map
 
@@ -12,6 +11,41 @@ class MapBox {
         this._componentName = this.constructor.name
         this._server        = window.location.hostname
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
+    }
+
+    oninit({attrs, state}) {
+        receive("TOGGLE_LINEE", (type) => {
+            // e.preventDefault()
+            // e.stopPropagation()
+            if (type == "bx--linee-380") {
+                let visibility = map.getLayoutProperty('linee-380', 'visibility')
+                if (visibility === 'visible') {
+                    map.setLayoutProperty('linee-380', 'visibility', 'none');
+                    map.setLayoutProperty('linee-380 blur', 'visibility', 'none');
+                    map.setLayoutProperty('remit_380', 'visibility', 'none');
+                } else {
+                    map.setLayoutProperty('linee-380', 'visibility', 'visible');
+                    map.setLayoutProperty('linee-380 blur', 'visibility', 'visible');
+                    map.setLayoutProperty('remit_380', 'visibility', 'visible');
+                }
+
+            } else {
+                let visibility = map.getLayoutProperty('linee-220', 'visibility')
+                if (visibility === 'visible') {
+                    map.setLayoutProperty('linee-220', 'visibility', 'none');
+                    map.setLayoutProperty('linee-220 blur', 'visibility', 'none');
+                    map.setLayoutProperty('remit_220', 'visibility', 'none');
+                } else {
+                    map.setLayoutProperty('linee-220', 'visibility', 'visible');
+                    map.setLayoutProperty('linee-220 blur', 'visibility', 'visible');
+                    map.setLayoutProperty('remit_220', 'visibility', 'visible');
+                }
+
+
+            }
+
+        })
+
     }
 
     handleRefreshRemit() {
@@ -108,21 +142,21 @@ class MapBox {
     }
 
     enableLineAnimation(layerId) {
-      var step = 0;
-      let dashArraySeq = [
-        [0, 4, 3],
-        [1, 4, 2],
-        [2, 4, 1],
-        [3, 4, 0],
-        [0, 1, 3, 3],
-        [0, 2, 3, 2],
-        [0, 3, 3, 1]
-      ];
-      
-      this.loop( () => {
-       step = (step + 1) % dashArraySeq.length;
-       map.setPaintProperty(layerId, 'line-dasharray', dashArraySeq[step]);
-      })
+        var step = 0;
+        let dashArraySeq = [
+            [0, 4, 3],
+            [1, 4, 2],
+            [2, 4, 1],
+            [3, 4, 0],
+            [0, 1, 3, 3],
+            [0, 2, 3, 2],
+            [0, 3, 3, 1]
+        ];
+
+        this.loop( () => {
+            step = (step + 1) % dashArraySeq.length;
+            map.setPaintProperty(layerId, 'line-dasharray', dashArraySeq[step]);
+        })
     }
 
     addLayerRemit(volt) {
@@ -156,9 +190,6 @@ class MapBox {
         this.enableLineAnimation(remitId)
 
     }
-
-  
-
 
     initHoverEffect() {
         this.addHoverEffect("380")
@@ -232,7 +263,7 @@ class MapBox {
     addShowPopUp(volt) {
         if (volt == "380") {
             var layer = 'linee-380'
-        } else { 
+        } else {
             var layer = 'linee-220'
         }
 

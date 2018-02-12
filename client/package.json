@@ -38,6 +38,7 @@
     "node-sass": "^4.7.2",
     "postcss": "^6.0.17",
     "postcss-loader": "^2.1.0",
+    "pub-sub-es6": "https://github.com/sphynx79/pub-sub-es6",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
     "svgxuse": "^1.2.6",
