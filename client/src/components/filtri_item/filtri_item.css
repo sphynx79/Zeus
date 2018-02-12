@@ -1,0 +1,5 @@
+/* src/components/filtri_item/filtri_item.csss */
+
+.bx--accordion__item--active .bx--accordion__content {
+    padding-left: 3rem; 
+}

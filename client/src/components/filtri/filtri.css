@@ -1,0 +1,9 @@
+/* src/components/filtro_linnee/filtro_linee.css */
+
+.filtri {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  color: #fff;
+  margin-top: 50px;
+}

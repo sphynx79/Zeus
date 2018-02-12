@@ -1,8 +1,8 @@
 // src/components/sidebar/sidebar.js
 
 import "./sidebar.scss"
-import DataPicker from "components/datapicker/datapicker.js"
-import Table from "components/table/table.js"
+import Table       from "components/table/table.js"
+import Filtri      from "components/filtri/filtri.js"
 
 class SideBar {
 
@@ -12,9 +12,9 @@ class SideBar {
 
     view({attrs}) {
         if (attrs.type == "right") {
-            return m('nav.sidebar', attrs, ["ciao"])       
+            return m('nav.sidebar#sidebar_right', attrs, [m(Filtri)])       
         } else { 
-            return m('nav.sidebar', attrs, [m(DataPicker), m(Table, {volt: "380"}), m(Table, {volt: "220"})])  
+            return m('nav.sidebar#sidebar_left', attrs, [m(Table, {volt: "380"}), m(Table, {volt: "220"})])  
         }
         
     }

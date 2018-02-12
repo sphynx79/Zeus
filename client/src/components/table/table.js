@@ -26,7 +26,8 @@ class Table {
                 return m("tr", {
                     key: index,
                     className: state.activeLine() === index ? 'active' : '',
-                    onclick: () => {state._clickLine(feature, index)}},
+                    onclick: () => {state._clickLine(feature, index)}
+                    },
                     [
                         m("td", {style: "width:280px;"} , feature.properties.nome),
                         m("td", feature.properties.dt_upd),

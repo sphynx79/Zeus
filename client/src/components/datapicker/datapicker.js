@@ -1,8 +1,9 @@
 // src/components/datapicker/datapicker.js
 
 import "./datapicker.css";
-import pikaday from'pikaday'
-
+// import pikaday from'pikaday'
+import { DatePicker } from 'carbon-components';
+import calendarIcon from './calendarIcon.js';
 
 class DataPicker {
 
@@ -20,31 +21,32 @@ class DataPicker {
         state._setData(tomorrow)
     }
 
-    view(vnode) {
-        // return m('input.datepicker', {placeholder: 'Data'})
-        return m("div", m("label", {style: {"position": "relative"}},[
-            m("i.calendar.fa.fa-calendar[aria-hidden='true']"),
-            m("input[id='datepicker'][placeholder='Data'][type='text']")
-        ]
-        )
+    view({attrs,state}) {
+        return m(".bx--form-item", [
+            m(".bx--date-picker.bx--date-picker--single[data-date-picker=''][data-date-picker-type='single']",
+                m(".bx--date-picker-container", [
+                    m(calendarIcon),
+                    m("input.bx--date-picker__input[data-date-picker-input=''][id='date-picker'][pattern='\d{1,2}/\d{1,2}/\d{4}'][placeholder='dd/mm/yyyy'][type='text']"),
+                    m(".bx--form-requirement","Invalid date format.")
+                ])
+            )]
+
         )
     }
 
+
     oncreate(vnode) {
-        vnode.picker  = new pikaday({
-            field: vnode.dom.lastChild.lastElementChild,
-            format: 'D-M-YYYY',
-            theme: 'dark-theme',
-            defaultDate: new Date(appState.data),
-            setDefaultDate: true,
-            onSelect: (date) => {
-                let day   = date.getDate()
-                let month = date.getMonth() + 1
-                let year  = date.getFullYear()
-                let data  = `${day}-${month}-${year}`
-                vnode.state._setData(data)
-            }
+        let el = vnode.dom.lastChild
+
+        vnode.picker = DatePicker.create(el,
+            {dateFormat:'d-m-Y',
+                defaultDate: new Date(appState.data),
+            })
+
+        vnode.picker.calendar.config.onChange.push((selectedDates, dateStr, instance) => {
+            vnode.state._setData(dateStr)
         })
+
 
         if (process.env.NODE_ENV !== 'production') {
             let logStateAttrs = {

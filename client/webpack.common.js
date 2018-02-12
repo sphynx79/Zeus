@@ -3,6 +3,7 @@ const {
 } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
     context: resolve(__dirname, 'src'),
@@ -18,7 +19,8 @@ module.exports = {
         extensions: ['.js'],
         alias: {
             components: resolve(__dirname, 'src/components')
-        }
+        },
+        // modules: [ resolve(__dirname, 'node_modules/') ]
     },
     module: {
         rules: [{
@@ -28,7 +30,7 @@ module.exports = {
                 interpolate: true,
             },
         }, {
-            test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+            test: /.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
             loader: 'file-loader',
             options: {
                 name: '[name].[ext]',
@@ -36,7 +38,7 @@ module.exports = {
                 outputPath: 'fonts/',
             },
         }, {
-            test: /\.(png|jpg|gif)$/,
+            test: /\.(png|jpg|svg|gif)$/,
             loader: 'file-loader',
             options: {
                 name: '[name].[ext]',
@@ -46,16 +48,32 @@ module.exports = {
         }, {
             test: /\.js$/,
             include: resolve(__dirname, 'src/'),
+            exclude: /(node_modules|bower_components)/,
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: ['es2015', 'env', 'stage-3'],
-                    plugins: [ "mopt" ]
-                },
-            }],
+                    presets: [['@babel/preset-env', {"targets": { "browsers": ["chrome >= 62", "ie >= 11", "firefox >= 56", "android >= 4.4" ]}, modules: false} ]],
+                    plugins: ['module:mopt',
+                        // [require('babel-plugin-transform-imports'), {
+                        //     "carbon-components": {
+                        //         "transform":  function(importName) {
+                        //             var name = importName.toLowerCase()
+                        //             return 'carbon-components/es/components/' + name + '/' + name + '.js' ;
+                        //         },
+                        //         "preventFullImport": true
+                        //     }
+                    // }]
+            ],
+
+            },
         }],
-    },
+    }],
+},
     plugins: [
+        // new MomentLocalesPlugin({
+        //     localesToKeep: ['it'],
+        // }),
+
         new HtmlWebpackPlugin({
             template: './index.html',
             //favicon: './styles/images/favicon.png',

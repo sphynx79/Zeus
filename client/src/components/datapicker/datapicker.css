@@ -1,41 +1,18 @@
 /* src/components/datapicker/datapicker.css */
 
-@import "~pikaday/css/pikaday.css";
-@import "~pikaday/css/theme.css";
-
-input[type=text], select {
-    margin-top: 20px;
-    background: 0 0;
-    color: #ffffff;
-    width: 110px;
-    font-size: 12px;
-    border: 1px solid #e2e2e2e0;
-    line-height: 18px;
-    position: relative;
-    z-index: 3000;
-    border-radius: 3px;
-    padding: 2px 2px 2px 8px;
+.bx--date-picker__icon {
+    top: 0.4rem;
 }
 
-.input-icon{
-  position: absolute;
-  left: 3px;
-  top: calc(50% - 0.5em); /* Keep icon in center of input, regardless of the input height */
-}
-input{
-  padding-left: 17px;
-}
-.input-wrapper{
-  position: relative;
+.bx--date-picker__input {
+    height: 2.0rem;
 }
 
-.calendar {
-    font-size: 16px;
-    position:absolute; 
-    top: 1px; 
-    left: 88px;
+.bx--date-picker.bx--date-picker--single .bx--date-picker__input {
+    outline: 2px solid #8c9ba5;
 }
 
-.pika-title select {
-    background-color: #333333;
+
+.bx--date-picker__input:focus, .bx--date-picker__input.bx--focused {
+    outline: 1px solid #5aaafa !important;
 }

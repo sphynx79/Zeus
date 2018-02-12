@@ -23,13 +23,8 @@ module.exports = merge(common, {
             use: [{
                 loader: 'css-hot-loader',
             }].concat(ExtractTextPlugin.extract({
-                use: [{
-                    loader: 'css-loader',
-                }, {
-                    loader: 'sass-loader',
-                }],
-                // use style-loader in development
                 fallback: 'style-loader',
+                use: ["css-loader", "postcss-loader", "sass-loader"],
             })),
         }, 
         //     {
