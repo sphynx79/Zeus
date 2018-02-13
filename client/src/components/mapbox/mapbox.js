@@ -99,7 +99,7 @@ class MapBox {
 
         map = new mapboxgl.Map({
             container: 'mapid',
-            style: 'mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr',
+            style: 'mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr?optimize=true',
             center: [11.88, 42.18],
             zoom: 5.7,
             maxZoom: 13,
@@ -109,8 +109,12 @@ class MapBox {
     }
 
     initRemit() {
-        this.addLayerRemit("380")
-        this.addLayerRemit("220")
+        if (!map.getLayer("remit_380")) {
+            this.addLayerRemit("380")
+        }
+        if (!map.getLayer("remit_220")) {
+            this.addLayerRemit("220")
+    }
     }
 
     loop(fn) {
@@ -286,6 +290,8 @@ class MapBox {
             this.initHoverEffect()
             this.initShowPopUp()
             this.handleVisibility()
+            // map.setFilter('centrali', ['in', 'tipo', 'IDRICO', 'TERMICO'])
+            // console.log(map.getLayoutProperty("linee-380 blur", 'visibility'))
         })
         this.handleRefreshRemit()
         this.handleSelectLine()

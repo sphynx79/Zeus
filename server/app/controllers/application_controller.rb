@@ -11,8 +11,7 @@ class ApplicationController < Sinatra::Base
     p "ip: #{ip}:9292"
     File.open("ip.txt", 'w') { |file| file.write(ip) }
     set :server_adress, ip
-    # db = Mongo::Client.new([ '10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018' ], :database => 'transmission')
-    db = Mongo::Client.new(['localhost:27030'], :database => 'transmission')
+    db = Mongo::Client.new([ '10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018' ], database: 'transmission', write: {w: 0, j: false})
     set :db_remit, db[:remit]
     use Rack::Cache, verbose: false
     # use Rack::Deflater
@@ -35,7 +34,7 @@ class ApplicationController < Sinatra::Base
     BetterErrors.application_root = File.expand_path('..', __FILE__)
     set :raise_errors, true
     set :server_adress, "localhost"
-    db = Mongo::Client.new(['localhost:27030'], :database => 'transmission')
+    db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false})
     set :db_remit, db[:remit]
     # la seguente riga mi permette di usare yarn watch
     # poi lancio guard nella cartella client
