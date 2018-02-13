@@ -3,14 +3,16 @@ import stream  from 'mithril/stream'
 class App {
 
     constructor() {
-        this._modelName    = this.constructor.name
-        this.sidebarLeft   = false
-        this.sidebarRight  = false
-        this.server        = window.location.hostname
-        this.data          = stream()
-        this.remit_380     = this.data.map(value => this.fetchRemit("380"))
-        this.remit_220     = this.data.map(value => this.fetchRemit("220"))
-        this.selectLine    = stream()
+        this._modelName           = this.constructor.name
+        this.sidebarLeft          = false
+        this.sidebarRight         = false
+        this.server               = window.location.hostname
+        this.data                 = stream()
+        this.remit_380            = this.data.map(value => this.fetchRemit("380"))
+        this.remit_220            = this.data.map(value => this.fetchRemit("220"))
+        this.selectLine           = stream()
+        this.remit_380_visibility = stream(true)
+        this.remit_220_visibility = stream(true)
     }
 
     dispatch(action, args) {

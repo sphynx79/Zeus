@@ -13,48 +13,31 @@ class MapBox {
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
     }
 
-    oninit({attrs, state}) {
-        receive("TOGGLE_LINEE", (type) => {
-            // e.preventDefault()
-            // e.stopPropagation()
-            if (type == "bx--linee-380") {
-                let visibility = map.getLayoutProperty('linee-380', 'visibility')
-                if (visibility === 'visible') {
-                    map.setLayoutProperty('linee-380', 'visibility', 'none');
-                    map.setLayoutProperty('linee-380 blur', 'visibility', 'none');
-                    map.setLayoutProperty('remit_380', 'visibility', 'none');
-                } else {
-                    map.setLayoutProperty('linee-380', 'visibility', 'visible');
-                    map.setLayoutProperty('linee-380 blur', 'visibility', 'visible');
-                    map.setLayoutProperty('remit_380', 'visibility', 'visible');
-                }
+    handleVisibility() {
 
-            } else {
-                let visibility = map.getLayoutProperty('linee-220', 'visibility')
-                if (visibility === 'visible') {
-                    map.setLayoutProperty('linee-220', 'visibility', 'none');
-                    map.setLayoutProperty('linee-220 blur', 'visibility', 'none');
-                    map.setLayoutProperty('remit_220', 'visibility', 'none');
-                } else {
-                    map.setLayoutProperty('linee-220', 'visibility', 'visible');
-                    map.setLayoutProperty('linee-220 blur', 'visibility', 'visible');
-                    map.setLayoutProperty('remit_220', 'visibility', 'visible');
-                }
-
-
-            }
-
+        appState.remit_380_visibility.map(value => {
+                let layers = ['linee-380', 'linee-380 blur', 'remit_380']
+                let visibility = value == false ? 'none' : 'visible'
+                layers.map((layer) => {map.setLayoutProperty(layer, 'visibility', visibility) })     
         })
+
+        appState.remit_220_visibility.map(value => {
+                let layers = ['linee-220', 'linee-220 blur', 'remit_220']
+                let visibility = value == false ? 'none' : 'visible'
+                layers.map((layer) => {map.setLayoutProperty(layer, 'visibility', visibility) })     
+        })
+
+        
 
     }
 
     handleRefreshRemit() {
 
-        this.remit_380 = appState.remit_380.map(value => {
+        appState.remit_380.map(value => {
             value && map.getSource('remit_380') && map.getSource('remit_380').setData(value)
         })
 
-        this.remit_220 = appState.remit_220.map(value => {
+        appState.remit_220.map(value => {
             value && map.getSource('remit_220') && map.getSource('remit_220').setData(value)
         })
 
@@ -232,7 +215,7 @@ class MapBox {
         })
 
         map.on('mouseover', layer, function (e) {
-            if (!map.loaded()) return
+            // if (!map.loaded()) return
             map.getCanvas().style.cursor = 'pointer'
             var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
             var features = map.queryRenderedFeatures(bbox, {layers: [layer]})
@@ -302,6 +285,7 @@ class MapBox {
             this.initRemit()
             this.initHoverEffect()
             this.initShowPopUp()
+            this.handleVisibility()
         })
         this.handleRefreshRemit()
         this.handleSelectLine()
