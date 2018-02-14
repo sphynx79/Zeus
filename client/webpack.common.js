@@ -12,7 +12,7 @@ module.exports = {
     ],
     output: {
         path: resolve(__dirname, 'dist/'),
-        filename: './js/[name]-bundle.js',
+        filename: './js/[name]-bundle.[hash].js',
         chunkFilename: '.js/[name]-chunk.js',
     },
     resolve: {
@@ -36,6 +36,7 @@ module.exports = {
                 name: '[name].[ext]',
                 publicPath: '../', // override the default path
                 outputPath: 'fonts/',
+                limit: 10 * 1024,
             },
         }, {
             test: /\.(png|jpg|svg|gif)$/,

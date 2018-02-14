@@ -2,6 +2,7 @@
 
 import "./mapbox.css"
 import mapboxgl from 'mapbox-gl'
+import stream  from 'mithril/stream'
 
 var map
 
@@ -13,7 +14,67 @@ class MapBox {
         this._accessToken   = 'pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA'
     }
 
-    handleVisibility() {
+    handleVisibilityUnita(){
+        
+    
+        stream.combine((termico, eolico, idrico, autoprod, solare, pompaggi, geotermico)=> {
+            let filter    = ['in', 'tipo']
+            let filterMap = new Map();
+            filterMap.set("TERMICO", termico());
+            filterMap.set("EOLICO", eolico());
+            filterMap.set("IDRICO", idrico());
+            filterMap.set("AUTOPRODUTTORE", autoprod());
+            filterMap.set("SOLARE", solare());
+            filterMap.set("POMPAGGIO", pompaggi());
+            filterMap.set("GEOTERMICO", geotermico());
+
+            filterMap.forEach((value, key) => {value && filter.push(key)}, filterMap)
+            map.setFilter('centrali', filter)
+
+         }, [appState.termico_visibility, 
+             appState.eolico_visibility, 
+             appState.idrico_visibility, 
+             appState.autoprod_visibility, 
+             appState.solare_visibility, 
+             appState.pompaggi_visibility,
+             appState.geotermico_visibility
+         ])
+        
+
+      
+        // appState.termico_visibility.map(state => {
+        //     if (state) {
+        //         filter.push('TERMICO');
+        //     } else { 
+        //         filter  = filter.filter(item => item !== "TERMICO")
+        //     }
+        //     map.setFilter('centrali', filter)
+        // })
+        //
+        // appState.eolico_visibility.map(state => {
+        //     if (state) {
+        //         filter.push('EOLICO');
+        //     } else { 
+        //         filter  = filter.filter(item => item !== "EOLICO")
+        //     }
+        //     map.setFilter('centrali', filter)
+        // })
+        //
+        // appState.idrico_visibility.map(state => {
+        //     if (state) {
+        //         filter.push('IDRICO');
+        //     } else { 
+        //         filter  = filter.filter(item => item !== "IDRICO")
+        //     }
+        //     map.setFilter('centrali', filter)
+        // })
+  
+    
+
+    
+    }
+
+    handleVisibilityLinee() {
 
         appState.remit_380_visibility.map(value => {
                 let layers = ['linee-380', 'linee-380 blur', 'remit_380']
@@ -26,8 +87,6 @@ class MapBox {
                 let visibility = value == false ? 'none' : 'visible'
                 layers.map((layer) => {map.setLayoutProperty(layer, 'visibility', visibility) })     
         })
-
-        
 
     }
 
@@ -289,7 +348,9 @@ class MapBox {
             this.initRemit()
             this.initHoverEffect()
             this.initShowPopUp()
-            this.handleVisibility()
+            this.handleVisibilityLinee()
+            this.handleVisibilityLinee()
+            this.handleVisibilityUnita()
             // map.setFilter('centrali', ['in', 'tipo', 'IDRICO', 'TERMICO'])
             // console.log(map.getLayoutProperty("linee-380 blur", 'visibility'))
         })

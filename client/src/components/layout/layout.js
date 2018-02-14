@@ -13,7 +13,8 @@ class Layout {
     }
 
     _hideSideBar(){
-        appState.dispatch("hideSidebar")
+        appState.sidebarLeft  && appState.dispatch("hideSidebar", ['left'])
+        appState.sidebarRight && appState.dispatch("hideSidebar", ['right'])
     }
 
     view({attrs, state}) {

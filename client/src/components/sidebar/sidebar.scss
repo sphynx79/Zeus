@@ -3,13 +3,14 @@
 nav.sidebar {
   position: fixed;
   top: 0px;
-  width: 760px;
+
   padding: 20px 20px;
   // opacity: 0;
   background-color: rgba(31, 26, 29, 0.73);
   /* height: 100%; */
   z-index: 4;
   &.left {
+    width: 760px;
     left: -800px;
     -webkit-transition: left 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     transition: left 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
@@ -18,7 +19,8 @@ nav.sidebar {
     }
   }
   &.right {
-    right: -800px;
+    width: 460px;
+    right: -500px;
     -webkit-transition: right 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     transition: right 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     &.active {

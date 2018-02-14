@@ -1,19 +1,16 @@
+// src/components/filtro_unita/filtro_unita.js
 
 import FiltriItem  from "components/filtri_item/filtri_item.js"
-import FiltroLineeContent  from "components/filtro_linee_content/filtro_linee_content.js"
+import FiltroUnitaContent  from "components/filtro_unita_content/filtro_unita_content.js"
 
-class FiltroLinee {
+class FiltroUnita {
 
     constructor() {
         this._componentName = this.constructor.name
     }
 
-    oninit({attrs, state}) {
-
-    }
-
     view({attrs,state}) {
-        return m(FiltriItem,{content: FiltroLineeContent, content_id: 'filtro_linee', content_title: 'Linee'})
+        return m(FiltriItem,{content: FiltroUnitaContent, content_id: 'filtro_inita', content_title: 'Unita'})
     }
 
     oncreate({attrs,state}) {
@@ -28,4 +25,4 @@ class FiltroLinee {
 
 }
 
-export default FiltroLinee
+export default FiltroUnita

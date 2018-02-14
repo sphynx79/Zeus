@@ -3,16 +3,23 @@ import stream  from 'mithril/stream'
 class App {
 
     constructor() {
-        this._modelName           = this.constructor.name
-        this.sidebarLeft          = false
-        this.sidebarRight         = false
-        this.server               = window.location.hostname
-        this.data                 = stream()
-        this.remit_380            = this.data.map(value => this.fetchRemit("380"))
-        this.remit_220            = this.data.map(value => this.fetchRemit("220"))
-        this.selectLine           = stream()
-        this.remit_380_visibility = stream(true)
-        this.remit_220_visibility = stream(true)
+        this._modelName            = this.constructor.name
+        this.sidebarLeft           = false
+        this.sidebarRight          = false
+        this.server                = window.location.hostname
+        this.data                  = stream()
+        this.remit_380             = this.data.map(value => this.fetchRemit("380"))
+        this.remit_220             = this.data.map(value => this.fetchRemit("220"))
+        this.selectLine            = stream()
+        this.remit_380_visibility  = stream(true)
+        this.remit_220_visibility  = stream(true)
+        this.termico_visibility    = stream(true)
+        this.eolico_visibility     = stream(true)
+        this.idrico_visibility     = stream(true)
+        this.autoprod_visibility   = stream(true)
+        this.solare_visibility     = stream(true)
+        this.pompaggi_visibility   = stream(true)
+        this.geotermico_visibility = stream(true)
     }
 
     dispatch(action, args) {
@@ -30,9 +37,12 @@ class App {
         }
     }
 
-    hideSidebar() {
-       this.sidebarLeft   = false
-       this.sidebarRight = false
+    hideSidebar(type) {
+       if (type=='left') {
+           this.sidebarLeft  = false
+       } else { 
+           this.sidebarRight = false 
+       }
     }
 
     fetchRemit(volt) {
