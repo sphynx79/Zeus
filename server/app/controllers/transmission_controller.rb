@@ -4,8 +4,10 @@ class TransmissionController < ApplicationController
 
   def initialize
     super()
-    @linee_380        ||= get_linee_380
-    @linee_220        ||= get_linee_220
+    threads = []
+    threads << Thread.new { @linee_380 ||= get_linee_380 }
+    threads << Thread.new { @linee_220 ||= get_linee_220 }
+    threads.each(&:join)
     @remit_collection ||= remit_collection
   end
 
@@ -63,7 +65,8 @@ class TransmissionController < ApplicationController
 
       remit_result = @remit_collection.aggregate(pipeline).allow_disk_use(true).to_a
 
-      features = remit_result.map do |x|
+      features = Parallel.map(remit_result, in_threads: 4) do |x|
+      # features = remit_result.map do |x|
         feature                           = {}
         id_transmission                   = x["id_transmission"]
         feature["type"]                   = "Feature"

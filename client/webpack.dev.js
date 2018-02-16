@@ -2,6 +2,7 @@ const merge             = require('webpack-merge');
 const common            = require('./webpack.common.js');
 const webpack           = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Jarvis            = require("webpack-jarvis");
 
 module.exports = merge(common, {
     devtool: 'inline-source-map',
@@ -55,6 +56,9 @@ module.exports = merge(common, {
         new webpack.HotModuleReplacementPlugin(),
         // enable HMR globally
         new webpack.NamedModulesPlugin(),
+        new Jarvis({
+           port: 1337 // optional: set a port
+        })
         // prints more readable module names in the browser console on HMR updates
     ],
 });

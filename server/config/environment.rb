@@ -7,6 +7,7 @@ require 'require_all'
 require "sinatra/base"
 # require "sinatra/json"
 require 'oj'
+require 'parallel'
 require "sinatra/namespace"
 require 'rack/cache'
 require 'net/http'
