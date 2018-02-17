@@ -15,11 +15,11 @@ class FiltroData {
     }
 
     view({attrs,state}) {
-        return m(FiltriItem,{content: DataPicker, content_id: 'filtro_data', content_title: 'Data'})
+        return m(FiltriItem,{content: DataPicker, content_id: "filtro_data", content_title: "Data"})
     }
 
     oncreate({attrs,state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state

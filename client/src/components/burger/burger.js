@@ -9,11 +9,11 @@ class Burger {
     }
 
     view({attrs}){
-        return m('.burger', attrs, [m('#top'), m('#middle'), m('#bottom')])
+        return m(".burger", attrs, [m("#top"), m("#middle"), m("#bottom")])
     }
 
     oncreate({attrs, state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state
@@ -22,7 +22,6 @@ class Burger {
         }
     }
 
-    
 }
 
 export default Burger

@@ -10,11 +10,11 @@ class FiltroUnita {
     }
 
     view({attrs,state}) {
-        return m(FiltriItem,{content: FiltroUnitaContent, content_id: 'filtro_inita', content_title: 'Unita'})
+        return m(FiltriItem,{content: FiltroUnitaContent, content_id: "filtro_inita", content_title: "Tecnologia"})
     }
 
     oncreate({attrs,state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state

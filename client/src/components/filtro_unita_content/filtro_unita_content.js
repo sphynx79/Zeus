@@ -1,6 +1,6 @@
 // src/components/filtro_linee_content/filtro_linee_content.js
 
-import stream  from 'mithril/stream'
+import stream  from "mithril/stream"
 import CheckBox  from "components/checkbox/checkbox.js"
 
 class FiltroUnitaContent {
@@ -33,7 +33,7 @@ class FiltroUnitaContent {
     }
 
     oncreate({attrs,state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state

@@ -13,8 +13,8 @@ class Layout {
     }
 
     _hideSideBar(){
-        appState.sidebarLeft  && appState.dispatch("hideSidebar", ['left'])
-        appState.sidebarRight && appState.dispatch("hideSidebar", ['right'])
+        appState.sidebarLeft  && appState.dispatch("hideSidebar", ["left"])
+        appState.sidebarRight && appState.dispatch("hideSidebar", ["right"])
     }
 
     view({attrs, state}) {
@@ -28,7 +28,7 @@ class Layout {
     }
 
     oncreate({attrs, state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state

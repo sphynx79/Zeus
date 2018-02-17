@@ -7,6 +7,7 @@ class App {
         this.sidebarLeft           = false
         this.sidebarRight          = false
         this.server                = window.location.hostname
+        this.port                  = (process.env.NODE_ENV == 'production') ? 80 : 9292
         this.data                  = stream()
         this.remit_380             = this.data.map(value => this.fetchRemit("380"))
         this.remit_220             = this.data.map(value => this.fetchRemit("220"))
@@ -48,7 +49,7 @@ class App {
     fetchRemit(volt) {
         m.request({
             method: "GET",
-            url: `http://${this.server}:9292/api/remits/${this.data()}/${volt}`,
+            url: `http://${this.server}:${this.port}/api/remits/${this.data()}/${volt}`,
         })
           .then(response => {
               volt == "380" ? this.remit_380(response) : this.remit_220(response)

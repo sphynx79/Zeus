@@ -2,7 +2,7 @@
 
 import "./remit_transmission.css"
 import MapBox from "components/mapbox/mapbox.js"
-import stream  from 'mithril/stream'
+import stream  from "mithril/stream"
 
 class RemitTransmission {
 
@@ -19,11 +19,11 @@ class RemitTransmission {
     }
 
     view({attrs}) {
-        return m('#main', attrs, m(MapBox))
+        return m("#main", attrs, m(MapBox))
     }
 
     oncreate({attrs, state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state

@@ -2,8 +2,8 @@
 
 import "./datapicker.css";
 // import pikaday from'pikaday'
-import { DatePicker } from 'carbon-components';
-import calendarIcon from './calendarIcon.js';
+import { DatePicker } from "carbon-components";
+import calendarIcon from "./calendarIcon.js";
 
 class DataPicker {
 
@@ -34,12 +34,11 @@ class DataPicker {
         )
     }
 
-
     oncreate(vnode) {
         let el = vnode.dom.lastChild
 
         vnode.picker = DatePicker.create(el,
-            {dateFormat:'d-m-Y',
+            {dateFormat:"d-m-Y",
                 defaultDate: new Date(appState.data),
             })
 
@@ -48,7 +47,7 @@ class DataPicker {
         })
 
 
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: vnode.attrs,
                 state: vnode.state
@@ -60,3 +59,4 @@ class DataPicker {
 }
 
 export default DataPicker
+

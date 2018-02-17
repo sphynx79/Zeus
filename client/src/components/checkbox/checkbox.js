@@ -1,6 +1,5 @@
 // src/components/checkbox/checkbox.js
 
-
 class CheckBox {
 
     constructor() {
@@ -18,7 +17,7 @@ class CheckBox {
     }
 
     oncreate({attrs, state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state

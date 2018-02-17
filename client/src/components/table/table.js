@@ -1,7 +1,7 @@
 // src/components/table/table.js
 
 import "./table.css"
-import stream  from 'mithril/stream'
+import stream  from "mithril/stream"
 
 class Table {
 
@@ -20,12 +20,12 @@ class Table {
         if ((remit) && (remit.features.length == 0)){ remit = undefined }  
 
 
-        return remit ? m('table.darkTable', [m("caption", `TRANSMISSION ${attrs.volt}`),
+        return remit ? m("table.darkTable", [m("caption", `TRANSMISSION ${attrs.volt}`),
             m("tr",[this._header(remit).map( key => m("th", key))]),
             this._featureValue(remit).map((feature, index) => {
                 return m("tr", {
                     key: index,
-                    className: state.activeLine() === index ? 'active' : '',
+                    className: state.activeLine() === index ? "active" : "",
                     onclick: () => {state._clickLine(feature, index)}
                     },
                     [
@@ -38,12 +38,12 @@ class Table {
             })
 
         ]
-        ) : m('')
+        ) : m("")
 
     }
 
     oncreate({attrs, state}) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
                 state: state
