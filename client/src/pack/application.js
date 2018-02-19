@@ -2,14 +2,14 @@ if (module.hot) {
     module.hot.accept();
 }
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
     // console.log('Looks like we are in development mode!');
     (function(global) {
         var console_log = global.console.log
         global.console.log = function() {
             if (!(
             arguments.length == 1 &&
-                typeof arguments[0] === 'string' &&
+                typeof arguments[0] === "string" &&
                 arguments[0].match(/^\[(HMR|WDS)\]/)
         )) {
                 console_log.apply(global.console,arguments)
@@ -19,4 +19,4 @@ if (process.env.NODE_ENV !== 'production') {
 
 }
 
-import "../init"
+import "../init.js"
