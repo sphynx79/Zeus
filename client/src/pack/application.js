@@ -19,4 +19,4 @@ if (process.env.NODE_ENV !== "production") {
 
 }
 
-import "../init.js"
+import "../init/index.js"
