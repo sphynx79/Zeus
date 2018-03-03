@@ -3,3 +3,18 @@
 .bx--accordion__item--active .bx--accordion__content {
     padding-left: 3rem; 
 }
+
+.bx--accordion__arrow{
+  fill: #ffffff;
+
+}
+
+.bx--accordion__content{
+  margin-bottom: 5px;
+  padding-bottom: 0;
+}
+
+.bx--fieldset{
+    margin-bottom: 1rem;
+}
+

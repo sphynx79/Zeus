@@ -1,9 +1,11 @@
 // src/components/filtri/filtri.js
 
-import "./filtri.css"
+import "./filtri.scss"
 import {Accordion} from "carbon-components";
 import FiltroData  from "components/filtro_data/filtro_data.js"
 import FiltroLinee  from "components/filtro_linee/filtro_linee.js"
+import FiltroTecnologia  from "components/filtro_tecnologia/filtro_tecnologia.js"
+import FiltroSocieta  from "components/filtro_societa/filtro_societa.js"
 import FiltroUnita  from "components/filtro_unita/filtro_unita.js"
 
 class Filtri {
@@ -17,6 +19,8 @@ class Filtri {
             m("ul.bx--accordion[data-accordion='']", [
                 m(FiltroData),
                 m(FiltroLinee),
+                m(FiltroTecnologia),
+                m(FiltroSocieta),
                 m(FiltroUnita)
             ])
         ])

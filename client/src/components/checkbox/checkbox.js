@@ -1,5 +1,7 @@
 // src/components/checkbox/checkbox.js
 
+import "./checkbox.css"
+
 class CheckBox {
 
     constructor() {

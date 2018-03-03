@@ -44,12 +44,12 @@ table.darkTable td {
 
 
 table.darkTable tr:hover{
-  background-color: #00aec3;
+  background-color: #1285F7;
 
 }
 
 table.darkTable tr.active {
-   background-color: #00aec3;
+   background-color: #1285F7;
 }
 
 tr:nth-child(2n) {

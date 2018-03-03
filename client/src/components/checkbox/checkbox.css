@@ -1,0 +1,5 @@
+.bx--checkbox-label::before {
+  outline: 1px solid #e0e1e2;
+  border: none;
+}
+

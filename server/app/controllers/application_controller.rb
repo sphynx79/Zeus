@@ -19,7 +19,7 @@ class ApplicationController < Sinatra::Base
     use Rack::Cache, verbose: false
     # use Rack::Deflater
     set :public_folder, 'public'
-    use Rack::GzipStatic, urls: ["/css", "/js"], root: 'public'
+    use Rack::GzipStatic, urls: ["/css", "/js", "/fonts"], root: 'public'
     # use Rack::Static, :root => 'public'
   end
 

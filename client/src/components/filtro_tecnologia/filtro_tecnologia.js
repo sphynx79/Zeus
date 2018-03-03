@@ -1,17 +1,16 @@
-// src/components/filtro_unita/filtro_unita.js
-//
-import "./filtro_unita.scss"
-import FiltriItem  from "components/filtri_item/filtri_item.js"
-import FiltroUnitaContent from "components/filtro_unita_content/filtro_unita_content.js"
+// src/components/filtro_tecnologia/filtro_tecnologia.js
 
-class FiltroUnita {
+import FiltriItem  from "components/filtri_item/filtri_item.js"
+import FiltroTecnologiaContent  from "components/filtro_tecnologia_content/filtro_tecnologia_content.js"
+
+class FiltroTecnologia {
 
     constructor() {
         this._componentName = this.constructor.name
     }
 
     view({attrs,state}) {
-        return m(FiltriItem,{content: FiltroUnitaContent, content_id: "filtro_unita", content_title: "Unita"})
+        return m(FiltriItem,{content: FiltroTecnologiaContent, content_id: "filtro_tecnologia", content_title: "Tecnologia"})
     }
 
     oncreate({attrs,state}) {
@@ -26,4 +25,4 @@ class FiltroUnita {
 
 }
 
-export default FiltroUnita
+export default FiltroTecnologia

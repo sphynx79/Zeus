@@ -1,4 +1,4 @@
-import stream  from 'mithril/stream'
+import stream from "mithril/stream"
 
 class App {
 
@@ -7,7 +7,7 @@ class App {
         this.sidebarLeft           = false
         this.sidebarRight          = false
         this.server                = window.location.hostname
-        this.port                  = (process.env.NODE_ENV == 'production') ? 80 : 9292
+        this.port                  = (process.env.NODE_ENV  == "production") ? 80 : 9292
         this.data                  = stream()
         this.remit_380             = this.data.map(value => this.fetchRemit("380"))
         this.remit_220             = this.data.map(value => this.fetchRemit("220"))
@@ -21,6 +21,11 @@ class App {
         this.solare_visibility     = stream(true)
         this.pompaggi_visibility   = stream(true)
         this.geotermico_visibility = stream(true)
+        this.lista_centrali        = stream(this.fetchCentrali())
+        this.selectSocieta         = stream([])
+        this.selectUnita           = stream([])
+        this.societa_visibility    = stream([])
+        this.unita_visibility      = stream([])
     }
 
     dispatch(action, args) {
@@ -33,29 +38,56 @@ class App {
     toggleSidebar(type) {
         if (type == "left") {
             this.sidebarLeft ? this.sidebarLeft = false : this.sidebarLeft = true
-        } else { 
+        } else {
             this.sidebarRight ? this.sidebarRight = false : this.sidebarRight = true
         }
     }
 
     hideSidebar(type) {
-       if (type=='left') {
-           this.sidebarLeft  = false
-       } else { 
-           this.sidebarRight = false 
-       }
+        if (type == "left") {
+            this.sidebarLeft = false
+        } else {
+            this.sidebarRight = false
+        }
     }
 
     fetchRemit(volt) {
         m.request({
-            method: "GET",
-            url: `http://${this.server}:${this.port}/api/remits/${this.data()}/${volt}`,
-        })
-          .then(response => {
-              volt == "380" ? this.remit_380(response) : this.remit_220(response)
-          })
-          .catch(err => {console.log(`Errore richiesta json linee ${volt}`, err)}
-          )
+                method: "GET",
+                url: `http://${this.server}:${this.port}/api/remits/${this.data()}/${volt}`,
+
+            })
+            .then(response => {
+                volt == "380" ? this.remit_380(response) : this.remit_220(response)
+            })
+            .catch(err => {
+                console.log(`Errore richiesta json linee ${volt}`, err)
+            })
+    }
+
+    // async fetchCentrali() {
+    //     try {
+    //         let data = await (m.request({method: "GET", url: `http://${this.server}:${this.port}/api/lista_centrali`}))
+    //         console.log(data)
+    //         return data
+    //     } catch (err) {
+    //         console.log("Errore richiesta json lista centrali", err)
+    //     }
+    // }
+    
+
+    fetchCentrali() {
+        m.request({
+                method: "GET",
+                url: `http://${this.server}:${this.port}/api/lista_centrali`,
+            })
+            .then(response => {
+                this.lista_centrali(response)
+            })
+            .catch(err => {
+                console.log("Errore richiesta json lista centrali", err)
+            })
+
     }
 
     setData(data) {
@@ -65,8 +97,11 @@ class App {
     clickLine(line) {
         this.selectLine(line)
     }
-    
+
+    // societaChange(values) {
+        // this.societa_visibility(values)  
+        // console.log(this.lista_centrali());
+    // }
 }
 
 window.appState = new App()
-

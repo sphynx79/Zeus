@@ -9,10 +9,14 @@
 }
 
 .bx--date-picker.bx--date-picker--single .bx--date-picker__input {
-    outline: 2px solid #8c9ba5;
+    outline: 1px solid #99a0a5;
 }
 
 
 .bx--date-picker__input:focus, .bx--date-picker__input.bx--focused {
     outline: 1px solid #5aaafa !important;
+}
+
+.bx--date-picker__input {
+    background-color: rgba(45, 63, 73, 0.78) !important;
 }

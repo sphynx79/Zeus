@@ -1,0 +1,10 @@
+/* src/components/filtro_unita/filtro_unita.scss */
+
+#filtro_unita {
+  --space: 4rem;
+}
+
+.bx--accordion__item--active >  #filtro_unita {
+  height: var(--space);
+  transition: height .2s;
+}

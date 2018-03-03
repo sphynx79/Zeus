@@ -12,13 +12,13 @@ module.exports = {
     ],
     output: {
         path: resolve(__dirname, 'dist/'),
-        filename: './js/[name]-bundle.[hash].js',
+        filename: './js/[name]-bundle.js',
         chunkFilename: '.js/[name]-chunk.js',
     },
     resolve: {
         extensions: ['.js'],
         alias: {
-            components: resolve(__dirname, 'src/components')
+            components: resolve(__dirname, 'src/components'),
         },
         // modules: [ resolve(__dirname, 'node_modules/') ]
     },
@@ -53,7 +53,16 @@ module.exports = {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: [['@babel/preset-env', {"targets": { "browsers": ["chrome >= 62", "ie >= 11", "firefox >= 56", "android >= 4.4" ]}, modules: false} ]],
+                    presets: [
+                        ['@babel/preset-env', {
+                            'targets': {
+                                'browsers': ['chrome >= 62', 'ie >= 11', 'firefox >= 56', 'android >= 4.4'],
+                            },
+                            modules: false,
+                            'exclude': ['transform-regenerator'],
+                        }],
+                    ],
+                    // plugins: ['module:mopt', 'module:fast-async',
                     plugins: ['module:mopt',
                         // [require('babel-plugin-transform-imports'), {
                         //     "carbon-components": {
@@ -63,13 +72,13 @@ module.exports = {
                         //         },
                         //         "preventFullImport": true
                         //     }
-                    // }]
-            ],
+                        // }]
+                    ],
 
-            },
+                },
+            }],
         }],
-    }],
-},
+    },
     plugins: [
         // new MomentLocalesPlugin({
         //     localesToKeep: ['it'],

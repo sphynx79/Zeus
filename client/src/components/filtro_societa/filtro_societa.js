@@ -1,8 +1,8 @@
-// src/components/filtro_unita/filtro_unita.js
+// src/components/filtro_societa/filtro_societa.js
 //
-import "./filtro_unita.scss"
+import "./filtro_societa.scss"
 import FiltriItem  from "components/filtri_item/filtri_item.js"
-import FiltroUnitaContent from "components/filtro_unita_content/filtro_unita_content.js"
+import FiltroSocietaContent from "components/filtro_societa_content/filtro_societa_content.js"
 
 class FiltroUnita {
 
@@ -11,7 +11,7 @@ class FiltroUnita {
     }
 
     view({attrs,state}) {
-        return m(FiltriItem,{content: FiltroUnitaContent, content_id: "filtro_unita", content_title: "Unita"})
+        return m(FiltriItem,{content: FiltroSocietaContent, content_id: "filtro_societa", content_title: "Societa"})
     }
 
     oncreate({attrs,state}) {

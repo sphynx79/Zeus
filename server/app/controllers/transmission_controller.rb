@@ -1,12 +1,13 @@
 class TransmissionController < ApplicationController
 
-  attr_reader :linee_380, :linee_220
+  attr_reader :linee_380, :linee_220, :centrali
 
   def initialize
     super()
     threads = []
     threads << Thread.new { @linee_380 ||= get_linee_380 }
     threads << Thread.new { @linee_220 ||= get_linee_220 }
+    threads << Thread.new { @centrali  ||= get_centrali }
     threads.each(&:join)
     @remit_collection ||= remit_collection
   end
@@ -36,10 +37,10 @@ class TransmissionController < ApplicationController
 
     before do
       content_type :json
-       headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
+      headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
     end
 
-      get "/remits/:data/:volt" do
+    get "/remits/:data/:volt" do
 
       day, month, year = params['data'].split("-").map(&:to_i)
 
@@ -49,14 +50,14 @@ class TransmissionController < ApplicationController
 
       pipeline = []
 
-  
+
       pipeline << {:$match  => {"dt_upd": { :$lte => start_dt}, volt: volt,
-                                            :$or => [{:$and => [{"start_dt": {:$gte => start_dt}}, {"start_dt": {:$lte => end_dt}}]}, {"start_dt": {:$lte =>start_dt}, "end_dt": {:$gte => start_dt}}]}}
-      
-      pipeline << {:$group => {'_id': '$nome', 
-                               'dt_upd': {'$last':  '$dt_upd'}, 
-                               'nome': {'$first': '$nome'}, 
-                               'volt': {'$first': '$volt'}, 
+                                :$or => [{:$and => [{"start_dt": {:$gte => start_dt}}, {"start_dt": {:$lte => end_dt}}]}, {"start_dt": {:$lte =>start_dt}, "end_dt": {:$gte => start_dt}}]}}
+
+      pipeline << {:$group => {'_id': '$nome',
+                               'dt_upd': {'$last':  '$dt_upd'},
+                               'nome': {'$first': '$nome'},
+                               'volt': {'$first': '$volt'},
                                'start_dt': {'$first': '$start_dt'},
                                'end_dt': {'$first': '$end_dt'},
                                'reason': {'$first': '$reason'},
@@ -66,7 +67,7 @@ class TransmissionController < ApplicationController
       remit_result = @remit_collection.aggregate(pipeline).allow_disk_use(true).to_a
 
       features = Parallel.map(remit_result, in_threads: 4) do |x|
-      # features = remit_result.map do |x|
+        # features = remit_result.map do |x|
         feature                           = {}
         id_transmission                   = x["id_transmission"]
         feature["type"]                   = "Feature"
@@ -81,15 +82,15 @@ class TransmissionController < ApplicationController
       end
       # feature_debug = features
       # if volt == "220"
-      #   
-      #   puts "###############################################220##########################################" 
+      #
+      #   puts "###############################################220##########################################"
       #   f = feature_debug.each { |h| h.delete("geometry") }
       #   f = f.each { |h| h.delete("type") }
       #   f = f.map do |x| x["properties"] end;
       #   print Hirb::Helpers::Table.render(f, {:width => 290, :height => 500, :formatter=> true, :number=> true, :headers => {:hirb_number => "Riga"}})
       # end
       # if volt == "380"
-      #   puts "###############################################380##########################################" 
+      #   puts "###############################################380##########################################"
       #   f = feature_debug.each { |h| h.delete("geometry") }
       #   f = f.each { |h| h.delete("type") }
       #   f = f.map do |x| x["properties"] end;
@@ -100,6 +101,29 @@ class TransmissionController < ApplicationController
       Oj.dump(geojson_hash,:mode => :compat)
     end
 
+    get "/lista_centrali" do
+      lista_centrali = []
+      @centrali.map do |centrale|
+        lista_centrali << centrale["properties"]
+      end
+      Oj.dump(lista_centrali,:mode => :compat)
+    end
+
+    get "/lista_societa" do
+      lista_societa = Set.new
+      @centrali.each do |k,v|
+        lista_societa << k.dig("properties", "company")
+      end
+      Oj.dump(lista_societa.to_a,:mode => :compat)
+    end
+
+    get "/lista_etso" do
+      lista_etso = Set.new
+      @centrali.each do |k,v|
+        lista_etso << k.dig("properties", "etso")
+      end
+      Oj.dump(lista_etso.to_a,:mode => :compat)
+    end
 
   end
 
@@ -117,9 +141,18 @@ class TransmissionController < ApplicationController
       geojson       = http.get(uri.request_uri).body
       Oj.load(geojson, :mode => :compat)["features"]
     end
-    
+
     def get_linee_220
       url = "https://api.mapbox.com/datasets/v1/browserino/cjcfb90n41pub2xp6liaz7quj/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
+      uri           = URI.parse(url)
+      http          = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl  = true
+      geojson       = http.get(uri.request_uri).body
+      Oj.load(geojson, :mode => :compat)["features"]
+    end
+
+    def get_centrali
+      url = "https://api.mapbox.com/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
       uri           = URI.parse(url)
       http          = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl  = true

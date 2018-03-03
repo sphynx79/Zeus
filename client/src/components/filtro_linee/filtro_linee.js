@@ -7,10 +7,6 @@ class FiltroLinee {
         this._componentName = this.constructor.name
     }
 
-    oninit({attrs, state}) {
-
-    }
-
     view({attrs,state}) {
         return m(FiltriItem,{content: FiltroLineeContent, content_id: "filtro_linee", content_title: "Linee"})
     }
