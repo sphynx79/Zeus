@@ -1,3 +1,5 @@
+// src/model/app.js
+
 import stream from "mithril/stream"
 
 class App {
@@ -65,17 +67,6 @@ class App {
             })
     }
 
-    // async fetchCentrali() {
-    //     try {
-    //         let data = await (m.request({method: "GET", url: `http://${this.server}:${this.port}/api/lista_centrali`}))
-    //         console.log(data)
-    //         return data
-    //     } catch (err) {
-    //         console.log("Errore richiesta json lista centrali", err)
-    //     }
-    // }
-    
-
     fetchCentrali() {
         m.request({
                 method: "GET",
@@ -98,10 +89,6 @@ class App {
         this.selectLine(line)
     }
 
-    // societaChange(values) {
-        // this.societa_visibility(values)  
-        // console.log(this.lista_centrali());
-    // }
 }
 
 window.appState = new App()

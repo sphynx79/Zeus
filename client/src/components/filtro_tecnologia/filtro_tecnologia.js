@@ -1,7 +1,7 @@
 // src/components/filtro_tecnologia/filtro_tecnologia.js
 
-import FiltriItem  from "components/filtri_item/filtri_item.js"
-import FiltroTecnologiaContent  from "components/filtro_tecnologia_content/filtro_tecnologia_content.js"
+import FiltriItem              from "components/filtri_item/filtri_item.js"
+import FiltroTecnologiaContent from "components/filtro_tecnologia_content/filtro_tecnologia_content.js"
 
 class FiltroTecnologia {
 
@@ -9,7 +9,7 @@ class FiltroTecnologia {
         this._componentName = this.constructor.name
     }
 
-    view({attrs,state}) {
+    view() {
         return m(FiltriItem,{content: FiltroTecnologiaContent, content_id: "filtro_tecnologia", content_title: "Tecnologia"})
     }
 

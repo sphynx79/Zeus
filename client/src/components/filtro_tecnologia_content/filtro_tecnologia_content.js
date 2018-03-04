@@ -1,7 +1,7 @@
 // src/components/filtro_tecnologia_content/filtro_tecnologia_content.js
 
-import stream  from "mithril/stream"
-import CheckBox  from "components/checkbox/checkbox.js"
+import stream   from "mithril/stream"
+import CheckBox from "components/checkbox/checkbox.js"
 
 class FiltroTecnologiaContent {
 
@@ -17,7 +17,7 @@ class FiltroTecnologiaContent {
         ]
     }
 
-    view({attrs,state}) {
+    view({state}) {
         return m("fieldset.bx--fieldset",[
             this.checkboxs.map(checkbox => {
                   let label = checkbox.label

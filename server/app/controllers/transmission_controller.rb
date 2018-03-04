@@ -15,15 +15,7 @@ class TransmissionController < ApplicationController
   map "/"
 
   get "/?:query?" do
-
-    # @data       = params['data']      || (Date.today+1).strftime("%d-%m-%Y")
-    # @zoom_level = params['zoomlevel'] || "6"
-    # @center_lat = params['centerlat'] || "42.18"
-    # @center_lon = params['centerlon'] || "11.88"
-    # ap @linee_380
-
     # usare questo per usare un static index.html creato da webpack
-    #:call <SNR>166_InsertInterpolation()
     # la public folder in develoment mode e dentro client/dist
     # la public folder in production mode e dentro public
     send_file File.join(settings.public_folder, 'index.html')

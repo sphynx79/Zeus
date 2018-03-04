@@ -1,7 +1,7 @@
 // src/components/filtro_unita/filtro_unita.js
 //
 import "./filtro_unita.scss"
-import FiltriItem  from "components/filtri_item/filtri_item.js"
+import FiltriItem         from "components/filtri_item/filtri_item.js"
 import FiltroUnitaContent from "components/filtro_unita_content/filtro_unita_content.js"
 
 class FiltroUnita {
@@ -10,7 +10,7 @@ class FiltroUnita {
         this._componentName = this.constructor.name
     }
 
-    view({attrs,state}) {
+    view() {
         return m(FiltriItem,{content: FiltroUnitaContent, content_id: "filtro_unita", content_title: "Unita"})
     }
 

@@ -9,6 +9,19 @@ class Table {
         this._componentName = this.constructor.name
     }
 
+    _clickLine(line, index) {
+        this.activeLine(index)
+        appState.dispatch("clickLine", [line])
+    }
+
+    _header(remit) {
+        return Object.keys(remit.features[0].properties)
+    }
+
+    _featureValue(remit) {
+        return remit.features
+    }
+
     oninit({attrs, state}) {
         state.volt       = attrs.volt
         state.activeLine = stream(-1);
@@ -51,20 +64,6 @@ class Table {
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }
     }
-
-    _clickLine(line, index) {
-        this.activeLine(index)
-        appState.dispatch("clickLine", [line])
-    }
-
-    _header(remit) {
-        return Object.keys(remit.features[0].properties)
-    }
-
-    _featureValue(remit) {
-        return remit.features
-    }
-
 }
 
 export default Table

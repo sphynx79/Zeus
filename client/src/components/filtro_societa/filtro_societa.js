@@ -1,7 +1,7 @@
 // src/components/filtro_societa/filtro_societa.js
-//
+
 import "./filtro_societa.scss"
-import FiltriItem  from "components/filtri_item/filtri_item.js"
+import FiltriItem           from "components/filtri_item/filtri_item.js"
 import FiltroSocietaContent from "components/filtro_societa_content/filtro_societa_content.js"
 
 class FiltroUnita {
@@ -10,7 +10,7 @@ class FiltroUnita {
         this._componentName = this.constructor.name
     }
 
-    view({attrs,state}) {
+    view() {
         return m(FiltriItem,{content: FiltroSocietaContent, content_id: "filtro_societa", content_title: "Societa"})
     }
 

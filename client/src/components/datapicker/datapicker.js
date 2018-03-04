@@ -1,7 +1,6 @@
 // src/components/datapicker/datapicker.js
 
 import "./datapicker.css";
-// import pikaday from'pikaday'
 import { DatePicker } from "carbon-components";
 import calendarIcon from "./calendarIcon.js";
 

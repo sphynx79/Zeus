@@ -9,28 +9,26 @@ class FiltroUnitaContent {
         this._componentName = this.constructor.name
     }
     
-    fetchData() {
-        let selectValue = appState.selectSocieta.map(select => (this.filterValue(select)))
-        // debugger
-        return selectValue.map(items => this.parseFilter(items))
+    _fetchData() {
+        let selectValue = appState.selectSocieta.map(select => (this._filterValue(select)))
+        return selectValue.map(items => this._parseFilter(items))
     }
 
-    filterValue(select) {
+    _filterValue(select) {
         return appState.lista_centrali().filter(item => (select.length == 0 ? true : select.includes(item.company)))
     }
 
-    parseFilter(items) {
+    _parseFilter(items) {
        let unique      = [...new Set(items.map(item => item["etso"]))]
        let selectItems = unique.map(item => (new Object({value: item, text: item})))
        return selectItems
     }
-
    
     view({attrs,state}) {
         return m(".bx--form-item", appState.lista_centrali() === undefined ? "" : [m(Select, {
             id: "#filtro_unita",
             placeholder: "Unita",
-            data: state.fetchData(),
+            data: state._fetchData(),
             onchange: (values) => {
                 appState.selectUnita(values)
                 appState.unita_visibility(values)

@@ -80,13 +80,8 @@ module.exports = {
         }],
     },
     plugins: [
-        // new MomentLocalesPlugin({
-        //     localesToKeep: ['it'],
-        // }),
-
         new HtmlWebpackPlugin({
             template: './index.html',
-            //favicon: './styles/images/favicon.png',
         }),
         new webpack.ProvidePlugin({
             m: 'mithril', //Global access

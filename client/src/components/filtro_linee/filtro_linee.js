@@ -7,7 +7,7 @@ class FiltroLinee {
         this._componentName = this.constructor.name
     }
 
-    view({attrs,state}) {
+    view() {
         return m(FiltriItem,{content: FiltroLineeContent, content_id: "filtro_linee", content_title: "Linee"})
     }
 

@@ -1,6 +1,6 @@
 // src/components/filtro_linee_content/filtro_linee_content.js
 
-import stream  from "mithril/stream"
+import stream    from "mithril/stream"
 import CheckBox  from "components/checkbox/checkbox.js"
 
 class FiltroLineeContent {
@@ -11,7 +11,7 @@ class FiltroLineeContent {
                                {label: "Linee 220", state: appState.remit_220_visibility}]
     }
 
-    view({attrs,state}) {
+    view({state}) {
         return m("fieldset.bx--fieldset",[
             this.checkboxs.map(checkbox => {
                   let label = checkbox.label

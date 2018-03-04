@@ -2,8 +2,8 @@
 
 import "./mapbox.css"
 import mapboxgl from "mapbox-gl"
-import stream from "mithril/stream"
-import Legend from "components/legend/legend.js"
+import stream   from "mithril/stream"
+import Legend   from "components/legend/legend.js"
 
 var map
 
@@ -342,17 +342,11 @@ class MapBox {
 
     }
 
-    view({
-        attrs,
-        state
-    }) {
+    view({attrs}) {
         return m("#mapid", attrs, m(Legend))
     }
 
-    oncreate({
-        attrs,
-        state
-    }) {
+    oncreate({attrs,state}) {
         this.initMap()
         map.on("load", () => {
             this.initRemit()
@@ -361,8 +355,6 @@ class MapBox {
             this.handleVisibilityLinee()
             this.handleVisibilityLinee()
             this.handleVisibilityUnita()
-            // map.setFilter('centrali', ['in', 'tipo', 'IDRICO', 'TERMICO'])
-            // console.log(map.getLayoutProperty("linee-380 blur", 'visibility'))
         })
         this.handleRefreshRemit()
         this.handleSelectLine()

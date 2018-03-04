@@ -1,9 +1,7 @@
 // src/components/legend/legend.js
 
 import "./legend.scss"
-
 import {Tile} from "carbon-components";
-
 
 class Leggend {
 
@@ -26,9 +24,7 @@ class Leggend {
         return  m(".legend.map-overlay.bx--tile.bx--tile--expandable[data-tile='expandable'][tabindex='0']",[
             m("button.bx--tile__chevron",m("svg[fill-rule='evenodd'][height='8'][viewBox='0 0 12 8'][width='12']",m("path[d='M1.4 7.5L6 2.8l4.6 4.7L12 6.1 6 0 0 6.1z']"))),
             m(".bx--tile-content",
-                [
-                    // m(".bx--type-zeta.legend_head", "LEGENDA"),
-                    m("span.bx--tile-content__above-the-fold.legend__head.bx--type-zeta[data-tile-atf='Legenda']", "LEGENDA"),
+                [m("span.bx--tile-content__above-the-fold.legend__head.bx--type-zeta[data-tile-atf='Legenda']", "LEGENDA"),
                     this._legendItem.map(value => {
                         let style = value.class == "legend__key--linee" ? {style: {"background-color": value.color}} :  {style: {"border-color": value.color}}  
                         return m(".legend__item",[
