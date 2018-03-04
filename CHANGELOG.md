@@ -1,4 +1,6 @@
 ## 1.1.0 (2018-03-04)
+## Added
+-	Creato le multi-select dinamiche per filtrare la company e le unita
 
 
 ## 1.0.0 (2018-02-18)
