@@ -96,8 +96,12 @@
   border: none;
 }
 
-.custom-style .selectr-input{
-  border: none;
+.custom-style .selectr-selected:focus {
+   outline: rgb(77, 144, 254) solid 1px;
+}
+
+.custom-style .selectr-input:focus {
+  outline: rgb(77, 144, 254) solid 1px;
 }
 
 .custom-style.selectr-container.open .selectr-options-container {

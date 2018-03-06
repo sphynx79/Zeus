@@ -1,7 +1,7 @@
 // src/components/select/select.js
 
 import "./select.scss"
-const Selectr = require("imports-loader?this=>window,define=>false!mobius1-selectr/dist/selectr.min.js");
+const Selectr = require("imports-loader?this=>window,define=>false!mobius1-selectr/src/selectr.js");
 
 class Select {
 
@@ -28,21 +28,23 @@ class Select {
             width: 500,
         })
 
+        let elId = document.querySelector(`${vnode.attrs.id}`)
         vnode.select.on("selectr.open", () => {
-           let el = document.querySelector(`${vnode.attrs.id}`)
-           el && el.style.setProperty("--space", "16rem")
-	
+           elId && elId.style.setProperty("--space", "16rem")
         })
 
         vnode.select.on("selectr.close", () => {
-            let el = document.querySelector(`${vnode.attrs.id}`)
-            el && el.style.setProperty("--space", "4rem")
+            elId && elId.style.setProperty("--space", "4rem")
         })
 
         vnode.select.on("selectr.change", (option) => {
             let options = vnode.select.getValue()
             vnode.attrs.onchange(options)
         })
+        // let elSelect = elId.querySelector(".selectr-selected")
+        // elSelect.addEventListener('focus', () => vnode.select.open());
+
+
         
         vnode.attrs.data.map(value => {
            vnode.select.removeAllOption()

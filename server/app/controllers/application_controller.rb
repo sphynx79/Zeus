@@ -12,7 +12,8 @@ class ApplicationController < Sinatra::Base
     set :port, 80
     File.open('ip.txt', 'w') { |file| file.write(ip) }
     set :server_adress, ip
-    db = Mongo::Client.new(['10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018'], database: 'transmission', write: {w: 0, j: false})
+    # db = Mongo::Client.new(['10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018'], database: 'transmission', write: {w: 0, j: false})
+    db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false})
     set :db_remit, db[:remit]
     use Rack::Cache, verbose: false
     # use Rack::Deflater
