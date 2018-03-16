@@ -1,11 +1,9 @@
 // src/components/remit_transmission/remit_transmission.js
 
-import "./remit_transmission.css"
 import MapBox from "components/mapbox/mapbox.js"
-import stream  from "mithril/stream"
+import stream from "mithril/stream"
 
 class RemitTransmission {
-
     constructor(vnode) {
         this._componentName = this.constructor.name
     }
@@ -14,19 +12,19 @@ class RemitTransmission {
     //     appState.dispatch("fetchRemit")
     // }
 
-    oninit({state}) {
+    oninit({ state }) {
         // state._fetchRemit()
     }
 
-    view({attrs}) {
+    view({ attrs }) {
         return m("#main", attrs, m(MapBox))
     }
 
-    oncreate({attrs, state}) {
+    oncreate({ attrs, state }) {
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
-                state: state
+                state: state,
             }
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }

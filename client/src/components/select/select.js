@@ -1,18 +1,17 @@
 // src/components/select/select.js
 
 import "./select.scss"
-const Selectr = require("imports-loader?this=>window,define=>false!mobius1-selectr/src/selectr.js");
+const Selectr = require("imports-loader?this=>window,define=>false!mobius1-selectr/dist/selectr.min.js")
 
 class Select {
-
     constructor() {
         this._componentName = this.constructor.name
     }
 
-    view({attrs}){
+    view({ attrs }) {
         return m("select")
     }
-   
+
     oncreate(vnode) {
         let el = vnode.dom
 
@@ -30,37 +29,33 @@ class Select {
 
         let elId = document.querySelector(`${vnode.attrs.id}`)
         vnode.select.on("selectr.open", () => {
-           elId && elId.style.setProperty("--space", "16rem")
+            elId && elId.style.setProperty("--space", "16rem")
         })
 
         vnode.select.on("selectr.close", () => {
             elId && elId.style.setProperty("--space", "4rem")
         })
 
-        vnode.select.on("selectr.change", (option) => {
+        vnode.select.on("selectr.change", option => {
             let options = vnode.select.getValue()
             vnode.attrs.onchange(options)
         })
         // let elSelect = elId.querySelector(".selectr-selected")
         // elSelect.addEventListener('focus', () => vnode.select.open());
 
-
-        
         vnode.attrs.data.map(value => {
-           vnode.select.removeAllOption()
-           vnode.attrs.data() && vnode.attrs.data().map(value => vnode.select.add(value) )
+            vnode.select.removeAllOption()
+            vnode.attrs.data() && vnode.attrs.data().map(value => vnode.select.add(value))
         })
 
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: vnode.attrs,
-                state: vnode.state
+                state: vnode.state,
             }
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }
     }
-    
 }
 
 export default Select
-

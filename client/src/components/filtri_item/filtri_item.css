@@ -1,20 +1,18 @@
 /* src/components/filtri_item/filtri_item.csss */
 
 .bx--accordion__item--active .bx--accordion__content {
-    padding-left: 3rem; 
+    padding-left: 3rem;
 }
 
-.bx--accordion__arrow{
-  fill: #ffffff;
-
+.bx--accordion__arrow {
+    fill: #ffffff;
 }
 
-.bx--accordion__content{
-  margin-bottom: 5px;
-  padding-bottom: 0;
+.bx--accordion__content {
+    margin-bottom: 5px;
+    padding-bottom: 0;
 }
 
-.bx--fieldset{
+.bx--fieldset {
     margin-bottom: 1rem;
 }
-

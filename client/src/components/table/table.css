@@ -1,53 +1,50 @@
 /* src/components/table/table.css */
 
 table.darkTable {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-  border-spacing: 2px;
-  margin-top: 2rem;
-  border: 1px solid #e2e2e2e0;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    margin-top: 2rem;
+    border: 1px solid #e2e2e2e0;
 }
 
 table.darkTable caption {
-  letter-spacing: 1px;
-  font-weight: bold;
-  font-size: 18px;
-  background: #333;
-  white-space: nowrap;
-  padding: 8px 0 8px 0px;
-  border-top:  1px solid #e2e2e2e0;
-  border-left:  1px solid #e2e2e2e0;
-  border-right:  1px solid #e2e2e2e0;
+    letter-spacing: 1px;
+    font-weight: bold;
+    font-size: 18px;
+    background: #333;
+    white-space: nowrap;
+    padding: 8px 0 8px 0px;
+    border-top: 1px solid #e2e2e2e0;
+    border-left: 1px solid #e2e2e2e0;
+    border-right: 1px solid #e2e2e2e0;
 }
 
 table.darkTable th {
-  letter-spacing: 1px;
-  padding: 6px 0 6px 8px;
-  font-weight: 400;
-  border-right:  1px solid #e2e2e2e0;
-  background: #333;
-  border-bottom:  1px solid #e2e2e2e0;
+    letter-spacing: 1px;
+    padding: 6px 0 6px 8px;
+    font-weight: 400;
+    border-right: 1px solid #e2e2e2e0;
+    background: #333;
+    border-bottom: 1px solid #e2e2e2e0;
 }
 
 table.darkTable td {
-  border-right:  1px solid #e2e2e2e0;
-  font-size: .7rem;
-  line-height: 14px;
-  padding: 4px 0 4px 8px;
+    border-right: 1px solid #e2e2e2e0;
+    font-size: 0.7rem;
+    line-height: 14px;
+    padding: 4px 0 4px 8px;
 }
 
-
-table.darkTable tr:hover{
-  background-color: #1285F7;
-
+table.darkTable tr:hover {
+    background-color: #1285f7;
 }
 
 table.darkTable tr.active {
-   background-color: #1285F7;
+    background-color: #1285f7;
 }
 
 tr:nth-child(2n) {
-  background: hsla(0, 0%, 100%, .07);
+    background: hsla(0, 0%, 100%, 0.07);
 }
-

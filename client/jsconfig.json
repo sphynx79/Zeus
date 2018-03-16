@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "allowSyntheticDefaultImports": true,
+      // This must be specified if "paths" is set
+      "baseUrl": ".",
+      // Relative to "baseUrl"
+      "paths": {
+        "*": [
+          "*",
+          "src/*",
+          "src/components/*"
+        ],
+        "exclude": [
+            "node_modules",
+            "dist",
+          ]
+      }
+    }
+  }

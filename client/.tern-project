@@ -1,0 +1,25 @@
+{
+ "libs": [
+  "browser"
+ ],
+ "loadEagerly": [
+  "src/**/*.js"
+ ],
+ "plugins": {
+  "node": {},
+  "modules": {},
+  "es_modules": {},
+  "doc_comment": {
+   "fullDocs": true,
+   "strong": true
+  },
+  "complete_strings": {
+   "maxLength": 15
+  }
+ },
+ "dontLoad": [
+  "node_modules/**",
+  "dist/**"
+ ],
+ "ecmaVersion": 7
+}

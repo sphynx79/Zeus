@@ -33,7 +33,6 @@ class TransmissionController < ApplicationController
     end
 
     get "/remits/:data/:volt" do
-
       day, month, year = params['data'].split("-").map(&:to_i)
 
       start_dt = Date.parse(params['data']).to_time.utc
@@ -94,28 +93,31 @@ class TransmissionController < ApplicationController
     end
 
     get "/lista_centrali" do
+      cache_control :public, :must_revalidate, :max_age => 3600
+      last_modified Time.now
       lista_centrali = []
       @centrali.map do |centrale|
         lista_centrali << centrale["properties"]
       end
+      etag Digest::MD5.hexdigest(lista_centrali.to_s)
       Oj.dump(lista_centrali,:mode => :compat)
     end
 
-    get "/lista_societa" do
-      lista_societa = Set.new
-      @centrali.each do |k,v|
-        lista_societa << k.dig("properties", "company")
-      end
-      Oj.dump(lista_societa.to_a,:mode => :compat)
-    end
-
-    get "/lista_etso" do
-      lista_etso = Set.new
-      @centrali.each do |k,v|
-        lista_etso << k.dig("properties", "etso")
-      end
-      Oj.dump(lista_etso.to_a,:mode => :compat)
-    end
+    # get "/lista_societa" do
+    #   lista_societa = Set.new
+    #   @centrali.each do |k,v|
+    #     lista_societa << k.dig("properties", "company")
+    #   end
+    #   Oj.dump(lista_societa.to_a,:mode => :compat)
+    # end
+    #
+    # get "/lista_etso" do
+    #   lista_etso = Set.new
+    #   @centrali.each do |k,v|
+    #     lista_etso << k.dig("properties", "etso")
+    #   end
+    #   Oj.dump(lista_etso.to_a,:mode => :compat)
+    # end
 
   end
 

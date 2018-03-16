@@ -2,72 +2,71 @@
 
 import "./mapbox.css"
 import mapboxgl from "mapbox-gl"
-import stream   from "mithril/stream"
-import Legend   from "components/legend/legend.js"
+import stream from "mithril/stream"
+import Legend from "components/legend/legend.js"
 
 var map
 
 class MapBox {
-
     constructor() {
         this._componentName = this.constructor.name
         this._server = window.location.hostname
-        this._accessToken = "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
+        this._accessToken =
+            "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
     }
 
     handleVisibilityUnita() {
+        stream.combine(
+            (termico, eolico, idrico, autoprod, solare, pompaggi, geotermico, societa, unita) => {
+                let filter = ["all"]
+                let filter_tecnologia = ["in", "tipo"]
+                let filter_societa = ["in", "company"]
+                let filter_unita = ["in", "etso"]
+                let filterMap = new Map()
+                filterMap.set("TERMICO", termico())
+                filterMap.set("EOLICO", eolico())
+                filterMap.set("IDRICO", idrico())
+                filterMap.set("AUTOPRODUTTORE", autoprod())
+                filterMap.set("SOLARE", solare())
+                filterMap.set("POMPAGGIO", pompaggi())
+                filterMap.set("GEOTERMICO", geotermico())
 
-        stream.combine((termico, eolico, idrico, autoprod, solare, pompaggi, geotermico, societa, unita) => {
-            let filter = ["all"]
-            let filter_tecnologia = ["in", "tipo"]
-            let filter_societa = ["in", "company"]
-            let filter_unita = ["in", "etso"]
-            let filterMap = new Map();
-            filterMap.set("TERMICO", termico());
-            filterMap.set("EOLICO", eolico());
-            filterMap.set("IDRICO", idrico());
-            filterMap.set("AUTOPRODUTTORE", autoprod());
-            filterMap.set("SOLARE", solare());
-            filterMap.set("POMPAGGIO", pompaggi());
-            filterMap.set("GEOTERMICO", geotermico());
+                filterMap.forEach((value, key) => {
+                    value && filter_tecnologia.push(key)
+                })
+                filter.push(filter_tecnologia)
 
-            filterMap.forEach((value, key) => {
-                value && filter_tecnologia.push(key)
-            })
-            filter.push(filter_tecnologia)
+                if (societa().length > 0) {
+                    societa().map(value => filter_societa.push(value))
+                    filter.push(filter_societa)
+                }
 
-            if (societa().length > 0) {
-                societa().map((value) => filter_societa.push(value))
-                filter.push(filter_societa)
-            }
+                if (unita().length > 0) {
+                    unita().map(value => filter_unita.push(value))
+                    filter.push(filter_unita)
+                }
 
-            if (unita().length > 0) {
-                unita().map((value) => filter_unita.push(value))
-                filter.push(filter_unita)
-            }
-
-            map.setFilter("centrali", filter)
-
-        }, [appState.termico_visibility,
-            appState.eolico_visibility,
-            appState.idrico_visibility,
-            appState.autoprod_visibility,
-            appState.solare_visibility,
-            appState.pompaggi_visibility,
-            appState.geotermico_visibility,
-            appState.societa_visibility,
-            appState.unita_visibility
-        ])
-
-
+                map.setFilter("centrali", filter)
+            },
+            [
+                appState.termico_visibility,
+                appState.eolico_visibility,
+                appState.idrico_visibility,
+                appState.autoprod_visibility,
+                appState.solare_visibility,
+                appState.pompaggi_visibility,
+                appState.geotermico_visibility,
+                appState.societa_visibility,
+                appState.unita_visibility,
+            ]
+        )
     }
 
     handleVisibilityLinee() {
-
         appState.remit_380_visibility.map(value => {
             let layers = ["linee-380", "linee-380 blur", "remit_380"]
             let visibility = value == false ? "none" : "visible"
-            layers.map((layer) => {
+            layers.map(layer => {
                 map.setLayoutProperty(layer, "visibility", visibility)
             })
         })
@@ -75,15 +74,13 @@ class MapBox {
         appState.remit_220_visibility.map(value => {
             let layers = ["linee-220", "linee-220 blur", "remit_220"]
             let visibility = value == false ? "none" : "visible"
-            layers.map((layer) => {
+            layers.map(layer => {
                 map.setLayoutProperty(layer, "visibility", visibility)
             })
         })
-
     }
 
     handleRefreshRemit() {
-
         appState.remit_380.map(value => {
             value && map.getSource("remit_380") && map.getSource("remit_380").setData(value)
         })
@@ -91,7 +88,6 @@ class MapBox {
         appState.remit_220.map(value => {
             value && map.getSource("remit_220") && map.getSource("remit_220").setData(value)
         })
-
     }
 
     handleSelectLine() {
@@ -124,21 +120,35 @@ class MapBox {
 
                 map.fitBounds(bounds, {
                     padding: 200,
-                    maxZoom: 10
+                    maxZoom: 10,
                 })
-
             }
 
             function showPopUp() {
                 let midle = Math.trunc(coordinates.length / 2)
-                let popUps = document.getElementsByClassName("mapboxgl-popup");
+                let popUps = document.getElementsByClassName("mapboxgl-popup")
                 if (popUps[0]) popUps[0].remove()
                 let popup = new mapboxgl.Popup()
                     .setLngLat(coordinates[midle])
-                    .setHTML("<b>" + feature.properties.nome + "</b><br>" +
-                        "<b>" + "dt_upd: " + "</b>" + feature.properties.dt_upd + "<br>" +
-                        "<b>" + "start_dt: " + "</b>" + feature.properties.start_dt + "<br>" +
-                        "<b>" + "end_dt:  " + "</b>" + feature.properties.end_dt + "<br>"
+                    .setHTML(
+                        "<b>" +
+                            feature.properties.nome +
+                            "</b><br>" +
+                            "<b>" +
+                            "dt_upd: " +
+                            "</b>" +
+                            feature.properties.dt_upd +
+                            "<br>" +
+                            "<b>" +
+                            "start_dt: " +
+                            "</b>" +
+                            feature.properties.start_dt +
+                            "<br>" +
+                            "<b>" +
+                            "end_dt:  " +
+                            "</b>" +
+                            feature.properties.end_dt +
+                            "<br>"
                     )
                     .addTo(map)
             }
@@ -154,7 +164,7 @@ class MapBox {
             center: [11.88, 42.18],
             zoom: 5.7,
             maxZoom: 13,
-            minZoom: 5
+            minZoom: 5,
         })
         // map.addControl(new mapboxgl.FullscreenControl());
     }
@@ -169,17 +179,16 @@ class MapBox {
     }
 
     loop(fn) {
-        (function animLoop() {
+        ;(function animLoop() {
             fn()
             setTimeout(function() {
-                requestAnimationFrame(animLoop);
-            }, 1000 / 10);
-
-        })();
+                requestAnimationFrame(animLoop)
+            }, 1000 / 10)
+        })()
     }
 
     enableLineAnimation(layerId) {
-        var step = 0;
+        var step = 0
         let dashArraySeq = [
             [0, 4, 3],
             [1, 4, 2],
@@ -187,12 +196,12 @@ class MapBox {
             [3, 4, 0],
             [0, 1, 3, 3],
             [0, 2, 3, 2],
-            [0, 3, 3, 1]
-        ];
+            [0, 3, 3, 1],
+        ]
 
         this.loop(() => {
-            step = (step + 1) % dashArraySeq.length;
-            map.setPaintProperty(layerId, "line-dasharray", dashArraySeq[step]);
+            step = (step + 1) % dashArraySeq.length
+            map.setPaintProperty(layerId, "line-dasharray", dashArraySeq[step])
         })
     }
 
@@ -208,27 +217,23 @@ class MapBox {
         }
 
         map.addLayer({
-            "id": remitId,
-            "type": "line",
-            "source": {
+            id: remitId,
+            type: "line",
+            source: {
                 type: "geojson",
-                data: remitData
+                data: remitData,
             },
-            "paint": {
+            paint: {
                 "line-color": color,
                 "line-opacity": 1,
                 "line-width": {
                     base: 1,
-                    stops: [
-                        [6, 2],
-                        [14, 3]
-                    ]
+                    stops: [[6, 2], [14, 3]],
                 },
                 "line-dasharray": [0, 4, 3],
             },
         })
         this.enableLineAnimation(remitId)
-
     }
 
     initHoverEffect() {
@@ -252,34 +257,31 @@ class MapBox {
         }
 
         map.addSource(sourceName, {
-            "type": "vector",
-            "url": urlTileSet,
+            type: "vector",
+            url: urlTileSet,
         })
 
         map.addLayer({
-            "id": idLayer,
-            "type": "line",
-            "source": sourceName,
-            "layout": {},
-            "interactive": true,
+            id: idLayer,
+            type: "line",
+            source: sourceName,
+            layout: {},
+            interactive: true,
             "source-layer": sourceLayer,
-            "maxzoom": 13,
-            "paint": {
+            maxzoom: 13,
+            paint: {
                 "line-color": "#88CC55",
-                "line-width": 3
+                "line-width": 3,
             },
-            "filter": ["==", "nome", ""]
+            filter: ["==", "nome", ""],
         })
 
         map.on("mouseover", layer, function(e) {
             // if (!map.loaded()) return
             map.getCanvas().style.cursor = "pointer"
-            var bbox = [
-                [e.point.x - 5, e.point.y - 5],
-                [e.point.x + 5, e.point.y + 5]
-            ]
+            var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
             var features = map.queryRenderedFeatures(bbox, {
-                layers: [layer]
+                layers: [layer],
             })
 
             if (!features.length) return
@@ -297,7 +299,6 @@ class MapBox {
             map.getCanvas().style.cursor = ""
             map.setFilter(idLayer, ["==", "nome", ""])
         })
-
     }
 
     initShowPopUp() {
@@ -313,40 +314,56 @@ class MapBox {
         }
 
         map.on("click", function(e) {
-            var bbox = [
-                [e.point.x - 5, e.point.y - 5],
-                [e.point.x + 5, e.point.y + 5]
-            ];
+            var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
 
             var features = map.queryRenderedFeatures(bbox, {
-                layers: [layer] // replace this with the name of the layer
-            });
+                layers: [layer], // replace this with the name of the layer
+            })
 
             if (!features.length) {
-                return;
+                return
             }
 
-            var feature = features[0];
+            var feature = features[0]
 
             var popup = new mapboxgl.Popup({
-                    offset: [0, -5]
-                })
+                offset: [0, -5],
+            })
                 .setLngLat(e.lngLat)
-                .setHTML("<b>" + feature.properties.nome + "</b><br>" +
-                    "<b>" + "From: " + "</b>" + feature.properties.p1 + "<br>" +
-                    "<b>" + "To: " + "</b>" + feature.properties.p2 + "<br>" +
-                    "<b>" + "Lunghezza: " + "</b>" + feature.properties.lunghezza + "<br>" +
-                    "<b>" + "Voltage: " + "</b>" + feature.properties.voltage + "<br>")
-                .addTo(map);
+                .setHTML(
+                    "<b>" +
+                        feature.properties.nome +
+                        "</b><br>" +
+                        "<b>" +
+                        "From: " +
+                        "</b>" +
+                        feature.properties.p1 +
+                        "<br>" +
+                        "<b>" +
+                        "To: " +
+                        "</b>" +
+                        feature.properties.p2 +
+                        "<br>" +
+                        "<b>" +
+                        "Lunghezza: " +
+                        "</b>" +
+                        feature.properties.lunghezza +
+                        "<br>" +
+                        "<b>" +
+                        "Voltage: " +
+                        "</b>" +
+                        feature.properties.voltage +
+                        "<br>"
+                )
+                .addTo(map)
         })
-
     }
 
-    view({attrs}) {
+    view({ attrs }) {
         return m("#mapid", attrs, m(Legend))
     }
 
-    oncreate({attrs,state}) {
+    oncreate({ attrs, state }) {
         this.initMap()
         map.on("load", () => {
             this.initRemit()
@@ -362,12 +379,11 @@ class MapBox {
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,
-                state: state
+                state: state,
             }
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }
     }
-
 }
 
 export default MapBox

@@ -29,7 +29,11 @@ module.exports = merge(common, {
         }),
         new UglifyJSPlugin({
             sourceMap: true,
-            parallel: true
+            parallel: true,
+            uglifyOptions: {
+                ecma: 8,
+                ie8: false,
+            }
         }),
         new webpack.DefinePlugin({
             'process.env': {

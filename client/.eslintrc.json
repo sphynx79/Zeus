@@ -1,7 +1,12 @@
 {
   "root": true,
-  "globals": {
-  },
+  "globals": {},
+  "plugins": [
+    "prettier"
+  ],
+  "extends": [
+    "plugin:prettier/recommended"
+  ],
   "env": {
     "browser": true,
     "es6": true
@@ -29,10 +34,15 @@
       "superInFunctions": true,
       "templateStrings": true,
       "unicodeCodePointEscapes": true,
-      "globalReturn": true
+      "globalReturn": true,
+      "experimentalObjectRestSpread": true
     }
   },
   "rules": {
-    "quotes": [1, "double"]
+    "prettier/prettier": "error",
+    "quotes": [
+      1,
+      "double"
+    ]
   }
 }
