@@ -1,6 +1,6 @@
 // src/components/table/table.js
 
-import "./table.css"
+import "./table.scss"
 import stream from "mithril/stream"
 
 class Table {
@@ -34,27 +34,29 @@ class Table {
         }
 
         return remit
-            ? m("table.darkTable", [
+            ? m("table.bx--data-table-v2.bx--data-table-v2--compact.bx--data-table-v2--zebra", [
                   m("caption", `TRANSMISSION ${attrs.volt}`),
-                  m("tr", [this._header(remit).map(key => m("th", key))]),
-                  this._featureValue(remit).map((feature, index) => {
-                      return m(
-                          "tr",
-                          {
-                              key: index,
-                              className: state.activeLine() === index ? "active" : "",
-                              onclick: () => {
-                                  state._clickLine(feature, index)
+                  m("thead", m("tr", [this._header(remit).map(key => m("th", key))])),
+                  m("tbody", [
+                      this._featureValue(remit).map((feature, index) => {
+                          return m(
+                              "tr",
+                              {
+                                  key: index,
+                                  className: state.activeLine() === index ? "active" : "",
+                                  onclick: () => {
+                                      state._clickLine(feature, index)
+                                  },
                               },
-                          },
-                          [
-                              m("td", { style: "width:280px;" }, feature.properties.nome),
-                              m("td", feature.properties.dt_upd),
-                              m("td", feature.properties.start_dt),
-                              m("td", feature.properties.end_dt),
-                          ]
-                      )
-                  }),
+                              [
+                                  m("td", { style: "width:280px;" }, feature.properties.nome),
+                                  m("td", feature.properties.dt_upd),
+                                  m("td", feature.properties.start_dt),
+                                  m("td", feature.properties.end_dt),
+                              ]
+                          )
+                      }),
+                  ]),
               ])
             : m("")
     }

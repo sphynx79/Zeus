@@ -1290,9 +1290,9 @@ caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805:
   version "1.0.30000807"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000807.tgz#51ea478d07269e9dd4d8c639509df61d2516fa92"
 
-carbon-components@^8.16.6:
-  version "8.16.6"
-  resolved "https://registry.yarnpkg.com/carbon-components/-/carbon-components-8.16.6.tgz#6ab251f72c7aa646d0de842dfb74145371b3e8fd"
+carbon-components@^8.16.8:
+  version "8.16.8"
+  resolved "https://registry.yarnpkg.com/carbon-components/-/carbon-components-8.16.8.tgz#fa5b6ca4a1bea9e53b4c5b5e59afc9096dd676f2"
   dependencies:
     carbon-icons "^6.0.4"
     flatpickr "2.6.3"
@@ -1300,8 +1300,8 @@ carbon-components@^8.16.6:
     warning "^3.0.0"
 
 carbon-icons@^6.0.4:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/carbon-icons/-/carbon-icons-6.3.1.tgz#8e2d8f7f5feacdff21b71d439159db2473bc4fa8"
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/carbon-icons/-/carbon-icons-6.3.2.tgz#2cc942225442b0d5c02593e344b50c7ec22edf28"
 
 caseless@~0.11.0:
   version "0.11.0"
