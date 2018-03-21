@@ -9,7 +9,8 @@ class TransmissionController < ApplicationController
     threads << Thread.new { @linee_220 ||= get_linee_220 }
     threads << Thread.new { @centrali  ||= get_centrali }
     threads.each(&:join)
-    @remit_collection ||= remit_collection
+    @remit_collection          ||= remit_collection
+    @remit_centrali_collection ||= remit_centrali_collection
   end
 
   map "/"
@@ -91,6 +92,49 @@ class TransmissionController < ApplicationController
       geojson_hash  = to_feature_collection features
       Oj.dump(geojson_hash,:mode => :compat)
     end
+ 
+    get "/remits_centrali/:data" do
+      data = params['data']
+      start_date  = Date.parse(data)
+      end_date    = Date.parse(data)
+      date_filter = {"days.dt_flusso" => {:$gte => start_date, :$lte => end_date}}
+      
+      group, project = set_aggregation_for_export
+
+      pipeline = []
+      pipeline << {:$unwind => "$days"}
+      pipeline << {:$match  => date_filter} unless date_filter.nil?
+      pipeline << {:$group => group}
+      pipeline << {:$project => project}
+      pipeline << {:$unwind => "$docs"}
+      pipeline << {:$match => {"docs.doc.last"   => 1}}
+      pipeline << {:$group => { "_id"         => "$docs.etso", 
+                                "etso"        => { :$first => "$docs.etso" },
+                                "tp_source"   => { :$first => "$docs.tp_source" },
+                                "nm_source"   => { :$first => "$docs.nm_source" },
+                                "p_min"       => { :$first => "$docs.p_min" }, 
+                                "p_max"       => { :$first => "$docs.p_max" }, 
+                                "fuel_type"   => { :$first => "$docs.fuel_type" },
+                                "dt_end"      => { :$max   => "$docs.dt_end" },  
+                                "count"       => { :$sum   => 1 }, 
+                                "hours"       => { :$push => { "hour"                => "$docs.hour", 
+                                                               "dt_upd"              => "$docs.dt_upd",
+                                                               "v_remit"             => "$docs.doc.v_remit",
+                                                               "p_disp"              => "$docs.doc.p_disp",
+                                                               "stato"               => "$docs.doc.stato",
+                                                               "chk_disp"            => "$docs.doc.chk_disp",
+                                                               "tp_ind"              => "$docs.tp_ind",
+                                                               "unavailability_type" => "$docs.unavailability_type"
+                                                            }
+                                                            }
+      
+      }}
+
+
+      pipeline << {:$project => {:_id  => 0}}
+      remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(true).to_a
+      Oj.dump(remit_result,:mode => :compat)
+    end
 
     get "/lista_centrali" do
       cache_control :public, :must_revalidate, :max_age => 3600
@@ -145,6 +189,32 @@ class TransmissionController < ApplicationController
       Oj.load(geojson, :mode => :compat)["features"]
     end
 
+    def set_aggregation_for_export
+      group = {}
+      set = []
+      1.upto 24 do |i|
+        group[i] = {:$push => {:doc => "$days.hours.#{i}",
+                               :dt_upd => "$dt_upd",
+                               :d_bdofrdt => "$days.d_bdofrdt",
+                               :dt_flusso => "$_id.dt_flusso",
+                               :dt_end => "$dt_end",
+                               :etso => "$etso",
+                               :fuel_type => "$fuel_type",
+                               :unavailability_type => "$unavailability_type",
+                               :msg_id => "$msg_id",
+                               :p_min => "$p_min",
+                               :p_max => "$p_max",
+                               :tp_ind => "$tp_ind",
+                               :nm_source => "$nm_source",
+                               :tp_source => "$tp_source",
+                               :hour => {:$literal => i}}}
+        set.push("$#{i}")
+      end
+      group[:_id] = {:$dateToString => {:format => "%Y-%m-%d", :date => "$days.dt_flusso"}}
+      project = {:docs => {:$setUnion => set}}
+      return group, project
+    end
+
     def get_centrali
       url = "https://api.mapbox.com/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
       uri           = URI.parse(url)
@@ -156,6 +226,10 @@ class TransmissionController < ApplicationController
 
     def remit_collection
       settings.db_remit
+    end
+
+    def remit_centrali_collection
+      settings.db_remit_centrali
     end
 
   end
