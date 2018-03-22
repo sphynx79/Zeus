@@ -12,7 +12,9 @@ class App {
         this.data = stream()
         this.remit_380 = this.data.map(value => this.fetchRemit("380"))
         this.remit_220 = this.data.map(value => this.fetchRemit("220"))
+        this.remit_centrali = this.data.map(value => this.fetchRemitCentrali())
         this.selectLine = stream()
+        this.selectCentrale = stream()
         this.remit_380_visibility = stream(true)
         this.remit_220_visibility = stream(true)
         this.termico_visibility = stream(true)
@@ -27,6 +29,8 @@ class App {
         this.selectUnita = stream([])
         this.societa_visibility = stream([])
         this.unita_visibility = stream([])
+
+        // this.remit_centrali.map(value => console.dir(value))
     }
 
     dispatch(action, args) {
@@ -66,6 +70,20 @@ class App {
             })
     }
 
+    fetchRemitCentrali() {
+        m
+            .request({
+                method: "GET",
+                url: `http://${this.server}:${this.port}/api/remits_centrali/${this.data()}`,
+            })
+            .then(response => {
+                this.remit_centrali(response)
+            })
+            .catch(err => {
+                console.log("Errore richiesta json remit  centrali", err)
+            })
+    }
+
     fetchCentrali() {
         m
             .request({
@@ -84,8 +102,12 @@ class App {
         this.data(data)
     }
 
-    clickLine(line) {
+    clickTableLine(line) {
         this.selectLine(line)
+    }
+
+    clickTableCentrale(centrale) {
+        this.selectCentrale(centrale)
     }
 }
 

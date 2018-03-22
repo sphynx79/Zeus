@@ -14,8 +14,9 @@ class SideBar {
             return m("nav.sidebar#sidebar_right", attrs, [m(Filtri)])
         } else {
             return m("nav.sidebar#sidebar_left", attrs, [
-                m(Table, { volt: "380" }),
-                m(Table, { volt: "220" }),
+                m(Table, { type: "linee", volt: "380" }),
+                m(Table, { type: "linee", volt: "220" }),
+                m(Table, { type: "centrali" }),
             ])
         }
     }

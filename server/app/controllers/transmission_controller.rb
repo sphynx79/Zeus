@@ -1,4 +1,5 @@
 class TransmissionController < ApplicationController
+  # helpers Sinatra::Database
 
   attr_reader :linee_380, :linee_220, :centrali
 
@@ -9,12 +10,16 @@ class TransmissionController < ApplicationController
     threads << Thread.new { @linee_220 ||= get_linee_220 }
     threads << Thread.new { @centrali  ||= get_centrali }
     threads.each(&:join)
-    @remit_collection          ||= remit_collection
+    @remit_linee_collection    ||= remit_linee_collection
     @remit_centrali_collection ||= remit_centrali_collection
   end
 
   map "/"
 
+  #
+  # Pagina iniziale static index.html
+  # Attraverso il codice javascript carica la mia app
+  #
   get "/?:query?" do
     # usare questo per usare un static index.html creato da webpack
     # la public folder in develoment mode e dentro client/dist
@@ -26,6 +31,11 @@ class TransmissionController < ApplicationController
 
   end
 
+  #
+  # NameSpace per le mie api
+  #
+  # Per fare una query alle API http://[adress]:[port]/api/[query]
+  #
   namespace '/api' do
 
     before do
@@ -33,6 +43,12 @@ class TransmissionController < ApplicationController
       headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
     end
 
+    #
+    # API => Lista linee in remit filtrate per data e voltaggio
+    #
+    # @param data [String] data di flusso della remit nella forma gg-mm-yyyy
+    # @param volt [String] voltaggio della remit 220 oppure 380
+    #
     get "/remits/:data/:volt" do
       day, month, year = params['data'].split("-").map(&:to_i)
 
@@ -56,7 +72,7 @@ class TransmissionController < ApplicationController
                                'id_transmission': {'$first': '$id_transmission'}
       }}
 
-      remit_result = @remit_collection.aggregate(pipeline).allow_disk_use(true).to_a
+      remit_result = @remit_linee_collection.aggregate(pipeline).allow_disk_use(true).to_a
 
       features = Parallel.map(remit_result, in_threads: 4) do |x|
         # features = remit_result.map do |x|
@@ -92,7 +108,12 @@ class TransmissionController < ApplicationController
       geojson_hash  = to_feature_collection features
       Oj.dump(geojson_hash,:mode => :compat)
     end
- 
+
+    #
+    # API => Lista delle up in remit filtrate  per data 
+    #
+    # @param data [String] data di flusso della remit nella forma gg-mm-yyyy
+    #
     get "/remits_centrali/:data" do
       data = params['data']
       start_date  = Date.parse(data)
@@ -102,19 +123,92 @@ class TransmissionController < ApplicationController
       group, project = set_aggregation_for_export
 
       pipeline = []
-      pipeline << {:$unwind => "$days"}
-      pipeline << {:$match  => date_filter} unless date_filter.nil?
-      pipeline << {:$group => group}
+      pipeline << {:$unwind  => "$days"}
+      pipeline << {:$match   => date_filter} unless date_filter.nil?
+      pipeline << {:$group   => group}
       pipeline << {:$project => project}
-      pipeline << {:$unwind => "$docs"}
-      pipeline << {:$match => {"docs.doc.last"   => 1}}
-      pipeline << {:$group => { "_id"         => "$docs.etso", 
+      pipeline << {:$unwind  => "$docs"}
+      # pipeline << {:$match   => {"docs.doc.last"   => 1}}
+      pipeline << {:$group   => { "_id"       => "$docs.etso", 
+                                "etso"        => { :$first => "$docs.etso" },
+                                "dt_upd"      => { :$max   => "$docs.dt_upd" },
+                                "start_dt"    => { :$min   => "$docs.dt_start" },  
+                                "end_dt"      => { :$max   => "$docs.dt_end" }, 
+                              }
+      
+      }
+      pipeline << {:$project => {:_id  => 0}}
+
+      remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(true).to_a
+
+      features = Parallel.map(remit_result, in_threads: 4) do |x|
+        feature                           = {}
+        etso                              = x["etso"]
+        feature["type"]                   = "Feature"
+        feature["properties"]             = {}
+        feature["properties"]["nome"]     = x["etso"]
+        feature["properties"]["dt_upd"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["start_dt"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["end_dt"]   = x["end_dt"].strftime("%d-%m-%Y %H:%M")
+        feature["geometry"]               = @centrali.lazy.select{|f| f["properties"]["etso"] == etso }.first["geometry"]
+        feature
+      end
+
+      geojson_hash  = to_feature_collection features
+      Oj.dump(geojson_hash,:mode => :compat)
+    end
+   
+    #
+    # API => Elenco tutte le centrali con relative proprieta 
+    #
+    get "/lista_centrali" do
+      cache_control :public, :must_revalidate, :max_age => 3600
+      last_modified Time.now
+      lista_centrali = []
+      @centrali.map do |centrale|
+        lista_centrali << centrale["properties"]
+      end
+      etag Digest::MD5.hexdigest(lista_centrali.to_s)
+      Oj.dump(lista_centrali,:mode => :compat)
+    end
+
+  end
+
+  #
+  # NameSpace per le mie api V1
+  #
+  # Per fare una query alle API http://[adress]:[port]/api/v1/[query]
+  #
+  namespace '/api/v1' do
+
+    before do
+      content_type :json
+      headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
+    end
+
+    get "/remits_centrali/:data" do
+      data = params['data']
+      start_date  = Date.parse(data)
+      end_date    = Date.parse(data)
+      date_filter = {"days.dt_flusso" => {:$gte => start_date, :$lte => end_date}}
+      
+      group, project = set_aggregation_for_export
+
+      pipeline = []
+      pipeline << {:$unwind  => "$days"}
+      pipeline << {:$match   => date_filter} unless date_filter.nil?
+      pipeline << {:$group   => group}
+      pipeline << {:$project => project}
+      pipeline << {:$unwind  => "$docs"}
+      # pipeline << {:$match   => {"docs.doc.last"   => 1}}
+      pipeline << {:$group   => { "_id"         => "$docs.etso", 
                                 "etso"        => { :$first => "$docs.etso" },
                                 "tp_source"   => { :$first => "$docs.tp_source" },
                                 "nm_source"   => { :$first => "$docs.nm_source" },
                                 "p_min"       => { :$first => "$docs.p_min" }, 
                                 "p_max"       => { :$first => "$docs.p_max" }, 
                                 "fuel_type"   => { :$first => "$docs.fuel_type" },
+                                "dt_start"    => { :$min   => "$docs.dt_start" },  
                                 "dt_end"      => { :$max   => "$docs.dt_end" },  
                                 "count"       => { :$sum   => 1 }, 
                                 "hours"       => { :$push => { "hour"                => "$docs.hour", 
@@ -136,41 +230,24 @@ class TransmissionController < ApplicationController
       Oj.dump(remit_result,:mode => :compat)
     end
 
-    get "/lista_centrali" do
-      cache_control :public, :must_revalidate, :max_age => 3600
-      last_modified Time.now
-      lista_centrali = []
-      @centrali.map do |centrale|
-        lista_centrali << centrale["properties"]
-      end
-      etag Digest::MD5.hexdigest(lista_centrali.to_s)
-      Oj.dump(lista_centrali,:mode => :compat)
-    end
-
-    # get "/lista_societa" do
-    #   lista_societa = Set.new
-    #   @centrali.each do |k,v|
-    #     lista_societa << k.dig("properties", "company")
-    #   end
-    #   Oj.dump(lista_societa.to_a,:mode => :compat)
-    # end
-    #
-    # get "/lista_etso" do
-    #   lista_etso = Set.new
-    #   @centrali.each do |k,v|
-    #     lista_etso << k.dig("properties", "etso")
-    #   end
-    #   Oj.dump(lista_etso.to_a,:mode => :compat)
-    # end
-
   end
 
+  #
+  # Metodi si supporto alle api
+  #
   helpers do
 
-    def to_feature_collection features
+    #
+    # Creao un oggetto geojson standardizzato della remit delle linee
+    #
+    def to_feature_collection(features)
       {"type" => "FeatureCollection", "features" => features}
     end
 
+    #
+    # Attraverso le api di mapbox faccio una query al mio dataset 
+    # e mi restituisce tutte le linee 380
+    #
     def get_linee_380
       url = "https://api.mapbox.com/datasets/v1/browserino/cjcb6ahdv0daq2xnwfxp96z9t/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
       uri           = URI.parse(url)
@@ -180,6 +257,10 @@ class TransmissionController < ApplicationController
       Oj.load(geojson, :mode => :compat)["features"]
     end
 
+    #
+    # Attraverso le api di mapbox faccio una query al mio dataset 
+    # e mi restituisce tutte le linee 220
+    #
     def get_linee_220
       url = "https://api.mapbox.com/datasets/v1/browserino/cjcfb90n41pub2xp6liaz7quj/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
       uri           = URI.parse(url)
@@ -189,6 +270,22 @@ class TransmissionController < ApplicationController
       Oj.load(geojson, :mode => :compat)["features"]
     end
 
+    #
+    # Attraverso le api di mapbox faccio una query al mio dataset 
+    # e mi restituisce tutte le centrali
+    #
+    def get_centrali
+      url = "https://api.mapbox.com/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
+      uri           = URI.parse(url)
+      http          = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl  = true
+      geojson       = http.get(uri.request_uri).body
+      Oj.load(geojson, :mode => :compat)["features"]
+    end
+
+    #
+    # Metodo di supporto per aggragazione, utilizzato nelle api per lista centrali in remit
+    #
     def set_aggregation_for_export
       group = {}
       set = []
@@ -197,6 +294,7 @@ class TransmissionController < ApplicationController
                                :dt_upd => "$dt_upd",
                                :d_bdofrdt => "$days.d_bdofrdt",
                                :dt_flusso => "$_id.dt_flusso",
+                               :dt_start => "$dt_start",
                                :dt_end => "$dt_end",
                                :etso => "$etso",
                                :fuel_type => "$fuel_type",
@@ -215,21 +313,18 @@ class TransmissionController < ApplicationController
       return group, project
     end
 
-    def get_centrali
-      url = "https://api.mapbox.com/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
-      uri           = URI.parse(url)
-      http          = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl  = true
-      geojson       = http.get(uri.request_uri).body
-      Oj.load(geojson, :mode => :compat)["features"]
+    # 
+    # Seleziono da setting la collezione del db da usare per la remit delle linee
+    #
+    def remit_linee_collection
+      settings.remit_linee_collection
     end
 
-    def remit_collection
-      settings.db_remit
-    end
-
+    # 
+    # Seleziono da setting la collezione del db da usare per la remit delle centrali
+    #
     def remit_centrali_collection
-      settings.db_remit_centrali
+      settings.remit_centrali_collection
     end
 
   end

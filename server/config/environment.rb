@@ -1,3 +1,10 @@
+#!/usr/bin/env ruby
+# Encoding: utf-8
+# warn_indent: true
+# frozen_string_literal: true
+
+$:.unshift File.expand_path("app",  File.dirname(__dir__)) 
+
 ENV['RACK_ENV'] ||= 'development'
 ENV['TZ']       ||= 'UTC'
 
@@ -11,6 +18,7 @@ require 'sinatra/namespace'
 require 'rack/cache'
 require 'net/http'
 require 'rack/gzip_static'
+require 'helpers/database'
 
 if ENV['RACK_ENV'] == 'development'
   require 'hirb'

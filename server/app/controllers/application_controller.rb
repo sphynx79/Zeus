@@ -12,10 +12,14 @@ class ApplicationController < Sinatra::Base
     set :port, 80
     File.open('ip.txt', 'w') { |file| file.write(ip) }
     set :server_adress, ip
-    db = Mongo::Client.new(['10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018'], database: 'transmission', write: {w: 0, j: false})
-    # db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false})
-    set :db_remit, db[:remit]
-    set :db_remit_centrali, db[:remit_centrali]
+    begin
+      db =  Mongo::Client.new(['10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018'], database: 'transmission', write: {w: 0, j: false})
+      db.database_names
+      set :db, db
+    rescue Mongo::Error::NoServerAvailable => e
+      p ('Non riesco connetermi al server mongo db')
+      exit!
+    end
     use Rack::Cache, verbose: false
     use Rack::Deflater
     set :public_folder, 'public'
@@ -29,7 +33,6 @@ class ApplicationController < Sinatra::Base
     require 'sinatra/reloader'
     require 'ap'
     require 'pry'
-
     require 'better_errors'
 
     register Sinatra::Reloader
@@ -38,9 +41,14 @@ class ApplicationController < Sinatra::Base
     BetterErrors.application_root = File.expand_path('..', __FILE__)
     set :raise_errors, true
     set :server_adress, 'localhost'
-    db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false})
-    set :db_remit, db[:remit] 
-    set :db_remit_centrali, db[:remit_centrali]
+    begin
+      db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false}) 
+      db.database_names
+      set :db, db
+    rescue Mongo::Error::NoServerAvailable => e
+      p ('Non riesco connetermi al server mongo db')
+      exit!
+    end
     # la seguente riga mi permette di usare yarn watch
     # poi lancio guard nella cartella client
     # e con livereload ogni modifica che faccio al mio codice
@@ -54,6 +62,11 @@ class ApplicationController < Sinatra::Base
     set :sessions, true
     set :session_secret, ENV['SESSION_KEY'] || 'lighthouselabssecret'
     set :views, 'app/views'
+    set :remit_linee_collection, settings.db[:remit_linee]
+    set :remit_centrali_collection, settings.db[:remit_centrali]
   end
+
+
+
 end
 

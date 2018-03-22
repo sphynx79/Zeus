@@ -8,9 +8,13 @@ class Table {
         this._componentName = this.constructor.name
     }
 
-    _clickLine(line, index) {
+    _clickRow(feature, index) {
         this.activeLine(index)
-        appState.dispatch("clickLine", [line])
+        if (this.type == "linee") {
+            appState.dispatch("clickTableLine", [feature])
+        } else {
+            appState.dispatch("clickTableCentrale", [feature])
+        }
     }
 
     _header(remit) {
@@ -22,20 +26,31 @@ class Table {
     }
 
     oninit({ attrs, state }) {
-        state.volt = attrs.volt
+        if (attrs.type == "linee") {
+            state.volt = attrs.volt
+        }
+        state.type = attrs.type
+
         state.activeLine = stream(-1)
         appState.data.map(() => (state.activeLine = stream(-1)))
     }
 
     view({ attrs, state }) {
-        let remit = attrs.volt == "380" ? appState.remit_380() : appState.remit_220()
-        if (remit && remit.features.length == 0) {
+        if (attrs.type == "linee") {
+            var remit = attrs.volt == "380" ? appState.remit_380() : appState.remit_220()
+            var titolo = `TRANSMISSION ${attrs.volt}`
+        } else {
+            var remit = appState.remit_centrali()
+            var titolo = "Centrali"
+        }
+
+        if (remit && remit.length == 0) {
             remit = undefined
         }
 
         return remit
             ? m("table.bx--data-table-v2.bx--data-table-v2--compact.bx--data-table-v2--zebra", [
-                  m("caption", `TRANSMISSION ${attrs.volt}`),
+                  m("caption", titolo),
                   m("thead", m("tr", [this._header(remit).map(key => m("th", key))])),
                   m("tbody", [
                       this._featureValue(remit).map((feature, index) => {
@@ -45,7 +60,7 @@ class Table {
                                   key: index,
                                   className: state.activeLine() === index ? "active" : "",
                                   onclick: () => {
-                                      state._clickLine(feature, index)
+                                      state._clickRow(feature, index)
                                   },
                               },
                               [

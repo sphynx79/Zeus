@@ -155,6 +155,52 @@ class MapBox {
         })
     }
 
+    handleSelectCentrale() {
+        appState.selectCentrale.map(feature => {
+            let coordinates = feature.geometry.coordinates
+            map.flyTo({
+                center: coordinates,
+                zoom: 15,
+                speed: 1.8,
+                curve: 1.2,
+                easing(t) {
+                    return t
+                },
+            })
+
+            //     flyTo()
+            //
+            //
+            //     function flyTo() {
+            //         let p1 = coordinates[0]
+            //         let p2 = coordinates[coordinates.length - 1]
+            //         let sw = []
+            //         let ne = []
+            //         if (p1[0] < p2[0]) {
+            //             sw[0] = p1[0]
+            //             ne[0] = p2[0]
+            //         } else {
+            //             sw[0] = p2[0]
+            //             ne[0] = p1[0]
+            //         }
+            //         if (p1[1] < p2[1]) {
+            //             sw[1] = p1[1]
+            //             ne[1] = p2[1]
+            //         } else {
+            //             sw[1] = p2[1]
+            //             ne[1] = p1[1]
+            //         }
+            //         let bounds = new mapboxgl.LngLatBounds(sw, ne)
+            //
+            //         map.fitBounds(bounds, {
+            //             padding: 200,
+            //             maxZoom: 10,
+            //         })
+            //     }
+            //
+        })
+    }
+
     initMap() {
         mapboxgl.accessToken = this._accessToken
 
@@ -375,6 +421,7 @@ class MapBox {
         })
         this.handleRefreshRemit()
         this.handleSelectLine()
+        this.handleSelectCentrale()
 
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
