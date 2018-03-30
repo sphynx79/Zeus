@@ -1,7 +1,7 @@
 // src/components/filtri/filtri.js
 
 import "./filtri.scss"
-import { Accordion } from "carbon-components"
+import Accordion from "carbon_component/accordion/accordion.js"
 import FiltroData from "components/filtro_data/filtro_data.js"
 import FiltroLinee from "components/filtro_linee/filtro_linee.js"
 import FiltroTecnologia from "components/filtro_tecnologia/filtro_tecnologia.js"

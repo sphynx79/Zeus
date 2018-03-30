@@ -18,6 +18,7 @@ class Table {
     }
 
     _header(remit) {
+        // console.dir(remit)
         return Object.keys(remit.features[0].properties)
     }
 
@@ -43,8 +44,9 @@ class Table {
             var remit = appState.remit_centrali()
             var titolo = "Centrali"
         }
+        console.log(remit)
 
-        if (remit && remit.length == 0) {
+        if (remit && remit.features.length == 0) {
             remit = undefined
         }
 
@@ -64,10 +66,14 @@ class Table {
                                   },
                               },
                               [
-                                  m("td", { style: "width:280px;" }, feature.properties.nome),
+                                  attrs.type == "centrali"
+                                      ? m("td", { style: "width:160px;" }, feature.properties.nome)
+                                      : m("td", { style: "width:240px;" }, feature.properties.nome),
                                   m("td", feature.properties.dt_upd),
                                   m("td", feature.properties.start_dt),
                                   m("td", feature.properties.end_dt),
+                                  attrs.type == "centrali" ? m("td", feature.properties.pmax) : "",
+                                  attrs.type == "centrali" ? m("td", feature.properties.tipo) : "",
                               ]
                           )
                       }),

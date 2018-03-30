@@ -80,13 +80,21 @@ class MapBox {
         })
     }
 
-    handleRefreshRemit() {
+    handleRefreshRemitLinee() {
         appState.remit_380.map(value => {
             value && map.getSource("remit_380") && map.getSource("remit_380").setData(value)
         })
 
         appState.remit_220.map(value => {
             value && map.getSource("remit_220") && map.getSource("remit_220").setData(value)
+        })
+    }
+
+    handleRefreshRemitCentrali() {
+        appState.remit_centrali.map(value => {
+            value &&
+                map.getSource("remit_centrali") &&
+                map.getSource("remit_centrali").setData(value)
         })
     }
 
@@ -217,10 +225,13 @@ class MapBox {
 
     initRemit() {
         if (!map.getLayer("remit_380")) {
-            this.addLayerRemit("380")
+            this.addLayerRemitLinee("380")
         }
         if (!map.getLayer("remit_220")) {
-            this.addLayerRemit("220")
+            this.addLayerRemitLinee("220")
+        }
+        if (!map.getLayer("remit_centrali")) {
+            this.addLayerRemitCentrali()
         }
     }
 
@@ -251,7 +262,7 @@ class MapBox {
         })
     }
 
-    addLayerRemit(volt) {
+    addLayerRemitLinee(volt) {
         if (volt == "380") {
             var remitId = "remit_380"
             var color = "#FFFF00"
@@ -280,6 +291,143 @@ class MapBox {
             },
         })
         this.enableLineAnimation(remitId)
+    }
+
+    addLayerRemitCentrali() {
+        var remitId = "remit_centrali"
+        var remitData = appState.remit_centrali()
+        var framesPerSecond = 10
+        var initialOpacity = 1
+        var opacity = initialOpacity
+        var initialRadius = 3
+        var radius = initialRadius
+        var direction = 0
+        var color = {
+            base: 1,
+            type: "categorical",
+            property: "tipo",
+            stops: [
+                ["TERMICO", "#E0090C"],
+                ["EOLICO", "#5907AB"],
+                ["IDRICO", "#04A1A1"],
+                ["AUTOPRODUTTORE", "#9E577C"],
+                ["SOLARE", "#9E4F0B"],
+                ["POMPAGGIO", "#0E952F"],
+                ["GEOTERMICO", "#7E4F21"],
+            ],
+        }
+
+        map.addSource("remit_centrali", {
+            type: "geojson",
+            data: remitData,
+        })
+
+        map.addLayer({
+            id: "remit_centrali",
+            type: "circle",
+            source: "remit_centrali",
+            paint: {
+                "circle-color": color,
+                "circle-stroke-color": "#FFFF00",
+                "circle-stroke-opacity": initialOpacity,
+                "circle-stroke-width": 2,
+                "circle-opacity": 1,
+                "circle-radius": {
+                    base: 1,
+                    type: "exponential",
+                    property: "pmax",
+                    stops: [
+                        [{ value: 0, zoom: 4 }, 4],
+                        [
+                            {
+                                value: 0,
+                                zoom: 6,
+                            },
+                            6,
+                        ],
+                        [
+                            {
+                                value: 3000,
+                                zoom: 6,
+                            },
+                            24,
+                        ],
+                        [
+                            {
+                                value: 0,
+                                zoom: 8,
+                            },
+                            11,
+                        ],
+                        [
+                            {
+                                value: 3000,
+                                zoom: 8,
+                            },
+                            33,
+                        ],
+                        [
+                            {
+                                value: 0,
+                                zoom: 13,
+                            },
+                            13,
+                        ],
+                        [
+                            {
+                                value: 3000,
+                                zoom: 13,
+                            },
+                            36,
+                        ],
+                    ],
+                    default: 10,
+                },
+            },
+        })
+
+        function animateMarker(timestamp) {
+            setTimeout(function() {
+                requestAnimationFrame(animateMarker)
+                var zoom = map.getZoom()
+                var maxRadius = -0.06 * Math.pow(zoom, 2) + 1.14 * zoom - 2.68
+                radius += (maxRadius - radius) / framesPerSecond
+
+                // if (opacity <= 0.9 && direction == 0) {
+                //     opacity += 1.15 / framesPerSecond
+                // } else if (opacity >= 0.4) {
+                //     direction = 1
+                //     opacity -= 0.7 / framesPerSecond
+                // } else {
+                //     direction = 0
+                //     opacity = initialOpacity
+                //     radius = 0
+                // }
+
+                radius += (maxRadius - radius) / framesPerSecond
+                opacity -= 0.9 / framesPerSecond
+
+                if (opacity < 0.2) {
+                    opacity = 0.2
+                }
+
+                map.setPaintProperty("remit_centrali", "circle-stroke-width", radius)
+                map.setPaintProperty("remit_centrali", "circle-stroke-opacity", opacity)
+
+                if (opacity == 0.2) {
+                    radius = initialRadius
+                    opacity = initialOpacity
+                }
+
+                // if (opacity <= 0.2) {
+                //     // radius = initialRadius
+                //     opacity = initialOpacity
+                // }
+            }, 1000 / framesPerSecond)
+        }
+
+        // Start the animation.
+        animateMarker(0)
     }
 
     initHoverEffect() {
@@ -419,7 +567,8 @@ class MapBox {
             this.handleVisibilityLinee()
             this.handleVisibilityUnita()
         })
-        this.handleRefreshRemit()
+        this.handleRefreshRemitLinee()
+        this.handleRefreshRemitCentrali()
         this.handleSelectLine()
         this.handleSelectCentrale()
 

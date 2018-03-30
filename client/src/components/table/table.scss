@@ -40,6 +40,8 @@
     font-size: 0.675rem;
     background-color: rgba(40, 40, 40, 0.1);
     border-right: 1px solid #e2e2e2e0;
+    // height: 300px;
+    // overflow: auto;
 }
 
 .bx--data-table-v2--zebra tbody tr:nth-child(even) {
@@ -86,4 +88,32 @@
     border-width: 1.2px;
     border-style: solid;
     border-color: rgb(90, 170, 250);
+}
+
+// tbody {
+//     overflow: auto;
+//     overflow-x: hidden;
+//     height: 100px;
+// }
+
+tbody::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+table tbody,
+table thead {
+    display: block;
+}
+
+table tbody {
+    overflow: auto;
+    height: 100px;
+}
+
+th {
+    width: 72px;
+}
+
+td {
+    width: 72px;
 }

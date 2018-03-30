@@ -1,7 +1,7 @@
 // src/init/index.scss
 
 @import "./theme.scss";
-@import "~carbon-components/scss/globals/scss/styles";
+@import "./node_modules_custom/carbon-components/scss/globals/scss/styles";
 
 body {
     background-color: #343838;

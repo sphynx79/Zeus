@@ -1,7 +1,7 @@
 // src/components/datapicker/datapicker.js
 
 import "./datapicker.css"
-import { DatePicker } from "carbon-components"
+import DatePicker from "carbon_component/date-picker/date-picker.js"
 import calendarIcon from "./calendarIcon.js"
 
 class DataPicker {

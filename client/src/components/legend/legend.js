@@ -1,7 +1,7 @@
 // src/components/legend/legend.js
 
 import "./legend.scss"
-import { Tile } from "carbon-components"
+import Tile from "carbon_component/tile/tile.js"
 
 class Leggend {
     constructor() {
