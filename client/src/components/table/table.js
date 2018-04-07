@@ -18,7 +18,6 @@ class Table {
     }
 
     _header(remit) {
-        // console.dir(remit)
         return Object.keys(remit.features[0].properties)
     }
 
@@ -31,7 +30,6 @@ class Table {
             state.volt = attrs.volt
         }
         state.type = attrs.type
-
         state.activeLine = stream(-1)
         appState.data.map(() => (state.activeLine = stream(-1)))
     }
@@ -40,46 +38,53 @@ class Table {
         if (attrs.type == "linee") {
             var remit = attrs.volt == "380" ? appState.remit_380() : appState.remit_220()
             var titolo = `TRANSMISSION ${attrs.volt}`
+            var tableType = "linee"
         } else {
             var remit = appState.remit_centrali()
             var titolo = "Centrali"
+            var tableType = "centrali"
         }
-        console.log(remit)
 
         if (remit && remit.features.length == 0) {
             remit = undefined
         }
 
+        // prettier-ignore
         return remit
-            ? m("table.bx--data-table-v2.bx--data-table-v2--compact.bx--data-table-v2--zebra", [
-                  m("caption", titolo),
-                  m("thead", m("tr", [this._header(remit).map(key => m("th", key))])),
-                  m("tbody", [
-                      this._featureValue(remit).map((feature, index) => {
-                          return m(
-                              "tr",
-                              {
-                                  key: index,
-                                  className: state.activeLine() === index ? "active" : "",
-                                  onclick: () => {
-                                      state._clickRow(feature, index)
-                                  },
-                              },
-                              [
-                                  attrs.type == "centrali"
-                                      ? m("td", { style: "width:160px;" }, feature.properties.nome)
-                                      : m("td", { style: "width:240px;" }, feature.properties.nome),
-                                  m("td", feature.properties.dt_upd),
-                                  m("td", feature.properties.start_dt),
-                                  m("td", feature.properties.end_dt),
-                                  attrs.type == "centrali" ? m("td", feature.properties.pmax) : "",
-                                  attrs.type == "centrali" ? m("td", feature.properties.tipo) : "",
-                              ]
-                          )
-                      }),
-                  ]),
-              ])
+            ? m(".tbl", [
+                m(".tbl__header", [
+                    m("table", [ 
+                        m("caption", titolo), 
+                        m(`thead.thead-${attrs.type}`, m("tr", this._header(remit).map(key => m("th", { class: key }, key))))
+                    ])  
+                ]),
+                m(".tbl__content", [
+                    m("table", [  
+                        m(`tbody.tbody-${attrs.type}`, this._featureValue(remit).map((feature, index) => {
+                            return m("tr", state.row_attrs(feature, index), state.row_values(feature))
+                        }))
+                    ])
+                ]),
+            ])
             : m("")
+    }
+
+    row_attrs(feature, index) {
+        return {
+            key: index,
+            className: this.activeLine() === index ? "active" : "",
+            onclick: () => {
+                this._clickRow(feature, index)
+            },
+        }
+    }
+
+    row_values(feature) {
+        var values = []
+        for (let [key, value] of Object.entries(feature.properties)) {
+            values.push(m("td", { class: key }, value))
+        }
+        return values
     }
 
     oncreate({ attrs, state }) {

@@ -9,6 +9,7 @@ class Select {
     }
 
     view({ attrs }) {
+        // prettier-ignore
         return m("select")
     }
 

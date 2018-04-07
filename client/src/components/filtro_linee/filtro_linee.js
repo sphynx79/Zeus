@@ -7,6 +7,7 @@ class FiltroLinee {
     }
 
     view() {
+        // prettier-ignore
         return m(FiltriItem, {
             content: FiltroLineeContent,
             content_id: "filtro_linee",

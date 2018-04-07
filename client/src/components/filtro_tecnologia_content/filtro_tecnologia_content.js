@@ -18,6 +18,7 @@ class FiltroTecnologiaContent {
     }
 
     view({ state }) {
+        // prettier-ignore
         return m("fieldset.bx--fieldset", [
             this.checkboxs.map(checkbox => {
                 let label = checkbox.label

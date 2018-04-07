@@ -14,9 +14,7 @@ class FiltroUnitaContent {
     }
 
     _filterValue(select) {
-        return appState
-            .lista_centrali()
-            .filter(item => (select.length == 0 ? true : select.includes(item.company)))
+        return appState.lista_centrali().filter(item => (select.length == 0 ? true : select.includes(item.company)))
     }
 
     _parseFilter(items) {
@@ -26,8 +24,8 @@ class FiltroUnitaContent {
     }
 
     view({ attrs, state }) {
-        return m(
-            ".bx--form-item",
+        // prettier-ignore
+        return m(".bx--form-item",
             appState.lista_centrali() === undefined
                 ? ""
                 : [

@@ -17,6 +17,7 @@ class RemitTransmission {
     }
 
     view({ attrs }) {
+        // prettier-ignore
         return m("#main", attrs, m(MapBox))
     }
 

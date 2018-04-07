@@ -8,6 +8,7 @@ class CheckBox {
     }
 
     view({ attrs }) {
+        // prettier-ignore
         return m(".bx--form-item.bx--checkbox-wrapper", [
             m(`input.bx--checkbox[id='${attrs.id}'][name='checkbox'][type='checkbox']`, {
                 checked: attrs.checked,

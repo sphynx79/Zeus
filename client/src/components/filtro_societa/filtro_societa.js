@@ -10,6 +10,7 @@ class FiltroUnita {
     }
 
     view() {
+        // prettier-ignore
         return m(FiltriItem, {
             content: FiltroSocietaContent,
             content_id: "filtro_societa",

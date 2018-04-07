@@ -12,6 +12,7 @@ class FiltroData {
     oninit({ attrs, state }) {}
 
     view({ attrs, state }) {
+        // prettier-ignore
         return m(FiltriItem, {
             content: DataPicker,
             content_id: "filtro_data",

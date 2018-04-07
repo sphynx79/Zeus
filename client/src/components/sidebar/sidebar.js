@@ -10,6 +10,7 @@ class SideBar {
     }
 
     view({ attrs }) {
+        // prettier-ignore
         if (attrs.type == "right") {
             return m("nav.sidebar#sidebar_right", attrs, [m(Filtri)])
         } else {

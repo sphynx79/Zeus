@@ -15,19 +15,18 @@ class DataPicker {
 
     oninit({ state }) {
         let data = new Date()
-        let tomorrow = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate() + 1}`
-        state._setData(tomorrow)
+        data.setDate(data.getDate() + 1)
+        let tomorrowStr = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`
+        state._setData(tomorrowStr)
     }
 
     view({ attrs, state }) {
+        // prettier-ignore
         return m(".bx--form-item", [
-            m(
-                ".bx--date-picker.bx--date-picker--single[data-date-picker=''][data-date-picker-type='single']",
+            m(".bx--date-picker.bx--date-picker--single[data-date-picker=''][data-date-picker-type='single']",
                 m(".bx--date-picker-container", [
                     m(calendarIcon),
-                    m(
-                        "input.bx--date-picker__input[data-date-picker-input=''][id='date-picker'][pattern='d{1,2}/d{1,2}/d{4}'][placeholder='dd/mm/yyyy'][type='text']"
-                    ),
+                    m("input.bx--date-picker__input[data-date-picker-input=''][id='date-picker'][pattern='d{1,2}/d{1,2}/d{4}'][placeholder='dd/mm/yyyy'][type='text']"),
                     m(".bx--form-requirement", "Invalid date format."),
                 ])
             ),

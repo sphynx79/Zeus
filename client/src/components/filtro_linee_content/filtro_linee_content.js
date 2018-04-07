@@ -6,13 +6,11 @@ import CheckBox from "components/checkbox/checkbox.js"
 class FiltroLineeContent {
     constructor() {
         this._componentName = this.constructor.name
-        this.checkboxs = [
-            { label: "Linee 380", state: appState.remit_380_visibility },
-            { label: "Linee 220", state: appState.remit_220_visibility },
-        ]
+        this.checkboxs = [{ label: "Linee 380", state: appState.remit_380_visibility }, { label: "Linee 220", state: appState.remit_220_visibility }]
     }
 
     view({ state }) {
+        // prettier-ignore
         return m("fieldset.bx--fieldset", [
             this.checkboxs.map(checkbox => {
                 let label = checkbox.label
@@ -21,9 +19,7 @@ class FiltroLineeContent {
                     id: checkBoxId,
                     label: label,
                     checked: checkbox.state(),
-                    onchange: () => {
-                        checkbox.state(!checkbox.state())
-                    },
+                    onchange: () => { checkbox.state(!checkbox.state()) },
                 })
             }),
         ])

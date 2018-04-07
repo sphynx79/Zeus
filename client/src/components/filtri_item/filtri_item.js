@@ -9,10 +9,10 @@ class FiltriItem {
     }
 
     view({ attrs }) {
+        // prettier-ignore
         return m("li.bx--accordion__item[data-accordion-item='']", [
             m("button.bx--accordion__heading[aria-controls='pane1'][aria-expanded='false']", [
-                m(
-                    "svg.bx--accordion__arrow[fill-rule='evenodd'][height='12'][viewBox='0 0 8 12'][width='8']",
+                m("svg.bx--accordion__arrow[fill-rule='evenodd'][height='12'][viewBox='0 0 8 12'][width='8']",
                     m("path[d='M0 10.6L4.7 6 0 1.4 1.4 0l6.1 6-6.1 6z']")
                 ),
                 m("p.bx--accordion__title.bx--type-epsilon", attrs.content_title),

@@ -14,6 +14,7 @@ class Filtri {
     }
 
     view({ attrs, state }) {
+        // prettier-ignore
         return m(".filtri", [
             m("ul.bx--accordion[data-accordion='']", [
                 m(FiltroData),

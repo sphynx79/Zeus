@@ -1,7 +1,7 @@
 const { resolve } = require("path")
-const webpack = require("webpack")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-// const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
+var webpack = require("webpack")
+const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
     context: resolve(__dirname, "src"),
@@ -9,16 +9,13 @@ module.exports = {
     output: {
         path: resolve(__dirname, "dist/"),
         filename: "./js/[name]-bundle.js",
-        chunkFilename: ".js/[name]-chunk.js",
+        chunkFilename: "js/[name]-bundle.js",
     },
     resolve: {
         extensions: [".js"],
         alias: {
             components: resolve(__dirname, "src/components"),
-            carbon_component: resolve(
-                __dirname,
-                "node_modules_custom/carbon-components/es/components"
-            ),
+            carbon_component: resolve(__dirname, "node_modules_custom/carbon-components/es/components"),
         },
         // modules: [ resolve(__dirname, 'node_modules/') ]
     },
@@ -26,10 +23,15 @@ module.exports = {
         rules: [
             {
                 test: /\.html$/,
-                loader: "html-loader",
-                options: {
-                    interpolate: true,
-                },
+                use: [
+                    {
+                        loader: "html-loader",
+                        options: {
+                            minimize: true,
+                            interpolate: true,
+                        },
+                    },
+                ],
             },
             {
                 test: /.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
@@ -52,51 +54,32 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                include: resolve(__dirname, "src/"),
-                exclude: /(node_modules|bower_components)/,
-                use: [
-                    {
-                        loader: "babel-loader",
-                        options: {
-                            presets: [
-                                [
-                                    "@babel/preset-env",
-                                    {
-                                        targets: {
-                                            browsers: [
-                                                "chrome >= 62",
-                                                "ie >= 11",
-                                                "firefox >= 56",
-                                                "android >= 4.4",
-                                            ],
-                                        },
-                                        modules: false,
-                                        exclude: ["transform-regenerator"],
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            [
+                                "@babel/preset-env",
+                                {
+                                    targets: {
+                                        browsers: ["last 2 versions", "not ie <= 11"],
                                     },
-                                ],
+                                    modules: false,
+                                    // exclude: ["transform-regenerator"],
+                                },
                             ],
-                            // plugins: ['module:mopt', 'module:fast-async',
-                            plugins: [
-                                "module:mopt",
-                                // [require('babel-plugin-transform-imports'), {
-                                //     "carbon-components": {
-                                //         "transform":  function(importName) {
-                                //             var name = importName.toLowerCase()
-                                //             return 'carbon-components/es/components/' + name + '/' + name + '.js' ;
-                                //         },
-                                //         "preventFullImport": true
-                                //     }
-                                // }]
-                            ],
-                        },
+                        ],
+                        plugins: ["module:mopt"],
                     },
-                ],
+                },
             },
         ],
     },
     plugins: [
-        new HtmlWebpackPlugin({
+        new HtmlWebPackPlugin({
             template: "./index.html",
+            filename: "./index.html",
         }),
         new webpack.ProvidePlugin({
             m: "mithril", //Global access
@@ -105,16 +88,5 @@ module.exports = {
             // receive: ['pub-sub-es6', 'receive'],
             // on: ['pub-sub-es6', 'on']
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            minChunks: function(module) {
-                return module.context && module.context.indexOf("node_modules") !== -1
-            },
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "manifest",
-            minChunks: Infinity,
-        }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
     ],
 }

@@ -11,8 +11,7 @@ class MapBox {
     constructor() {
         this._componentName = this.constructor.name
         this._server = window.location.hostname
-        this._accessToken =
-            "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
+        this._accessToken = "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
     }
 
     handleVisibilityUnita() {
@@ -92,9 +91,7 @@ class MapBox {
 
     handleRefreshRemitCentrali() {
         appState.remit_centrali.map(value => {
-            value &&
-                map.getSource("remit_centrali") &&
-                map.getSource("remit_centrali").setData(value)
+            value && map.getSource("remit_centrali") && map.getSource("remit_centrali").setData(value)
         })
     }
 
@@ -246,15 +243,7 @@ class MapBox {
 
     enableLineAnimation(layerId) {
         var step = 0
-        let dashArraySeq = [
-            [0, 4, 3],
-            [1, 4, 2],
-            [2, 4, 1],
-            [3, 4, 0],
-            [0, 1, 3, 3],
-            [0, 2, 3, 2],
-            [0, 3, 3, 1],
-        ]
+        let dashArraySeq = [[0, 4, 3], [1, 4, 2], [2, 4, 1], [3, 4, 0], [0, 1, 3, 3], [0, 2, 3, 2], [0, 3, 3, 1]]
 
         this.loop(() => {
             step = (step + 1) % dashArraySeq.length
@@ -554,6 +543,7 @@ class MapBox {
     }
 
     view({ attrs }) {
+        // prettier-ignore
         return m("#mapid", attrs, m(Legend))
     }
 

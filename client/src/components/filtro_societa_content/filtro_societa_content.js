@@ -14,9 +14,7 @@ class FiltroSocietaContent {
     }
 
     _filterValue(select) {
-        return appState
-            .lista_centrali()
-            .filter(item => (select.length == 0 ? true : select.includes(item.etso)))
+        return appState.lista_centrali().filter(item => (select.length == 0 ? true : select.includes(item.etso)))
     }
 
     _parseFilter(items) {
@@ -32,8 +30,8 @@ class FiltroSocietaContent {
     }
 
     view({ state }) {
-        return m(
-            ".bx--form-item",
+        // prettier-ignore
+        return m(".bx--form-item",
             appState.lista_centrali() === undefined
                 ? ""
                 : [

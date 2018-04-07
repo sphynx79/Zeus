@@ -1,119 +1,151 @@
-/* src/components/table/table.css */
+/* src/components/table/table.scss */
 
-.bx--data-table-v2 {
-    font-size: 0.7rem;
-    margin-top: 2rem;
-    border: 1px solid #e2e2e2e0;
-    border-collapse: collapse;
+table {
+    width: 100%;
+    table-layout: fixed;
 }
 
-.bx--data-table-v2 thead {
+.tbl {
+    margin-top: 5vh;
+    width: 100%;
     background: #333;
-}
-
-.bx--data-table-v2 caption {
-    letter-spacing: 1px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    background: #333;
-    white-space: nowrap;
-    padding: 8px 0 8px 0px;
-    border-top: 1px solid #e2e2e2e0;
-    border-left: 1px solid #e2e2e2e0;
-    border-right: 1px solid #e2e2e2e0;
-}
-
-.bx--data-table-v2 tr {
-    height: 2rem;
-}
-
-.bx--data-table-v2 th {
-    letter-spacing: 1px;
-    font-weight: 400;
-    font-size: 0.96rem;
-    border-top: 1px solid #e2e2e2e0;
-    border-left: 1px solid #e2e2e2e0;
-    // border-bottom: 1px solid #e2e2e2e0;
-}
-
-.bx--data-table-v2 tbody {
-    font-size: 0.675rem;
-    background-color: rgba(40, 40, 40, 0.1);
-    border-right: 1px solid #e2e2e2e0;
-    // height: 300px;
-    // overflow: auto;
-}
-
-.bx--data-table-v2--zebra tbody tr:nth-child(even) {
-    background-color: rgba(90, 90, 90, 0.35);
-}
-
-.bx--data-table-v2 td {
-    border-top: none;
-    border-left: 1px solid #e2e2e2e0;
-    padding-top: 1%;
-    padding-bottom: 1%;
-}
-
-.bx--data-table-v2 th:first-of-type,
-.bx--data-table-v2 td:first-of-type {
-    border-left: 1px solid #e2e2e2e0;
-    padding-left: 0.5rem;
-}
-
-.bx--data-table-v2 th:last-of-type,
-.bx--data-table-v2 td:last-of-type {
-    border-right: 1px solid #e2e2e2e0;
-}
-
-.bx--data-table-v2 tbody tr {
-    height: 1.3rem;
-}
-
-.bx--data-table-v2 tbody tr.active {
-    background-color: #1285f7;
-    box-shadow: inset rgb(10, 67, 123) 0px 0px 4px 2px;
-}
-
-.bx--data-table-v2 tr:last-of-type {
-    padding-right: 0;
-}
-
-.bx--data-table-v2 tr:first-of-type {
-    border-top: 1px solid #e2e2e2e0;
-}
-
-.bx--data-table-v2 tr:hover td {
-    z-index: 100;
-    border-width: 1.2px;
-    border-style: solid;
-    border-color: rgb(90, 170, 250);
-}
-
-// tbody {
-//     overflow: auto;
-//     overflow-x: hidden;
-//     height: 100px;
-// }
-
-tbody::-webkit-scrollbar {
-    width: 0 !important;
-}
-
-table tbody,
-table thead {
-    display: block;
-}
-
-table tbody {
-    overflow: auto;
-    height: 100px;
-}
-
-th {
-    width: 72px;
-}
-
-td {
-    width: 72px;
+    @media screen and (max-height: 600px) {
+        margin-top: 3.7vh;
+    }
+    &__header {
+        width: 100%;
+        padding-right: 0.58vw;
+        border-top: 1px solid #e2e2e2e0;
+        border-left: 1px solid #e2e2e2e0;
+        border-right: 1px solid #e2e2e2e0;
+        > table {
+            caption {
+                letter-spacing: 1px;
+                font-weight: bold;
+                font-size: 1.1rem;
+                background: #333;
+                padding: 0.8vh 0;
+                margin-right: -0.64vw;
+                border-bottom: 1px solid #e2e2e2e0;
+            }
+            thead {
+                background: #333;
+                > tr {
+                    height: 3vh;
+                    th {
+                        font-size: 0.86rem;
+                        font-weight: 400;
+                        text-align: left;
+                        letter-spacing: 1px;
+                        vertical-align: middle;
+                        padding-left: 0.4vw;
+                        border-right: 1px solid #e2e2e2e0;
+                        &:last-of-type {
+                            border-right: none;
+                        }
+                    }
+                }
+            }
+            .thead-centrali {
+                > tr th {
+                    &.nome {
+                        width: 6.7vw;
+                    }
+                    &.dt_upd,
+                    &.start_dt,
+                    &.end_dt {
+                        width: 5.8vw;
+                    }
+                    &.pmax {
+                        width: 3.2vw;
+                    }
+                    &.tipo {
+                        width: 4.8vw;
+                    }
+                }
+            }
+            .thead-linee {
+                > tr th {
+                    &.nome {
+                        width: 11.9vw;
+                    }
+                    &.dt_upd,
+                    &.start_dt,
+                    &.end_dt {
+                        width: 6vw;
+                    }
+                }
+            }
+        }
+    }
+    &__content {
+        max-height: 18vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        border: 1px solid white;
+        > table > tbody {
+            background-color: rgba(40, 40, 40, 0.1);
+            tr {
+                cursor: pointer;
+                height: 1.2vh;
+                &:nth-child(even) {
+                    background-color: rgba(90, 90, 90, 0.35);
+                }
+                &:hover td {
+                    z-index: 100;
+                    border-width: 1.2px;
+                    border-style: solid;
+                    border-color: rgb(90, 170, 250);
+                    font-weight: bold;
+                }
+                &.active {
+                    background-color: #1285f7 !important;
+                    box-shadow: inset rgb(10, 67, 123) 0px 0px 4px 2px;
+                }
+                td {
+                    padding-top: 1%;
+                    padding-bottom: 1%;
+                    font-size: 0.6rem;
+                    padding-left: 0.4vw;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    border-right: 1px solid #e2e2e2e0;
+                    &:last-of-type {
+                        border-right: none;
+                    }
+                }
+            }
+        }
+        > table > .tbody-centrali {
+            tr td {
+                &.nome {
+                    width: 6.7vw;
+                }
+                &.dt_upd,
+                &.start_dt,
+                &.end_dt {
+                    width: 5.8vw;
+                }
+                &.pmax {
+                    width: 3.2vw;
+                }
+                &.tipo {
+                    width: 4.8vw;
+                }
+            }
+        }
+        > table > .tbody-linee {
+            tr td {
+                &.nome {
+                    width: 11.9vw;
+                }
+                &.dt_upd,
+                &.start_dt,
+                &.end_dt {
+                    width: 6vw;
+                }
+            }
+        }
+    }
 }
