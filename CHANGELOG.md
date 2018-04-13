@@ -1,3 +1,9 @@
+## 1.1.3 (2018-04-13)
+### Added
+-  Includo anche la cartella node_modules_custom in master  ( 2018-04-13 ) [ sphynx79]
+
+
+
 ## 1.1.2 (2018-04-13)
 ### Added
 -  Aggiunto popup per informazioni sulla centrale  ( 2018-04-13 ) [ sphynx79]
