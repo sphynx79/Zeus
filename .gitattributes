@@ -1,5 +1,5 @@
 .gitattributes export-ignore
-/client/* export-ignore
+/client/ export-ignore
 Procfile export-ignore
 CHANGELOG.md export-ignore
 VERSION export-ignore
