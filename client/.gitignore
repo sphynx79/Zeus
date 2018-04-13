@@ -1,11 +1,7 @@
 *.gitignore
 
-# compiled output
-/dist
-
 # dependencies
 /node_modules
-/node_modules_custom
 /bower_components
 
 # misc
