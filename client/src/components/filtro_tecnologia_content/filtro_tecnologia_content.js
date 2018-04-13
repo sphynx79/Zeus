@@ -1,11 +1,12 @@
 // src/components/filtro_tecnologia_content/filtro_tecnologia_content.js
 
-import stream from "mithril/stream"
 import CheckBox from "components/checkbox/checkbox.js"
 
 class FiltroTecnologiaContent {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
         this.checkboxs = [
             { label: "Termico", state: appState.termico_visibility },
             { label: "Eolico", state: appState.eolico_visibility },

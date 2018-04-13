@@ -6,7 +6,9 @@ import FiltriItem from "components/filtri_item/filtri_item.js"
 
 class FiltroData {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     oninit({ attrs, state }) {}

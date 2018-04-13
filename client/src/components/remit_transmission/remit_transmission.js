@@ -1,19 +1,12 @@
 // src/components/remit_transmission/remit_transmission.js
 
 import MapBox from "components/mapbox/mapbox.js"
-import stream from "mithril/stream"
 
 class RemitTransmission {
-    constructor(vnode) {
-        this._componentName = this.constructor.name
-    }
-
-    // _fetchRemit() {
-    //     appState.dispatch("fetchRemit")
-    // }
-
-    oninit({ state }) {
-        // state._fetchRemit()
+    constructor() {
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view({ attrs }) {

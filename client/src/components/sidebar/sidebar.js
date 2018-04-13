@@ -6,7 +6,9 @@ import Filtri from "components/filtri/filtri.js"
 
 class SideBar {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view({ attrs }) {

@@ -51,7 +51,7 @@ module.exports = merge(common, {
         minimizer: [
             new UglifyJSPlugin({
                 parallel: true,
-                sourceMap: true,
+                sourceMap: false,
                 uglifyOptions: {
                     ecma: 8,
                     ie8: false,

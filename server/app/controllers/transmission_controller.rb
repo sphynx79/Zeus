@@ -122,13 +122,14 @@ class TransmissionController < ApplicationController
       features = Parallel.map(remit_result, in_threads: 4) do |x|
         feature = {}
         etso = x["etso"]
+        mapbox_feature = @centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
         feature["type"] = "Feature"
         feature["properties"] = {}
         feature["properties"]["nome"] = x["etso"]
+        feature["properties"]["company"] = mapbox_feature["properties"]["company"]
         feature["properties"]["dt_upd"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["start_dt"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["end_dt"] = x["dt_end"].strftime("%d-%m-%Y %H:%M")
-        mapbox_feature = @centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
         feature["geometry"] = mapbox_feature["geometry"]
         feature["properties"]["pmax"] = mapbox_feature["properties"]["pmax"]
         feature["properties"]["tipo"] = mapbox_feature["properties"]["tipo"]
@@ -198,7 +199,7 @@ class TransmissionController < ApplicationController
     end
   end
 
-  #
+    #
   # NameSpace per le mie api V1
   #
   # Per fare una query alle API http://[adress]:[port]/api/v1/[query]

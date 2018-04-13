@@ -5,7 +5,9 @@ import FiltroTecnologiaContent from "components/filtro_tecnologia_content/filtro
 
 class FiltroTecnologia {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view() {

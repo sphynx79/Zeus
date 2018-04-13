@@ -1,4 +1,4 @@
-/* src/components/mapbox/mapbox.css */
+/* src/components/mapbox/mapbox.scss */
 
 @import "~mapbox-gl/dist/mapbox-gl.css";
 
@@ -13,11 +13,21 @@
 .mapboxgl-popup-content {
     color: black;
     background: hsla(0, 0%, 100%, 0.9);
-    padding: 18px 18px;
+    padding: 1.8vh .8vw .9vh .8vw;
+    // border: solid 2px #152935;
+    box-shadow: inset rgba(0, 0, 0, 0.29) 0px 0px 5px 2px;
+    b {
+      font-weight: bold;
+    }
 }
 
 .mapboxgl-popup {
     max-width: 400px;
     font-family: ibm-plex-sans, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 }
+
+.mapboxgl-popup-close-button {
+    font-weight: bold;
+}
+

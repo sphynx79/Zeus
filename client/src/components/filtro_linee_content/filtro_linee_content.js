@@ -1,12 +1,16 @@
 // src/components/filtro_linee_content/filtro_linee_content.js
 
-import stream from "mithril/stream"
 import CheckBox from "components/checkbox/checkbox.js"
 
 class FiltroLineeContent {
     constructor() {
-        this._componentName = this.constructor.name
-        this.checkboxs = [{ label: "Linee 380", state: appState.remit_380_visibility }, { label: "Linee 220", state: appState.remit_220_visibility }]
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
+    }
+
+    oninit() {
+        this.checkboxs = [{ label: "Linee 380", state: appState.$linee_380_visibility }, { label: "Linee 220", state: appState.$linee_220_visibility }]
     }
 
     view({ state }) {
@@ -18,8 +22,8 @@ class FiltroLineeContent {
                 return m(CheckBox, {
                     id: checkBoxId,
                     label: label,
-                    checked: checkbox.state(),
-                    onchange: () => { checkbox.state(!checkbox.state()) },
+                    checked: checkbox.state.get(),
+                    onchange: () => { checkbox.state.set(!checkbox.state.get()) },
                 })
             }),
         ])

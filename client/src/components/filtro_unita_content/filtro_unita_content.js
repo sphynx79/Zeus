@@ -1,20 +1,22 @@
 // src/components/filtro_unita_content/filtro_unita_content.js
 
 import Select from "components/select/select.js"
-import stream from "mithril/stream"
+import { derive } from "derivable"
 
 class FiltroUnitaContent {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     _fetchData() {
-        let selectValue = appState.selectSocieta.map(select => this._filterValue(select))
-        return selectValue.map(items => this._parseFilter(items))
+        let selectValue = appState.$selectSocieta.derive(select => this._filterValue(select))
+        return selectValue.derive(items => this._parseFilter(items))
     }
 
     _filterValue(select) {
-        return appState.lista_centrali().filter(item => (select.length == 0 ? true : select.includes(item.company)))
+        return appState.$lista_centrali.get().filter(item => (select.length == 0 ? true : select.includes(item.company)))
     }
 
     _parseFilter(items) {
@@ -26,7 +28,7 @@ class FiltroUnitaContent {
     view({ attrs, state }) {
         // prettier-ignore
         return m(".bx--form-item",
-            appState.lista_centrali() === undefined
+            appState.$lista_centrali.get() === undefined
                 ? ""
                 : [
                       m(Select, {
@@ -34,7 +36,7 @@ class FiltroUnitaContent {
                           placeholder: "Unita",
                           data: state._fetchData(),
                           onchange: values => {
-                              appState.selectUnita(values)
+                              appState.$selectUnita.set(values)
                               appState.unita_visibility(values)
                           },
                       }),

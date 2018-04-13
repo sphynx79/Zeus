@@ -4,7 +4,9 @@ import "./checkbox.css"
 
 class CheckBox {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view({ attrs }) {

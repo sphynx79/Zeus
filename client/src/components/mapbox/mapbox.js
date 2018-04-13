@@ -1,15 +1,18 @@
 // src/components/mapbox/mapbox.js
 
-import "./mapbox.css"
+import "./mapbox.scss"
 import mapboxgl from "mapbox-gl"
 import stream from "mithril/stream"
 import Legend from "components/legend/legend.js"
+import { derive, react } from "derivable"
 
 var map
 
 class MapBox {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
         this._server = window.location.hostname
         this._accessToken = "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
     }
@@ -46,6 +49,7 @@ class MapBox {
                 }
 
                 map.setFilter("centrali", filter)
+                map.setFilter("remit_centrali", filter)
             },
             [
                 appState.termico_visibility,
@@ -62,148 +66,139 @@ class MapBox {
     }
 
     handleVisibilityLinee() {
-        appState.remit_380_visibility.map(value => {
+        appState.$linee_380_visibility.react(value => {
             let layers = ["linee-380", "linee-380 blur", "remit_380"]
             let visibility = value == false ? "none" : "visible"
-            layers.map(layer => {
-                map.setLayoutProperty(layer, "visibility", visibility)
-            })
+            layers.map(
+                layer => {
+                    map.setLayoutProperty(layer, "visibility", visibility)
+                },
+                { skipFirst: true }
+            )
         })
 
-        appState.remit_220_visibility.map(value => {
+        appState.$linee_220_visibility.react(value => {
             let layers = ["linee-220", "linee-220 blur", "remit_220"]
             let visibility = value == false ? "none" : "visible"
-            layers.map(layer => {
-                map.setLayoutProperty(layer, "visibility", visibility)
-            })
+            layers.map(
+                layer => {
+                    map.setLayoutProperty(layer, "visibility", visibility)
+                },
+                { skipFirst: true }
+            )
         })
     }
 
     handleRefreshRemitLinee() {
-        appState.remit_380.map(value => {
-            value && map.getSource("remit_380") && map.getSource("remit_380").setData(value)
-        })
+        appState.$remit_380.react(
+            value => {
+                map.getSource("remit_380").setData(value)
+            },
+            { skipFirst: true }
+        )
 
-        appState.remit_220.map(value => {
-            value && map.getSource("remit_220") && map.getSource("remit_220").setData(value)
-        })
+        appState.$remit_220.react(
+            value => {
+                map.getSource("remit_220").setData(value)
+            },
+            { skipFirst: true }
+        )
     }
 
     handleRefreshRemitCentrali() {
-        appState.remit_centrali.map(value => {
-            value && map.getSource("remit_centrali") && map.getSource("remit_centrali").setData(value)
-        })
+        appState.$remit_centrali.react(
+            value => {
+                // value && map.getSource("remit_centrali") && map.getSource("remit_centrali").setData(value)
+                map.getSource("remit_centrali").setData(value)
+            },
+            { skipFirst: true }
+        )
     }
 
     handleSelectLine() {
-        appState.selectLine.map(feature => {
-            let coordinates = feature.geometry.coordinates
+        appState.$selectLine.react(
+            feature => {
+                let coordinates = feature.geometry.coordinates
 
-            flyTo()
-            showPopUp()
+                flyTo()
+                showPopUp()
 
-            function flyTo() {
-                let p1 = coordinates[0]
-                let p2 = coordinates[coordinates.length - 1]
-                let sw = []
-                let ne = []
-                if (p1[0] < p2[0]) {
-                    sw[0] = p1[0]
-                    ne[0] = p2[0]
-                } else {
-                    sw[0] = p2[0]
-                    ne[0] = p1[0]
+                function flyTo() {
+                    let p1 = coordinates[0]
+                    let p2 = coordinates[coordinates.length - 1]
+                    let sw = []
+                    let ne = []
+                    if (p1[0] < p2[0]) {
+                        sw[0] = p1[0]
+                        ne[0] = p2[0]
+                    } else {
+                        sw[0] = p2[0]
+                        ne[0] = p1[0]
+                    }
+                    if (p1[1] < p2[1]) {
+                        sw[1] = p1[1]
+                        ne[1] = p2[1]
+                    } else {
+                        sw[1] = p2[1]
+                        ne[1] = p1[1]
+                    }
+                    let bounds = new mapboxgl.LngLatBounds(sw, ne)
+
+                    map.fitBounds(bounds, {
+                        padding: 200,
+                        maxZoom: 10,
+                    })
                 }
-                if (p1[1] < p2[1]) {
-                    sw[1] = p1[1]
-                    ne[1] = p2[1]
-                } else {
-                    sw[1] = p2[1]
-                    ne[1] = p1[1]
+
+                function showPopUp() {
+                    let midle = Math.trunc(coordinates.length / 2)
+                    let popUps = document.getElementsByClassName("mapboxgl-popup")
+                    if (popUps[0]) popUps[0].remove()
+                    let popup = new mapboxgl.Popup()
+                        .setLngLat(coordinates[midle])
+                        .setHTML(
+                            "<b>" +
+                                feature.properties.nome +
+                                "</b><br>" +
+                                "<b>" +
+                                "dt_upd: " +
+                                "</b>" +
+                                feature.properties.dt_upd +
+                                "<br>" +
+                                "<b>" +
+                                "start_dt: " +
+                                "</b>" +
+                                feature.properties.start_dt +
+                                "<br>" +
+                                "<b>" +
+                                "end_dt:  " +
+                                "</b>" +
+                                feature.properties.end_dt +
+                                "<br>"
+                        )
+                        .addTo(map)
                 }
-                let bounds = new mapboxgl.LngLatBounds(sw, ne)
-
-                map.fitBounds(bounds, {
-                    padding: 200,
-                    maxZoom: 10,
-                })
-            }
-
-            function showPopUp() {
-                let midle = Math.trunc(coordinates.length / 2)
-                let popUps = document.getElementsByClassName("mapboxgl-popup")
-                if (popUps[0]) popUps[0].remove()
-                let popup = new mapboxgl.Popup()
-                    .setLngLat(coordinates[midle])
-                    .setHTML(
-                        "<b>" +
-                            feature.properties.nome +
-                            "</b><br>" +
-                            "<b>" +
-                            "dt_upd: " +
-                            "</b>" +
-                            feature.properties.dt_upd +
-                            "<br>" +
-                            "<b>" +
-                            "start_dt: " +
-                            "</b>" +
-                            feature.properties.start_dt +
-                            "<br>" +
-                            "<b>" +
-                            "end_dt:  " +
-                            "</b>" +
-                            feature.properties.end_dt +
-                            "<br>"
-                    )
-                    .addTo(map)
-            }
-        })
+            },
+            { skipFirst: true }
+        )
     }
 
     handleSelectCentrale() {
-        appState.selectCentrale.map(feature => {
-            let coordinates = feature.geometry.coordinates
-            map.flyTo({
-                center: coordinates,
-                zoom: 15,
-                speed: 1.8,
-                curve: 1.2,
-                easing(t) {
-                    return t
-                },
-            })
-
-            //     flyTo()
-            //
-            //
-            //     function flyTo() {
-            //         let p1 = coordinates[0]
-            //         let p2 = coordinates[coordinates.length - 1]
-            //         let sw = []
-            //         let ne = []
-            //         if (p1[0] < p2[0]) {
-            //             sw[0] = p1[0]
-            //             ne[0] = p2[0]
-            //         } else {
-            //             sw[0] = p2[0]
-            //             ne[0] = p1[0]
-            //         }
-            //         if (p1[1] < p2[1]) {
-            //             sw[1] = p1[1]
-            //             ne[1] = p2[1]
-            //         } else {
-            //             sw[1] = p2[1]
-            //             ne[1] = p1[1]
-            //         }
-            //         let bounds = new mapboxgl.LngLatBounds(sw, ne)
-            //
-            //         map.fitBounds(bounds, {
-            //             padding: 200,
-            //             maxZoom: 10,
-            //         })
-            //     }
-            //
-        })
+        appState.$selectCentrale.react(
+            feature => {
+                let coordinates = feature.geometry.coordinates
+                map.flyTo({
+                    center: coordinates,
+                    zoom: 12,
+                    speed: 1.7,
+                    curve: 1.2,
+                    easing(t) {
+                        return t
+                    },
+                })
+            },
+            { skipFirst: true }
+        )
     }
 
     initMap() {
@@ -255,11 +250,11 @@ class MapBox {
         if (volt == "380") {
             var remitId = "remit_380"
             var color = "#FFFF00"
-            var remitData = appState.remit_380()
+            var remitData = appState.$remit_380.get()
         } else {
             var remitId = "remit_220"
             var color = "#FFFF00"
-            var remitData = appState.remit_220()
+            var remitData = appState.$remit_220.get()
         }
 
         map.addLayer({
@@ -284,7 +279,7 @@ class MapBox {
 
     addLayerRemitCentrali() {
         var remitId = "remit_centrali"
-        var remitData = appState.remit_centrali()
+        var remitData = appState.$remit_centrali.get()
         var framesPerSecond = 10
         var initialOpacity = 1
         var opacity = initialOpacity
@@ -487,14 +482,18 @@ class MapBox {
     initShowPopUp() {
         this.addShowPopUp("380")
         this.addShowPopUp("220")
+        this.addShowPopUp("centrale")
     }
 
     addShowPopUp(volt) {
         if (volt == "380") {
             var layer = "linee-380"
-        } else {
+        } else if (volt == "220") {
             var layer = "linee-220"
+        } else {
+            var layer = "centrali"
         }
+        // console.log(layer)
 
         map.on("click", function(e) {
             var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
@@ -508,38 +507,41 @@ class MapBox {
             }
 
             var feature = features[0]
+            let content = setContentPopUp(feature)
 
             var popup = new mapboxgl.Popup({
                 offset: [0, -5],
             })
                 .setLngLat(e.lngLat)
-                .setHTML(
-                    "<b>" +
-                        feature.properties.nome +
-                        "</b><br>" +
-                        "<b>" +
-                        "From: " +
-                        "</b>" +
-                        feature.properties.p1 +
-                        "<br>" +
-                        "<b>" +
-                        "To: " +
-                        "</b>" +
-                        feature.properties.p2 +
-                        "<br>" +
-                        "<b>" +
-                        "Lunghezza: " +
-                        "</b>" +
-                        feature.properties.lunghezza +
-                        "<br>" +
-                        "<b>" +
-                        "Voltage: " +
-                        "</b>" +
-                        feature.properties.voltage +
-                        "<br>"
-                )
+                .setHTML(content)
                 .addTo(map)
         })
+
+        function setContentPopUp(feature) {
+            // prettier-ignore
+            console.log(feature);
+            if (feature.layer.id == "centrali") {
+                var content = "<b>" + feature.properties.etso + "</b><br>" +
+                              "<b>" + "Company: " + "</b>" + feature.properties.company + "<br>" +
+                              "<b>" + "Impianto: " + "</b>" + feature.properties.impianto + "<br>" +
+                              "<b>" + "Operatore: " + "</b>" + feature.properties.operatore + "<br>" +
+                              "<b>" + "Propietario: " + "</b>" + feature.properties.proprietario + "<br>" +
+                              "<b>" + "Localita: " + "</b>" + feature.properties.localita + "<br>" +
+                              "<b>" + "Tipo: " + "</b>" + feature.properties.tipo + "<br>" +
+                              "<b>" + "Msd: " + "</b>" + feature.properties.msd + "<br>" +
+                              "<b>" + "Pmin: " + "</b>" + feature.properties.pmin + "<br>" +
+                              "<b>" + "Pmax: " + "</b>" + feature.properties.pmax + "<br>"
+
+            } else {
+                var content = "<b>" + feature.properties.nome + "</b><br>" +
+                              "<b>" + "From: " + "</b>" + feature.properties.p1 + "<br>" +
+                              "<b>" + "To: " + "</b>" + feature.properties.p2 + "<br>" +
+                              "<b>" + "Lunghezza: " + "</b>" + feature.properties.lunghezza + "<br>" +
+                              "<b>" + "Voltage: " + "</b>" + feature.properties.voltage + "<br>"
+            }
+
+            return content
+        }
     }
 
     view({ attrs }) {
@@ -554,11 +556,10 @@ class MapBox {
             this.initHoverEffect()
             this.initShowPopUp()
             this.handleVisibilityLinee()
-            this.handleVisibilityLinee()
             this.handleVisibilityUnita()
+            this.handleRefreshRemitLinee()
+            this.handleRefreshRemitCentrali()
         })
-        this.handleRefreshRemitLinee()
-        this.handleRefreshRemitCentrali()
         this.handleSelectLine()
         this.handleSelectCentrale()
 

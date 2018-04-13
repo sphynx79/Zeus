@@ -5,7 +5,9 @@ const Selectr = require("imports-loader?this=>window,define=>false!mobius1-selec
 
 class Select {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view({ attrs }) {
@@ -23,7 +25,7 @@ class Select {
             defaultSelected: false,
             closeOnScroll: false,
             placeholder: vnode.attrs.placeholder,
-            data: vnode.attrs.data(),
+            data: vnode.attrs.data.get(),
             customClass: "custom-style",
             width: 500,
         })
@@ -44,9 +46,9 @@ class Select {
         // let elSelect = elId.querySelector(".selectr-selected")
         // elSelect.addEventListener('focus', () => vnode.select.open());
 
-        vnode.attrs.data.map(value => {
+        vnode.attrs.data.react(value => {
             vnode.select.removeAllOption()
-            vnode.attrs.data() && vnode.attrs.data().map(value => vnode.select.add(value))
+            vnode.attrs.data.get().map(value => vnode.select.add(value))
         })
 
         if (process.env.NODE_ENV !== "production") {

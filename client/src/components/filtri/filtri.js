@@ -10,7 +10,9 @@ import FiltroUnita from "components/filtro_unita/filtro_unita.js"
 
 class Filtri {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view({ attrs, state }) {

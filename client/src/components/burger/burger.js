@@ -4,7 +4,9 @@ import "./burger.scss"
 
 class Burger {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view({ attrs }) {

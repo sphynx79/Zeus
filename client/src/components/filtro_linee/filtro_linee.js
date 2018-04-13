@@ -3,7 +3,9 @@ import FiltroLineeContent from "components/filtro_linee_content/filtro_linee_con
 
 class FiltroLinee {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view() {

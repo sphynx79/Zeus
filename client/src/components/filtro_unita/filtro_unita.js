@@ -6,7 +6,9 @@ import FiltroUnitaContent from "components/filtro_unita_content/filtro_unita_con
 
 class FiltroUnita {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     view() {

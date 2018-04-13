@@ -5,7 +5,9 @@ import Tile from "carbon_component/tile/tile.js"
 
 class Leggend {
     constructor() {
-        this._componentName = this.constructor.name
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
         this._legendItem = [
             { label: "Linee 380", color: "#7FCED8", class: "legend__key--linee" },
             { label: "Linee 220", color: "#9B02A3", class: "legend__key--linee" },

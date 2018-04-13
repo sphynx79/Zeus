@@ -6,18 +6,16 @@ import calendarIcon from "./calendarIcon.js"
 
 class DataPicker {
     constructor() {
-        this._componentName = this.constructor.name
-    }
-
-    _setData(data) {
-        appState.dispatch("setData", [data])
+        if (process.env.NODE_ENV !== "production") {
+            this._componentName = this.constructor.name
+        }
     }
 
     oninit({ state }) {
         let data = new Date()
         data.setDate(data.getDate() + 1)
         let tomorrowStr = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`
-        state._setData(tomorrowStr)
+        appState.$data.set(tomorrowStr)
     }
 
     view({ attrs, state }) {
@@ -38,11 +36,11 @@ class DataPicker {
 
         vnode.picker = DatePicker.create(el, {
             dateFormat: "d-m-Y",
-            defaultDate: new Date(appState.data),
+            defaultDate: new Date(appState.$data.get()),
         })
 
         vnode.picker.calendar.config.onChange.push((selectedDates, dateStr, instance) => {
-            vnode.state._setData(dateStr)
+            appState.$data.set(dateStr)
         })
 
         if (process.env.NODE_ENV !== "production") {

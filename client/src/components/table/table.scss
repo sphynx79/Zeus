@@ -51,16 +51,19 @@ table {
                     &.nome {
                         width: 6.7vw;
                     }
+                    &.company {
+                        width: 4.2vw;
+                    }
                     &.dt_upd,
                     &.start_dt,
                     &.end_dt {
-                        width: 5.8vw;
+                        width: 5.4vw;
                     }
                     &.pmax {
                         width: 3.2vw;
                     }
                     &.tipo {
-                        width: 4.8vw;
+                        width: 4.6vw;
                     }
                 }
             }
@@ -80,7 +83,7 @@ table {
     }
     &__content {
         max-height: 18vh;
-        overflow-x: hidden;
+        overflow-x: auto;
         overflow-y: scroll;
         border: 1px solid white;
         > table > tbody {
@@ -122,16 +125,19 @@ table {
                 &.nome {
                     width: 6.7vw;
                 }
+                &.company {
+                    width: 4.2vw;
+                }
                 &.dt_upd,
                 &.start_dt,
                 &.end_dt {
-                    width: 5.8vw;
+                    width: 5.4vw;
                 }
                 &.pmax {
                     width: 3.2vw;
                 }
                 &.tipo {
-                    width: 4.8vw;
+                    width: 4.6vw;
                 }
             }
         }
