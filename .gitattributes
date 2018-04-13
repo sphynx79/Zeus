@@ -1,3 +1,7 @@
 .gitattributes export-ignore
-client/node_modules export-ignore
+/client/* export-ignore
+Procfile export-ignore
+CHANGELOG.md export-ignore
+VERSION export-ignore
+
 
