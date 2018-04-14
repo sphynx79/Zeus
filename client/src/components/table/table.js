@@ -2,6 +2,7 @@
 
 import "./table.scss"
 import { derive } from "derivable"
+import SimpleBar from "SimpleBar"
 
 class Table {
     constructor() {
@@ -60,7 +61,7 @@ class Table {
                         m(`thead.thead-${attrs.type}`, m("tr", this._header(remit).map(key => m("th", { class: key }, key))))
                     ])  
                 ]),
-                m(".tbl__content", [
+                m(".tbl__content[data-simplebar='']", [
                     m("table", [  
                         m(`tbody.tbody-${attrs.type}`, this._featureValue(remit).map((feature, index) => {
                             return m("tr", state.row_attrs(feature, index), state.row_values(feature))
@@ -89,11 +90,14 @@ class Table {
         return values
     }
 
-    oncreate({ attrs, state }) {
+    oncreate(vnode) {
+        // var el = vnode.dom
+        // console.log(el)
+        // SimpleScrollbar.initEl(el)
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
-                attrs: attrs,
-                state: state,
+                attrs: vnode.attrs,
+                state: vnode.state,
             }
             console.log(`Component: ${this._componentName}`, logStateAttrs)
         }

@@ -14,7 +14,7 @@ table {
     }
     &__header {
         width: 100%;
-        padding-right: 0.58vw;
+        // padding-right: 0.58vw;
         border-top: 1px solid #e2e2e2e0;
         border-left: 1px solid #e2e2e2e0;
         border-right: 1px solid #e2e2e2e0;
@@ -25,7 +25,7 @@ table {
                 font-size: 1.1rem;
                 background: #333;
                 padding: 0.8vh 0;
-                margin-right: -0.64vw;
+                // margin-right: -0.64vw;
                 border-bottom: 1px solid #e2e2e2e0;
             }
             thead {
@@ -83,10 +83,11 @@ table {
     }
     &__content {
         max-height: 18vh;
-        overflow-x: auto;
-        overflow-y: scroll;
+        overflow-x: hidden;
+        overflow-y: hidden;
         border: 1px solid white;
-        > table > tbody {
+
+         table > tbody {
             background-color: rgba(40, 40, 40, 0.1);
             tr {
                 cursor: pointer;
@@ -120,7 +121,7 @@ table {
                 }
             }
         }
-        > table > .tbody-centrali {
+        table > .tbody-centrali {
             tr td {
                 &.nome {
                     width: 6.7vw;
@@ -141,7 +142,7 @@ table {
                 }
             }
         }
-        > table > .tbody-linee {
+         table > .tbody-linee {
             tr td {
                 &.nome {
                     width: 11.9vw;
@@ -154,4 +155,18 @@ table {
             }
         }
     }
+}
+
+.simplebar-scrollbar {
+    right: 1px;
+}
+
+.simplebar-scrollbar:before {
+    background: rgb(92, 166, 245);
+    // box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.simplebar-track:hover .simplebar-scrollbar:before, .simplebar-track .simplebar-scrollbar.visible:before {
+    opacity: 0.98;
+    -webkit-transition: opacity 0 linear;
+    transition: opacity 0 linear;
 }

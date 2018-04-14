@@ -2,6 +2,7 @@
 
 @import "./theme.scss";
 @import "./node_modules_custom/carbon-components/scss/globals/scss/styles";
+@import "~simplebar/dist/simplebar.css";
 
 html { 
   font-size: calc(0.4em + 1vmin);
@@ -47,3 +48,16 @@ body {
 border-radius: .2vw;
 }
 
+.simplebar-scrollbar {
+    right: 1px;
+}
+
+.simplebar-scrollbar:before {
+    background: rgb(92, 166, 245);
+    // box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.simplebar-track:hover .simplebar-scrollbar:before, .simplebar-track .simplebar-scrollbar.visible:before {
+    opacity: 0.98;
+    -webkit-transition: opacity 0 linear;
+    transition: opacity 0 linear;
+}
