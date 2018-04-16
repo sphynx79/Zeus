@@ -1,3 +1,13 @@
+## 1.1.4 (2018-04-16)
+### Changed
+-  cambiato logica per la sidebar dei filtri  ( 2018-04-16 ) [ sphynx79]
+-  Uso plugin simplebar per la scrollbar sulle tabelle  ( 2018-04-14 ) [ sphynx79]
+
+### Added
+-  Aggiunto in webpack watch mode che insieme a foreman posso usare in developmen sia hotreload di webpack all'indirizzo http://localhost:3000/ oppure direttamente sinatra all'indirizzo http://localhost:9292/ che punta alla cartella client/dist/..  ( 2018-04-14 ) [ sphynx79]
+
+
+
 ## 1.1.3 (2018-04-13)
 ### Added
 -  Includo anche la cartella node_modules_custom in master  ( 2018-04-13 ) [ sphynx79]
