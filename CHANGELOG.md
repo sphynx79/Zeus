@@ -1,3 +1,9 @@
+## 1.1.5 (2018-04-16)
+### Added
+-  Aggiunto file eseguibile per lanciare il server  ( 2018-04-16 ) [ sphynx79]
+
+
+
 ## 1.1.4 (2018-04-16)
 ### Changed
 -  cambiato logica per la sidebar dei filtri  ( 2018-04-16 ) [ sphynx79]
