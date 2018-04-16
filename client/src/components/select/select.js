@@ -31,6 +31,7 @@ class Select {
         })
 
         let elId = document.querySelector(`${vnode.attrs.id}`)
+
         vnode.select.on("selectr.open", () => {
             elId && elId.style.setProperty("--space", "16rem")
         })
@@ -47,8 +48,9 @@ class Select {
         // elSelect.addEventListener('focus', () => vnode.select.open());
 
         vnode.attrs.data.react(value => {
-            vnode.select.removeAllOption()
-            vnode.attrs.data.get().map(value => vnode.select.add(value))
+            vnode.select.clear()
+            vnode.select.removeAll()
+            vnode.select.add(value)
         })
 
         if (process.env.NODE_ENV !== "production") {

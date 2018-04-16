@@ -519,7 +519,7 @@ class MapBox {
 
         function setContentPopUp(feature) {
             // prettier-ignore
-            console.log(feature);
+            /* eslint-disable no-alert, no-console */
             if (feature.layer.id == "centrali") {
                 var content = "<b>" + feature.properties.etso + "</b><br>" +
                               "<b>" + "Company: " + "</b>" + feature.properties.company + "<br>" +
@@ -542,6 +542,7 @@ class MapBox {
 
             return content
         }
+        /* eslint-enable no-alert */
     }
 
     view({ attrs }) {

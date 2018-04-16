@@ -11,8 +11,7 @@ class FiltroSocietaContent {
     }
 
     _fetchData() {
-        let selectValue = appState.$selectUnita.derive(select => this._filterValue(select))
-        return selectValue.derive(items => this._parseFilter(items))
+        return appState.$lista_centrali.derive(items => this._parseFilter(items))
     }
 
     _filterValue(select) {
