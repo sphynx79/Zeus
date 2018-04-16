@@ -3,5 +3,6 @@
 Procfile export-ignore
 CHANGELOG.md export-ignore
 VERSION export-ignore
+server.bat export-ignore
 
 
