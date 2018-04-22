@@ -72,7 +72,6 @@ class TransmissionController < ApplicationController
       remit_result = @remit_linee_collection.aggregate(pipeline).allow_disk_use(false).to_a
 
       features = Parallel.map(remit_result, in_threads: 4) do |x|
-        # features = remit_result.map do |x|
         feature = {}
         id_transmission = x["id_transmission"]
         feature["type"] = "Feature"
@@ -106,8 +105,152 @@ class TransmissionController < ApplicationController
       Oj.dump(geojson_hash, :mode => :compat)
     end
 
+    get "/remits_centrali/:data" do
+      data = params['data']
+      start_date = Date.parse(data)
+      end_date = Date.parse(data)
+
+      pipeline = []
+      pipeline << {"$match": {"days.dt_flusso" => {:$gte => start_date, :$lte => end_date}}}
+      pipeline << {"$sort": {"dt_upd": -1}}
+      pipeline << {"$group": {"_id": "$etso", "record": {"$first": "$$ROOT"}}}
+      pipeline << {"$project": {
+        "_id": 0,
+        "etso": "$record.etso",
+        "dt_upd": "$record.dt_upd",
+        "dt_start": "$record.dt_start",
+        "dt_end": "$record.dt_end",
+        "days": { "$filter": {
+                        "input": "$record.days", 
+                        "as": "days", 
+                        "cond": {"$eq": ["$$days.dt_flusso", start_date]}
+                        }
+                 }
+      }}
+      remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(false).to_a
+      remit_result.delete_if do |remit|
+        remit["days"][0]["hours"].sum{|k, v| v["last"]} == 0
+      end
+      # print Hirb::Helpers::Table.render(remit_result, {:width => 290, :height => 500, :formatter=> true, :number=> true, :headers => {:hirb_number => "Riga"}})
+      
+      features = Parallel.map(remit_result, in_threads: 4) do |x|
+        feature                           = {}
+        etso                              = x["etso"]
+        mapbox_feature                    = @centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
+        feature["type"]                   = "Feature"
+        feature["properties"]             = {}
+        feature["properties"]["nome"]     = x["etso"]
+        feature["properties"]["dt_upd"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["start_dt"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["end_dt"]   = x["dt_end"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["pmax"]     = mapbox_feature["properties"]["pmax"]
+        feature["properties"]["tipo"]     = mapbox_feature["properties"]["tipo"]        
+        feature["geometry"]               = mapbox_feature["geometry"]
+        feature
+      end
+
+      geojson_hash = to_feature_collection features
+      Oj.dump(geojson_hash, :mode => :compat)
+    end
+
+
+
     #
-    # API => Lista delle up in remit filtrate  per data
+    # API => Elenco tutte le centrali con relative proprieta
+    #
+    get "/lista_centrali" do
+      cache_control :public, :must_revalidate, :max_age => 3600
+      last_modified Time.now
+      lista_centrali = []
+      @centrali.map do |centrale|
+        lista_centrali << centrale["properties"]
+      end
+      etag Digest::MD5.hexdigest(lista_centrali.to_s)
+      Oj.dump(lista_centrali, :mode => :compat)
+    end
+  end
+ 
+  #
+  # NameSpace per le mie api V1
+  #
+  # Per fare una query alle API http://[adress]:[port]/api/v1/[query]
+  #
+  namespace '/api/v1' do
+    before do
+      content_type :json
+      headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
+    end
+    
+    #
+    # API => Lista delle up in remit con algoritmo principale ma qui ho anche il dettaglio delle ore
+    #
+    # @param data [String] data di flusso della remit nella forma gg-mm-yyyy
+    #
+    get "/remits_centrali/:data" do
+      data = params['data']
+      start_date = Date.parse(data)
+      end_date = Date.parse(data)
+
+      pipeline = []
+      pipeline << {"$match": {"days.dt_flusso" => {:$gte => start_date, :$lte => end_date}}}
+      pipeline << {"$sort": {"dt_upd": -1}}
+      pipeline << {"$group": {"_id": "$etso", "record": {"$first": "$$ROOT"}}}
+      pipeline << {"$project": {
+        "_id": 0,
+        "etso": "$record.etso",
+        "dt_upd": "$record.dt_upd",
+        "dt_start": "$record.dt_start",
+        "dt_end": "$record.dt_end",
+        "days": { "$filter": {
+                        "input": "$record.days", 
+                        "as": "days", 
+                        "cond": {"$eq": ["$$days.dt_flusso", start_date]}
+                        }
+                 }
+      }}
+      remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(false).to_a
+      remit_result.delete_if do |remit|
+        remit["days"][0]["hours"].sum{|k, v| v["last"]} == 0
+      end
+      # print Hirb::Helpers::Table.render(remit_result, {:width => 290, :height => 500, :formatter=> true, :number=> true, :headers => {:hirb_number => "Riga"}})
+      
+      features = Parallel.map(remit_result, in_threads: 4) do |x|
+        feature                           = {}
+        etso                              = x["etso"]
+        mapbox_feature                    = @centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
+        feature["type"]                   = "Feature"
+        feature["properties"]             = {}
+        feature["properties"]["nome"]     = x["etso"]
+        feature["properties"]["dt_upd"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["start_dt"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["end_dt"]   = x["dt_end"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["hours"]    = x["days"][0]["hours"]
+        feature["properties"]["pmax"]     = mapbox_feature["properties"]["pmax"]
+        feature["properties"]["tipo"]     = mapbox_feature["properties"]["tipo"]        
+        feature["geometry"]               = mapbox_feature["geometry"]
+        feature
+      end
+
+      geojson_hash = to_feature_collection features
+      Oj.dump(geojson_hash, :mode => :compat)
+    end
+
+
+  end
+  
+  #
+  # NameSpace per le mie api V2
+  #
+  # Per fare una query alle API http://[adress]:[port]/api/v2/[query]
+  #
+  namespace '/api/v2' do
+    before do
+      content_type :json
+      headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
+    end
+
+    #
+    # API => Lista delle up in remit filtrate solo per data da utilizzare solo con il db nel quale ho solo le last
     #
     # @param data [String] data di flusso della remit nella forma gg-mm-yyyy
     #
@@ -140,71 +283,15 @@ class TransmissionController < ApplicationController
       Oj.dump(geojson_hash, :mode => :compat)
     end
 
-    #
-    # API => Elenco tutte le centrali con relative proprieta
-    #
-    get "/lista_centrali" do
-      cache_control :public, :must_revalidate, :max_age => 3600
-      last_modified Time.now
-      lista_centrali = []
-      @centrali.map do |centrale|
-        lista_centrali << centrale["properties"]
-      end
-      etag Digest::MD5.hexdigest(lista_centrali.to_s)
-      Oj.dump(lista_centrali, :mode => :compat)
-    end
+  
   end
 
-  namespace '/api/v1' do
-    before do
-      content_type :json
-      headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
-    end
-
-    get "/remits_centrali/:data" do
-      data = params['data']
-      start_date = Date.parse(data)
-      end_date = Date.parse(data)
-
-      pipeline = []
-      pipeline << {"$match": {"days.dt_flusso" => {:$gte => start_date, :$lte => end_date}}}
-      pipeline << {"$sort": {"dt_upd": -1}}
-      pipeline << {"$group": {"_id": "$etso", "record": {"$first": "$$ROOT"}}}
-      pipeline << {"$project": {
-        "_id": 0,
-        "etso": "$record.etso",
-        "dt_upd": "$record.dt_upd",
-        "dt_start": "$record.dt_start",
-        "dt_end": "$record.dt_end",
-      }}
-      remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(false).to_a
-      features = Parallel.map(remit_result, in_threads: 4) do |x|
-        feature = {}
-        etso = x["etso"]
-        feature["type"] = "Feature"
-        feature["properties"] = {}
-        feature["properties"]["nome"] = x["etso"]
-        feature["properties"]["dt_upd"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["start_dt"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["end_dt"] = x["dt_end"].strftime("%d-%m-%Y %H:%M")
-        mapbox_feature = @centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
-        feature["geometry"] = mapbox_feature["geometry"]
-        feature["properties"]["pmax"] = mapbox_feature["properties"]["pmax"]
-        feature["properties"]["tipo"] = mapbox_feature["properties"]["tipo"]
-        feature
-      end
-
-      geojson_hash = to_feature_collection features
-      Oj.dump(geojson_hash, :mode => :compat)
-    end
-  end
-
-    #
-  # NameSpace per le mie api V1
   #
-  # Per fare una query alle API http://[adress]:[port]/api/v1/[query]
+  # NameSpace per le mie api V3
   #
-  namespace '/api/v2' do
+  # Per fare una query alle API http://[adress]:[port]/api/v3/[query]
+  #
+  namespace '/api/v3' do
     before do
       content_type :json
       headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
@@ -258,11 +345,11 @@ class TransmissionController < ApplicationController
   end
 
   #
-  # NameSpace per le mie api V2
+  # NameSpace per le mie api V4
   #
-  # Per fare una query alle API http://[adress]:[port]/api/v2/[query]
+  # Per fare una query alle API http://[adress]:[port]/api/v4/[query]
   #
-  namespace '/api/v3' do
+  namespace '/api/v4' do
     before do
       content_type :json
       headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']

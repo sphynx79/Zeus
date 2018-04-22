@@ -2,6 +2,7 @@
 
 import "./datapicker.css"
 import DatePicker from "carbon_component/date-picker/date-picker.js"
+import { Italian } from "flatpickr/dist/l10n/it.js"
 import calendarIcon from "./calendarIcon.js"
 
 class DataPicker {
@@ -36,6 +37,7 @@ class DataPicker {
 
         vnode.picker = DatePicker.create(el, {
             dateFormat: "d-m-Y",
+            locale: Italian,
             defaultDate: new Date(appState.$data.get()),
         })
 

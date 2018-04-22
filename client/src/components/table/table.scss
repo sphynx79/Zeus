@@ -15,9 +15,9 @@ table {
     &__header {
         width: 100%;
         // padding-right: 0.58vw;
-        border-top: 1px solid #e2e2e2e0;
-        border-left: 1px solid #e2e2e2e0;
-        border-right: 1px solid #e2e2e2e0;
+        border-top: 1px solid #ffffff;
+        border-left: 1px solid #ffffff;
+        border-right: 1px solid #ffffff;
         > table {
             caption {
                 letter-spacing: 1px;
@@ -26,7 +26,7 @@ table {
                 background: #333;
                 padding: 0.8vh 0;
                 // margin-right: -0.64vw;
-                border-bottom: 1px solid #e2e2e2e0;
+                border-bottom: 1px solid #ffffff;
             }
             thead {
                 background: #333;
@@ -39,7 +39,7 @@ table {
                         letter-spacing: 1px;
                         vertical-align: middle;
                         padding-left: 0.4vw;
-                        border-right: 1px solid #e2e2e2e0;
+                        border-right: 1px solid #ffffff;
                         &:last-of-type {
                             border-right: none;
                         }
@@ -85,7 +85,7 @@ table {
         max-height: 18vh;
         overflow-x: hidden;
         overflow-y: hidden;
-        border: 1px solid white;
+        border: 1px solid #ffffff;
 
          table > tbody {
             background-color: rgba(40, 40, 40, 0.1);
@@ -95,9 +95,9 @@ table {
                 &:nth-child(even) {
                     background-color: rgba(90, 90, 90, 0.35);
                 }
-                &:hover td {
+                &:hover {
                     z-index: 100;
-                    border-width: 1.2px;
+                    border-width: 1.8px;
                     border-style: solid;
                     border-color: rgb(90, 170, 250);
                     font-weight: bold;

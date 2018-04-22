@@ -65,7 +65,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, ENV['SESSION_KEY'] || 'lighthouselabssecret'
     set :views, 'app/views'
     set :remit_linee_collection, settings.db[:remit_linee]
-    set :remit_centrali_collection, settings.db[:remit_centrali_last]
+    set :remit_centrali_collection, settings.db[:remit_centrali]
   end
 
 

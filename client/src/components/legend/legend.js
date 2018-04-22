@@ -11,13 +11,13 @@ class Leggend {
         this._legendItem = [
             { label: "Linee 380", color: "#7FCED8", class: "legend__key--linee" },
             { label: "Linee 220", color: "#9B02A3", class: "legend__key--linee" },
-            { label: "Tecnologia Termico", color: "#E30202", class: "legend__key--tecno" },
-            { label: "Tecnologia Eolico", color: "#7202E0", class: "legend__key--tecno" },
-            { label: "Tecnologia Idrico", color: "#03A8A8", class: "legend__key--tecno" },
-            { label: "Tecnologia Autoproduttore", color: "#CB689A", class: "legend__key--tecno" },
-            { label: "Tecnologia Solare", color: "#CB6203", class: "legend__key--tecno" },
-            { label: "Tecnologia Pompaggi", color: "#03D838", class: "legend__key--tecno" },
-            { label: "Tecnologia Geotermico", color: "#643201", class: "legend__key--tecno" },
+            { label: "Termico", color: "#E30202", class: "legend__key--tecno" },
+            { label: "Eolico", color: "#7202E0", class: "legend__key--tecno" },
+            { label: "Idrico", color: "#03A8A8", class: "legend__key--tecno" },
+            { label: "Autoproduttore", color: "#CB689A", class: "legend__key--tecno" },
+            { label: "Solare", color: "#CB6203", class: "legend__key--tecno" },
+            { label: "Pompaggi", color: "#03D838", class: "legend__key--tecno" },
+            { label: "Geotermico", color: "#643201", class: "legend__key--tecno" },
         ]
     }
 
