@@ -1,3 +1,9 @@
+## 1.1.9 (2018-04-23)
+### Fixed
+-  Sistemato problema visibilità sulla mappa filtro sottotipo  ( 2018-04-23 ) [ sphynx79]
+
+
+
 ## 1.1.8 (2018-04-23)
 ### Changed
 -	Modificato le etichette delle centrali nella legenda ( 2018-04-23 ) [ sphynx79]
