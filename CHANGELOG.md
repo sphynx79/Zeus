@@ -1,3 +1,13 @@
+## 1.1.7 (2018-04-23)
+### Changed
+-  Cambiato gli header nelle tabelle delle remit  ( 2018-04-23 ) [ sphynx79]
+-  Ottimizzato la query per le remit delle centrali  ( 2018-04-22 ) [ sphynx79]
+
+### Added
+-  Aggiunto filtro per sottotipo  ( 2018-04-23 ) [ sphynx79]
+
+
+
 ## 1.1.5 (2018-04-16)
 ### Added
 -  Aggiunto file eseguibile per lanciare il server  ( 2018-04-16 ) [ sphynx79]
