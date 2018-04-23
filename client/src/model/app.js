@@ -26,11 +26,13 @@ class App {
         this.solare_visibility = stream(true)
         this.pompaggi_visibility = stream(true)
         this.geotermico_visibility = stream(true)
+        this.sottotipo_visibility = stream([])
         this.societa_visibility = stream([])
         this.unita_visibility = stream([])
 
         // sincronizzare i filtri
         this.$lista_centrali = atom(this.fetchCentrali())
+        this.$selectSottotipo = atom([])
         this.$selectSocieta = atom([])
         this.$selectUnita = atom([])
 

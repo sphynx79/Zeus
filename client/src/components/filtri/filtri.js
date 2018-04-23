@@ -5,6 +5,7 @@ import Accordion from "carbon_component/accordion/accordion.js"
 import FiltroData from "components/filtro_data/filtro_data.js"
 import FiltroLinee from "components/filtro_linee/filtro_linee.js"
 import FiltroTecnologia from "components/filtro_tecnologia/filtro_tecnologia.js"
+import FiltroSottotipo from "components/filtro_sottotipo/filtro_sottotipo.js"
 import FiltroSocieta from "components/filtro_societa/filtro_societa.js"
 import FiltroUnita from "components/filtro_unita/filtro_unita.js"
 
@@ -22,6 +23,7 @@ class Filtri {
                 m(FiltroData),
                 m(FiltroLinee),
                 m(FiltroTecnologia),
+                m(FiltroSottotipo),
                 m(FiltroSocieta),
                 m(FiltroUnita),
             ]),

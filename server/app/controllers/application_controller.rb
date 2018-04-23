@@ -68,7 +68,5 @@ class ApplicationController < Sinatra::Base
     set :remit_centrali_collection, settings.db[:remit_centrali]
   end
 
-
-
 end
 

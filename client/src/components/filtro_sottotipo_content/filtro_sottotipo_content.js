@@ -3,7 +3,7 @@
 import Select from "components/select/select.js"
 import { derive } from "derivable"
 
-class FiltroSocietaContent {
+class FiltroSottotipoContent {
     constructor() {
         if (process.env.NODE_ENV !== "production") {
             this._componentName = this.constructor.name
@@ -11,16 +11,15 @@ class FiltroSocietaContent {
     }
 
     _fetchData() {
-        let selectValue = appState.$selectSottotipo.derive(select => this._filterValue(select))
-        return selectValue.derive(items => this._parseFilter(items))
+        return appState.$lista_centrali.derive(items => this._parseFilter(items))
     }
 
-    _filterValue(select) {
-        return appState.$lista_centrali.get().filter(item => (select.length == 0 ? true : select.includes(item.sottotipo)))
-    }
+    // _filterValue(select) {
+    //     return appState.$lista_centrali.get().filter(item => (select.length == 0 ? true : select.includes(item.etso)))
+    // }
 
     _parseFilter(items) {
-        let unique = [...new Set(items.map(item => item["company"]))]
+        let unique = [...new Set(items.map(item => item["sottotipo"]))]
         let selectItems = unique.map(item => new Object({ value: item, text: item }))
         return selectItems
     }
@@ -32,12 +31,12 @@ class FiltroSocietaContent {
                 ? ""
                 : [
                       m(Select, {
-                          id: "#filtro_societa",
-                          placeholder: "Societa",
+                          id: "#filtro_sottotipo",
+                          placeholder: "Sottotipo",
                           data: state._fetchData(),
                           onchange: values => {
-                              appState.$selectSocieta.set(values)
-                              appState.societa_visibility(values)
+                              appState.$selectSottotipo.set(values)
+                              appState.sottotipo_visibility(values)
                           },
                       }),
                   ]
@@ -55,4 +54,4 @@ class FiltroSocietaContent {
     }
 }
 
-export default FiltroSocietaContent
+export default FiltroSottotipoContent

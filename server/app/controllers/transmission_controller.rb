@@ -153,8 +153,6 @@ class TransmissionController < ApplicationController
       Oj.dump(geojson_hash, :mode => :compat)
     end
 
-
-
     #
     # API => Elenco tutte le centrali con relative proprieta
     #

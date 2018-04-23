@@ -19,9 +19,10 @@ class MapBox {
 
     handleVisibilityUnita() {
         stream.combine(
-            (termico, eolico, idrico, autoprod, solare, pompaggi, geotermico, societa, unita) => {
+            (termico, eolico, idrico, autoprod, solare, pompaggi, geotermico, sottotipo, societa, unita) => {
                 let filter = ["all"]
                 let filter_tecnologia = ["in", "tipo"]
+                let filter_sottotipo = ["in", "sottotipo"]
                 let filter_societa = ["in", "company"]
                 let filter_unita = ["in", "etso"]
                 let filterMap = new Map()
@@ -37,6 +38,11 @@ class MapBox {
                     value && filter_tecnologia.push(key)
                 })
                 filter.push(filter_tecnologia)
+
+                if (sottotipo().length > 0) {
+                    sottotipo().map(value => filter_sottotipo.push(value))
+                    filter.push(filter_sottotipo)
+                }
 
                 if (societa().length > 0) {
                     societa().map(value => filter_societa.push(value))
@@ -59,6 +65,7 @@ class MapBox {
                 appState.solare_visibility,
                 appState.pompaggi_visibility,
                 appState.geotermico_visibility,
+                appState.sottotipo_visibility,
                 appState.societa_visibility,
                 appState.unita_visibility,
             ]
@@ -210,7 +217,7 @@ class MapBox {
             center: [11.88, 42.18],
             zoom: 5.7,
             maxZoom: 13,
-            minZoom: 5,
+            minZoom: 5.5,
         })
         // map.addControl(new mapboxgl.FullscreenControl());
     }
