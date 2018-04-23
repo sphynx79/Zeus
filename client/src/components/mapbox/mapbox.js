@@ -503,7 +503,7 @@ class MapBox {
         // console.log(layer)
 
         map.on("click", function(e) {
-            var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]
+            var bbox = [[e.point.x - 2, e.point.y - 2], [e.point.x + 2, e.point.y + 2]]
 
             var features = map.queryRenderedFeatures(bbox, {
                 layers: [layer], // replace this with the name of the layer
@@ -534,7 +534,8 @@ class MapBox {
                               "<b>" + "Operatore: " + "</b>" + feature.properties.operatore + "<br>" +
                               "<b>" + "Propietario: " + "</b>" + feature.properties.proprietario + "<br>" +
                               "<b>" + "Localita: " + "</b>" + feature.properties.localita + "<br>" +
-                              "<b>" + "Tipo: " + "</b>" + feature.properties.tipo + "<br>" +
+                              "<b>" + "Tecnologia: " + "</b>" + feature.properties.tipo + " (" + feature.properties.sottotipo + ")" + "<br>" +
+                              "<b>" + "Sottotipo: " + "</b>" + feature.properties.sottotipo + "<br>" +
                               "<b>" + "Msd: " + "</b>" + feature.properties.msd + "<br>" +
                               "<b>" + "Pmin: " + "</b>" + feature.properties.pmin + "<br>" +
                               "<b>" + "Pmax: " + "</b>" + feature.properties.pmax + "<br>"

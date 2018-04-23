@@ -55,7 +55,7 @@ table {
                 > tr th {
                     text-transform: capitalize;
                     &.nome {
-                        width: 6.7vw;
+                        width: 6.3vw;
                     }
                     &.company {
                         width: 4.2vw;
@@ -69,6 +69,9 @@ table {
                         width: 3.2vw;
                     }
                     &.tipo {
+                        width: 4.6vw;
+                    }
+                    &.sottotipo {
                         width: 4.6vw;
                     }
                 }
@@ -131,7 +134,7 @@ table {
         table > .tbody-centrali {
             tr td {
                 &.nome {
-                    width: 6.7vw;
+                    width: 6.3vw;
                 }
                 &.company {
                     width: 4.2vw;
@@ -145,6 +148,9 @@ table {
                     width: 3.2vw;
                 }
                 &.tipo {
+                    width: 4.6vw;
+                }
+                 &.sottotipo {
                     width: 4.6vw;
                 }
             }
