@@ -168,17 +168,17 @@ class MapBox {
                                 feature.properties.nome +
                                 "</b><br>" +
                                 "<b>" +
-                                "dt_upd: " +
+                                "update: " +
                                 "</b>" +
                                 feature.properties.dt_upd +
                                 "<br>" +
                                 "<b>" +
-                                "start_dt: " +
+                                "start: " +
                                 "</b>" +
                                 feature.properties.start_dt +
                                 "<br>" +
                                 "<b>" +
-                                "end_dt:  " +
+                                "end:  " +
                                 "</b>" +
                                 feature.properties.end_dt +
                                 "<br>"

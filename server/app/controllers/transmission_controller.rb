@@ -78,9 +78,9 @@ class TransmissionController < ApplicationController
         feature["properties"] = {}
         feature["properties"]["nome"] = x["nome"]
         # feature["properties"]["volt"]     = x["volt"]
-        feature["properties"]["dt_upd"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["start_dt"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["end_dt"] = x["end_dt"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["update"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["start"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["end"] = x["end_dt"].strftime("%d-%m-%Y %H:%M")
         feature["geometry"] = instance_variable_get("@linee_#{volt}").lazy.select { |f| f["id"] == id_transmission }.first["geometry"]
         feature
       end
@@ -140,11 +140,12 @@ class TransmissionController < ApplicationController
         feature["type"]                   = "Feature"
         feature["properties"]             = {}
         feature["properties"]["nome"]     = x["etso"]
-        feature["properties"]["dt_upd"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["start_dt"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["end_dt"]   = x["dt_end"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["pmax"]     = mapbox_feature["properties"]["pmax"]
+        feature["properties"]["company"]  = mapbox_feature["properties"]["company"]
         feature["properties"]["tipo"]     = mapbox_feature["properties"]["tipo"]        
+        feature["properties"]["pmax"]     = mapbox_feature["properties"]["pmax"]
+        feature["properties"]["update"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["start"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
+        feature["properties"]["end"]   = x["dt_end"].strftime("%d-%m-%Y %H:%M")
         feature["geometry"]               = mapbox_feature["geometry"]
         feature
       end
@@ -219,6 +220,7 @@ class TransmissionController < ApplicationController
         feature["type"]                   = "Feature"
         feature["properties"]             = {}
         feature["properties"]["nome"]     = x["etso"]
+        feature["properties"]["company"]  = mapbox_feature["properties"]["company"]
         feature["properties"]["dt_upd"]   = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["start_dt"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["end_dt"]   = x["dt_end"].strftime("%d-%m-%Y %H:%M")

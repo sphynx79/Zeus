@@ -15,24 +15,29 @@ table {
     &__header {
         width: 100%;
         // padding-right: 0.58vw;
-        border-top: 1px solid #ffffff;
-        border-left: 1px solid #ffffff;
-        border-right: 1px solid #ffffff;
+        border-top: 1.2px solid #ffffff;
+        border-left: 1.2px solid #ffffff;
+        border-right: 1.2px solid #ffffff;
         > table {
             caption {
                 letter-spacing: 1px;
                 font-weight: bold;
-                font-size: 1.1rem;
-                background: #333;
-                padding: 0.8vh 0;
+                font-size: 1.05rem;
+                // background: #333;
+                background:linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, 0.8) 50%, #143b63 100%);
+                padding: 0.6vh 0;
                 // margin-right: -0.64vw;
-                border-bottom: 1px solid #ffffff;
+                border-bottom: 1.2px solid #ffffff;
             }
             thead {
                 background: #333;
                 > tr {
-                    height: 3vh;
+                    height: 2.6vh;
                     th {
+                        overflow: hidden;
+                        background: linear-gradient(to bottom, rgba(47, 47, 47, 0.8) 0%, rgb(86, 86, 86) 50%, rgba(47, 47, 47, 0.8) 100%);
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
                         font-size: 0.86rem;
                         font-weight: 400;
                         text-align: left;
@@ -48,15 +53,16 @@ table {
             }
             .thead-centrali {
                 > tr th {
+                    text-transform: capitalize;
                     &.nome {
                         width: 6.7vw;
                     }
                     &.company {
                         width: 4.2vw;
                     }
-                    &.dt_upd,
-                    &.start_dt,
-                    &.end_dt {
+                    &.update,
+                    &.start,
+                    &.end {
                         width: 5.4vw;
                     }
                     &.pmax {
@@ -69,12 +75,13 @@ table {
             }
             .thead-linee {
                 > tr th {
+                    text-transform: capitalize;
                     &.nome {
                         width: 11.9vw;
                     }
-                    &.dt_upd,
-                    &.start_dt,
-                    &.end_dt {
+                    &.update,
+                    &.start,
+                    &.end {
                         width: 6vw;
                     }
                 }
@@ -85,7 +92,7 @@ table {
         max-height: 18vh;
         overflow-x: hidden;
         overflow-y: hidden;
-        border: 1px solid #ffffff;
+        border: 1.2px solid #ffffff;
 
          table > tbody {
             background-color: rgba(40, 40, 40, 0.1);
@@ -129,9 +136,9 @@ table {
                 &.company {
                     width: 4.2vw;
                 }
-                &.dt_upd,
-                &.start_dt,
-                &.end_dt {
+                &.update,
+                &.start,
+                &.end {
                     width: 5.4vw;
                 }
                 &.pmax {
@@ -147,9 +154,9 @@ table {
                 &.nome {
                     width: 11.9vw;
                 }
-                &.dt_upd,
-                &.start_dt,
-                &.end_dt {
+                &.update,
+                &.start,
+                &.end {
                     width: 6vw;
                 }
             }
