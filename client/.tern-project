@@ -9,6 +9,9 @@
   "node": {},
   "modules": {},
   "es_modules": {},
+   "webpack": {
+     "configPath": "./webpack.common.js"
+   },
   "doc_comment": {
    "fullDocs": true,
    "strong": true
@@ -19,6 +22,9 @@
  },
  "dontLoad": [
   "node_modules/**",
+  "node_modules_custom/**",
+  ".vscode/**",
+  ".git/**",
   "dist/**"
  ],
  "ecmaVersion": 7

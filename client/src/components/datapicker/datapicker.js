@@ -38,7 +38,7 @@ class DataPicker {
         vnode.picker = DatePicker.create(el, {
             dateFormat: "d-m-Y",
             locale: Italian,
-            defaultDate: new Date(appState.$data.get()),
+            defaultDate: new Date(appState.$data.get().replace(/-/g, "/")),
         })
 
         vnode.picker.calendar.config.onChange.push((selectedDates, dateStr, instance) => {
