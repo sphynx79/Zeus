@@ -45,7 +45,7 @@
         "webpack-merge": "^4.1.2"
     },
     "dependencies": {
-        "carbon-components": "^8.18.2",
+        "carbon-components": "^8.18.16",
         "mapbox-gl": "^0.44.2",
         "mithril": "https://github.com/MithrilJS/mithril.js#next",
         "simplebar": "^2.6.1"
