@@ -46,7 +46,9 @@ SET conemu_ico=%CMDER_ROOT%\icons\cmder.ico
 SET conemu_cfgfile=%CMDER_ROOT%\config\ConEmu.xml
 SET conemu_init=%CMDER_ROOT%\vendor\init.bat
 SET bundle=C:\Ruby\bin\bundle.bat
+SET GEM_HOME=C:\Ruby\lib\ruby\gems\2.5.0
 SET argv=%*
+
 
 
 IF NOT EXIST "%map_folder%" (
