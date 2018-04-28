@@ -1,3 +1,9 @@
+## 1.2.0 (2018-04-28)
+### Fixed
+-  Correto il problema in Mappa.exe dell'avvio del server  ( 2018-04-28 ) [ sphynx79]
+
+
+
 ## 1.1.9 (2018-04-23)
 ### Fixed
 -  Sistemato problema visibilità sulla mappa filtro sottotipo  ( 2018-04-23 ) [ sphynx79]
