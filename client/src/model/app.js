@@ -1,6 +1,5 @@
 // src/model/app.js
 
-import stream from "mithril/stream"
 import { atom, derive } from "derivable"
 
 class App {
@@ -19,6 +18,7 @@ class App {
         // toggle visibility linee
         this.$linee_380_visibility = atom(true)
         this.$linee_220_visibility = atom(true)
+        // toggle visibility tecnologia
         this.$termico_visibility = atom(true)
         this.$eolico_visibility = atom(true)
         this.$idrico_visibility = atom(true)
@@ -26,7 +26,6 @@ class App {
         this.$solare_visibility = atom(true)
         this.$pompaggi_visibility = atom(true)
         this.$geotermico_visibility = atom(true)
-
         // sincronizzare i filtri
         this.$lista_centrali = atom(this.fetchCentrali())
         this.$selectTecnologia = atom([])

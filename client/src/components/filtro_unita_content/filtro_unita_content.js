@@ -17,7 +17,7 @@ class FiltroUnitaContent {
             set: selection => appState.$selectUnita.set(selection),
         })
         // appState.$unitaVisibility.react(r => console.dir(r))
-        appState.$etsoVisibility.react(r => console.dir(r), { skipFirst: true })
+        // appState.$etsoVisibility.react(r => console.dir(r), { skipFirst: true })
     }
 
     view({ attrs, state }) {

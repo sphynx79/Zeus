@@ -19,7 +19,7 @@ class Filtri {
     view({ attrs, state }) {
         // prettier-ignore
         return m(".filtri",  [
-                m("ul.bx--accordion[data-accordion='']",[
+                m("ul.bx--accordion[data-accordion='']", [
                     m(FiltroData),
                     m(FiltroLinee),
                     appState.$lista_centrali.get() === undefined ? "" : m(FiltroTecnologia),
