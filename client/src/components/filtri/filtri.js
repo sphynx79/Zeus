@@ -18,14 +18,14 @@ class Filtri {
 
     view({ attrs, state }) {
         // prettier-ignore
-        return m(".filtri", [
-            m("ul.bx--accordion[data-accordion='']", [
-                m(FiltroData),
-                m(FiltroLinee),
-                m(FiltroTecnologia),
-                m(FiltroSottotipo),
-                m(FiltroSocieta),
-                m(FiltroUnita),
+        return m(".filtri",  [
+                m("ul.bx--accordion[data-accordion='']",[
+                    m(FiltroData),
+                    m(FiltroLinee),
+                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroTecnologia),
+                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroSottotipo),
+                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroSocieta),
+                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroUnita),
             ]),
         ])
     }

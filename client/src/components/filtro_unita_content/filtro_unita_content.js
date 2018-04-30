@@ -1,7 +1,7 @@
 // src/components/filtro_unita_content/filtro_unita_content.js
 
 import Select from "components/select/select.js"
-import { derive } from "derivable"
+import { lens } from "derivable"
 
 class FiltroUnitaContent {
     constructor() {
@@ -10,34 +10,26 @@ class FiltroUnitaContent {
         }
     }
 
-    _fetchData() {
-        let selectValue = appState.$selectSocieta.derive(select => this._filterValue(select))
-        return selectValue.derive(items => this._parseFilter(items))
-    }
-
-    _filterValue(select) {
-        return appState.$lista_centrali.get().filter(item => (select.length == 0 ? true : select.includes(item.company)))
-    }
-
-    _parseFilter(items) {
-        let unique = [...new Set(items.map(item => item["etso"]))]
-        let selectItems = unique.map(item => new Object({ value: item, text: item }))
-        return selectItems
+    oninit({ state }) {
+        state.id = "etso"
+        state.$filterOpt = lens({
+            get: () => appState.dispatch("parseFilter", [appState.$filterUnita.get(), state.id]),
+            set: selection => appState.$selectUnita.set(selection),
+        })
+        // appState.$unitaVisibility.react(r => console.dir(r))
+        appState.$etsoVisibility.react(r => console.dir(r), { skipFirst: true })
     }
 
     view({ attrs, state }) {
         // prettier-ignore
         return m(".bx--form-item",
-            appState.$lista_centrali.get() === undefined
-                ? ""
-                : [
+                 [
                       m(Select, {
                           id: "#filtro_unita",
                           placeholder: "Unita",
-                          data: state._fetchData(),
-                          onchange: values => {
-                              appState.$selectUnita.set(values)
-                              appState.unita_visibility(values)
+                          data: state.$filterOpt,
+                         onchange: selection => {
+                              state.$filterOpt.set(selection)
                           },
                       }),
                   ]

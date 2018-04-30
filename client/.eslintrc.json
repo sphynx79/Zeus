@@ -1,5 +1,6 @@
 {
   "root": true,
+  "parser": "babel-eslint",
   "globals": {},
   "plugins": [
     "prettier"
@@ -14,6 +15,7 @@
   "parserOptions": {
     "ecmaVersion": 8,
     "sourceType": "module",
+    "allowImportExportEverywhere": true,
     "ecmaFeatures": {
       "arrowFunctions": true,
       "blockBindings": true,

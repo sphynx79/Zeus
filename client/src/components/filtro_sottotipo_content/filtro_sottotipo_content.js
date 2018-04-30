@@ -1,7 +1,7 @@
 // src/components/filtro_societa_content/filtro_societa_content.js
 
 import Select from "components/select/select.js"
-import { derive } from "derivable"
+import { lens } from "derivable"
 
 class FiltroSottotipoContent {
     constructor() {
@@ -10,33 +10,24 @@ class FiltroSottotipoContent {
         }
     }
 
-    _fetchData() {
-        return appState.$lista_centrali.derive(items => this._parseFilter(items))
-    }
-
-    // _filterValue(select) {
-    //     return appState.$lista_centrali.get().filter(item => (select.length == 0 ? true : select.includes(item.etso)))
-    // }
-
-    _parseFilter(items) {
-        let unique = [...new Set(items.map(item => item["sottotipo"]))]
-        let selectItems = unique.map(item => new Object({ value: item, text: item }))
-        return selectItems
+    oninit({ state }) {
+        state.id = "sottotipo"
+        state.$filterOpt = lens({
+            get: () => appState.dispatch("parseFilter", [appState.$filterSottotipo.get(), state.id]),
+            set: selection => appState.$selectSottotipo.set(selection),
+        })
     }
 
     view({ state }) {
         // prettier-ignore
         return m(".bx--form-item",
-            appState.$lista_centrali.get() === undefined
-                ? ""
-                : [
+                [
                       m(Select, {
                           id: "#filtro_sottotipo",
                           placeholder: "Sottotipo",
-                          data: state._fetchData(),
-                          onchange: values => {
-                              appState.$selectSottotipo.set(values)
-                              appState.sottotipo_visibility(values)
+                          data: state.$filterOpt,
+                          onchange: selection => {
+                              state.$filterOpt.set(selection)
                           },
                       }),
                   ]

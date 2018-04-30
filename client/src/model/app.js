@@ -19,22 +19,25 @@ class App {
         // toggle visibility linee
         this.$linee_380_visibility = atom(true)
         this.$linee_220_visibility = atom(true)
-        this.termico_visibility = stream(true)
-        this.eolico_visibility = stream(true)
-        this.idrico_visibility = stream(true)
-        this.autoprod_visibility = stream(true)
-        this.solare_visibility = stream(true)
-        this.pompaggi_visibility = stream(true)
-        this.geotermico_visibility = stream(true)
-        this.sottotipo_visibility = stream([])
-        this.societa_visibility = stream([])
-        this.unita_visibility = stream([])
+        this.$termico_visibility = atom(true)
+        this.$eolico_visibility = atom(true)
+        this.$idrico_visibility = atom(true)
+        this.$autoprod_visibility = atom(true)
+        this.$solare_visibility = atom(true)
+        this.$pompaggi_visibility = atom(true)
+        this.$geotermico_visibility = atom(true)
 
         // sincronizzare i filtri
         this.$lista_centrali = atom(this.fetchCentrali())
+        this.$selectTecnologia = atom([])
+        this.$filterSottotipo = derive(() => this.$lista_centrali.get())
         this.$selectSottotipo = atom([])
+        this.$filterSocieta = derive(() => this.applyfilter(this.$filterSottotipo.get(), this.$selectSottotipo.get(), "sottotipo"))
         this.$selectSocieta = atom([])
+        this.$filterUnita = derive(() => this.applyfilter(this.$filterSocieta.get(), this.$selectSocieta.get(), "company"))
         this.$selectUnita = atom([])
+        this.$unitaVisibility = derive(() => this.applyfilter(this.$filterUnita.get(), this.$selectUnita.get(), "etso"))
+        this.$etsoVisibility = derive(() => this.$unitaVisibility.get().map(item => item["etso"]))
 
         this.$remit_220 = atom()
         this.$remit_380 = atom()
@@ -53,7 +56,7 @@ class App {
     }
 
     dispatch(action, args) {
-        this[action].apply(this, args || [])
+        return this[action].apply(this, args || [])
         // requestAnimationFrame(function() {
         //     localStorage["transmission"] = JSON.stringify(this)
         // })
@@ -66,6 +69,15 @@ class App {
     //         this.sidebarRight = false
     //     }
     // }
+    applyfilter(filterValue, select, type) {
+        return filterValue.filter(item => (select.length == 0 ? true : select.includes(item[type])))
+    }
+
+    parseFilter(items, type) {
+        let unique = [...new Set(items.map(item => item[type]))]
+        let selectItems = unique.map(item => new Object({ value: item, text: item }))
+        return selectItems
+    }
 
     fetchCentrali() {
         // prettier-ignore

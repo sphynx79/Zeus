@@ -1,7 +1,7 @@
 // src/components/filtro_societa_content/filtro_societa_content.js
 
 import Select from "components/select/select.js"
-import { derive } from "derivable"
+import { lens } from "derivable"
 
 class FiltroSocietaContent {
     constructor() {
@@ -10,34 +10,24 @@ class FiltroSocietaContent {
         }
     }
 
-    _fetchData() {
-        let selectValue = appState.$selectSottotipo.derive(select => this._filterValue(select))
-        return selectValue.derive(items => this._parseFilter(items))
-    }
-
-    _filterValue(select) {
-        return appState.$lista_centrali.get().filter(item => (select.length == 0 ? true : select.includes(item.sottotipo)))
-    }
-
-    _parseFilter(items) {
-        let unique = [...new Set(items.map(item => item["company"]))]
-        let selectItems = unique.map(item => new Object({ value: item, text: item }))
-        return selectItems
+    oninit({ state }) {
+        state.id = "company"
+        state.$filterOpt = lens({
+            get: () => appState.dispatch("parseFilter", [appState.$filterSocieta.get(), state.id]),
+            set: selection => appState.$selectSocieta.set(selection),
+        })
     }
 
     view({ state }) {
         // prettier-ignore
         return m(".bx--form-item",
-            appState.$lista_centrali.get() === undefined
-                ? ""
-                : [
+                 [
                       m(Select, {
                           id: "#filtro_societa",
                           placeholder: "Societa",
-                          data: state._fetchData(),
-                          onchange: values => {
-                              appState.$selectSocieta.set(values)
-                              appState.societa_visibility(values)
+                          data: state.$filterOpt,
+                          onchange:  selection => {
+                              state.$filterOpt.set(selection)
                           },
                       }),
                   ]

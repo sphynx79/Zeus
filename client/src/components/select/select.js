@@ -48,9 +48,14 @@ class Select {
         // elSelect.addEventListener('focus', () => vnode.select.open());
 
         vnode.attrs.data.react(value => {
-            vnode.select.clear()
+            // appState.$unita_visibility.react(r => console.dir(r), { skipFirst: true})
+            // if (vnode.attrs.id == "#filtro_unita") {
+            //     appState.$unita_visibility.set(value.map(value => value.value))
+            // }
+            // vnode.select.clear()
             vnode.select.removeAll()
             vnode.select.add(value)
+            // vnode.select.setValue(value)
         })
 
         if (process.env.NODE_ENV !== "production") {

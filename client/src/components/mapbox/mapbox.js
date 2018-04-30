@@ -17,7 +17,7 @@ class MapBox {
         this._accessToken = "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
     }
 
-    handleVisibilityUnita() {
+    handleVisibilityUnitaOld() {
         stream.combine(
             (termico, eolico, idrico, autoprod, solare, pompaggi, geotermico, sottotipo, societa, unita) => {
                 let filter = ["all"]
@@ -69,6 +69,35 @@ class MapBox {
                 appState.societa_visibility,
                 appState.unita_visibility,
             ]
+        )
+    }
+
+    handleVisibilityUnita() {
+        let filter = derive(() => {
+            let filter = ["all"]
+            let filter_tecnologia = ["in", "tipo"]
+            // let filter_unita = ["in", "etso"]
+            let filterObj = {
+                TERMICO: appState.$termico_visibility.get(),
+                EOLICO: appState.$eolico_visibility.get(),
+                IDRICO: appState.$idrico_visibility.get(),
+                AUTOPRODUTTORE: appState.$autoprod_visibility.get(),
+                SOLARE: appState.$solare_visibility.get(),
+                POMPAGGIO: appState.$pompaggi_visibility.get(),
+                GEOTERMICO: appState.$geotermico_visibility.get(),
+            }
+            Object.entries(filterObj).forEach(([key, value]) => value && filter_tecnologia.push(key))
+
+            filter.push(filter_tecnologia)
+            return filter
+        })
+
+        filter.react(
+            filter => {
+                map.setFilter("centrali", filter)
+                map.setFilter("remit_centrali", filter)
+            },
+            { skipFirst: true }
         )
     }
 

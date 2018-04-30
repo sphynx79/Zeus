@@ -8,13 +8,13 @@ class FiltroTecnologiaContent {
             this._componentName = this.constructor.name
         }
         this.checkboxs = [
-            { label: "Termico", state: appState.termico_visibility },
-            { label: "Eolico", state: appState.eolico_visibility },
-            { label: "Idrico", state: appState.idrico_visibility },
-            { label: "Autoproduttore", state: appState.autoprod_visibility },
-            { label: "Solare", state: appState.solare_visibility },
-            { label: "Pompaggi", state: appState.pompaggi_visibility },
-            { label: "Geotermico", state: appState.geotermico_visibility },
+            { label: "Termico", state: appState.$termico_visibility },
+            { label: "Eolico", state: appState.$eolico_visibility },
+            { label: "Idrico", state: appState.$idrico_visibility },
+            { label: "Autoproduttore", state: appState.$autoprod_visibility },
+            { label: "Solare", state: appState.$solare_visibility },
+            { label: "Pompaggi", state: appState.$pompaggi_visibility },
+            { label: "Geotermico", state: appState.$geotermico_visibility },
         ]
     }
 
@@ -27,9 +27,9 @@ class FiltroTecnologiaContent {
                 return m(CheckBox, {
                     id: checkBoxId,
                     label: label,
-                    checked: checkbox.state(),
+                    checked: checkbox.state.get(),
                     onchange: () => {
-                        checkbox.state(!checkbox.state())
+                        checkbox.state.set(!checkbox.state.get())
                     },
                 })
             }),
