@@ -4,7 +4,6 @@ import "./mapbox.scss"
 import mapboxgl from "mapbox-gl"
 import stream from "mithril/stream"
 import Legend from "components/legend/legend.js"
-import { derive } from "derivable"
 
 var map
 
@@ -18,22 +17,20 @@ class MapBox {
     }
 
     handleVisibilityUnita() {
-        let filter = derive(() => {
-            let filter = ["in", "etso"]
-            let etso = appState.$etsoVisibility.get()
+        appState.$etsoVisibility.react(
+            etso => {
+                let filterRemit = ["in", "nome"]
+                let filterCentrali = ["in", "etso"]
 
-            if (etso.length > 0) {
-                etso.map(value => filter.push(value))
-            }
+                if (etso.length > 0) {
+                    etso.map(value => {
+                        filterRemit.push(value)
+                        filterCentrali.push(value)
+                    })
+                }
 
-            // filter.push(filter_tecnologia)
-            return filter
-        })
-
-        filter.react(
-            filter => {
-                map.setFilter("centrali", filter)
-                map.setFilter("remit_centrali", filter)
+                map.setFilter("centrali", filterCentrali)
+                map.setFilter("remit_centrali", filterRemit)
             },
             { skipFirst: true }
         )
@@ -499,7 +496,7 @@ class MapBox {
                               "<b>" + "Company: " + "</b>" + feature.properties.company + "<br>" +
                               "<b>" + "Impianto: " + "</b>" + feature.properties.impianto + "<br>" +
                               "<b>" + "Operatore: " + "</b>" + feature.properties.operatore + "<br>" +
-                              "<b>" + "Propietario: " + "</b>" + feature.properties.proprietario + "<br>" +
+                              "<b>" + "Proprietario: " + "</b>" + feature.properties.proprietario + "<br>" +
                               "<b>" + "Localita: " + "</b>" + feature.properties.localita + "<br>" +
                               "<b>" + "Tecnologia: " + "</b>" + feature.properties.tipo + " (" + feature.properties.sottotipo + ")" + "<br>" +
                               "<b>" + "Sottotipo: " + "</b>" + feature.properties.sottotipo + "<br>" +

@@ -40,6 +40,8 @@ class App {
         this.$remit_220 = atom()
         this.$remit_380 = atom()
         this.$remit_centrali = atom()
+        this.$remitCentraliFiltered = derive(() => this.filterRemitCentrali())
+        // TODO: spostare questa parte nel component datapicker
         this.$data.react(
             data => {
                 let urlLinee220 = `http://${this.server}:${this.port}/api/remits/${data}/220`
@@ -51,9 +53,6 @@ class App {
             },
             { skipFirst: true }
         )
-         this.$remit_centrali.react((r) => console.log(r), { skipFirst: true })
-
-
     }
 
     dispatch(action, args) {
@@ -77,6 +76,14 @@ class App {
 
     filterUnita(filterValue, select, type) {
         return filterValue.filter(item => (select.length == 0 ? true : select.includes(item[type])))
+    }
+
+    filterRemitCentrali() {
+        let remit = this.$remit_centrali.get()
+        if (remit === undefined) {
+            return undefined
+        }
+        return remit.features.filter(item => this.$etsoVisibility.get().includes(item.properties.nome))
     }
 
     parseFilter(items, type) {

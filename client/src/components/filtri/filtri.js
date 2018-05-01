@@ -22,10 +22,10 @@ class Filtri {
                 m("ul.bx--accordion[data-accordion='']", [
                     m(FiltroData),
                     m(FiltroLinee),
-                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroTecnologia),
-                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroSottotipo),
-                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroSocieta),
-                    appState.$lista_centrali.get() === undefined ? "" : m(FiltroUnita),
+                    m(FiltroTecnologia),
+                    m(FiltroSottotipo),
+                    m(FiltroSocieta),
+                    m(FiltroUnita),
             ]),
         ])
     }

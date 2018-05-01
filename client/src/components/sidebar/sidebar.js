@@ -13,13 +13,13 @@ class SideBar {
 
     view({ attrs }) {
         // prettier-ignore
-        if (attrs.type == "right") {
-            return m("nav.sidebar#sidebar_right", attrs, [m(Filtri)])
+        if (attrs.type == "right") { 
+            return m("nav.sidebar#sidebar_right", attrs, [appState.$lista_centrali.get() === undefined ? "" : m(Filtri)])
         } else {
             return m("nav.sidebar#sidebar_left", attrs, [
-                m(Table, { type: "linee", volt: "380" }),
-                m(Table, { type: "linee", volt: "220" }),
-                m(Table, { type: "centrali" }),
+                appState.$remit_380.get() === undefined ? "" : m(Table, { type: "linee", volt: "380" }),
+                appState.$remit_220.get() === undefined ? "" : m(Table, { type: "linee", volt: "220" }),
+                appState.$remitCentraliFiltered.get() === undefined ? "" : m(Table, { type: "centrali" }),
             ])
         }
     }

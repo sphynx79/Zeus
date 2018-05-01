@@ -11,6 +11,47 @@ class Table {
         }
     }
 
+    oninit({ attrs, state }) {
+        state.type = attrs.type
+        state.activeLine = -1
+        state.titolo = `TRANSMISSION ${attrs.volt}`
+        appState.$data.react(() => (state.activeLine = -1))
+        if (attrs.type == "linee") {
+            let remit = attrs.volt == "380" ? appState.$remit_380 : appState.$remit_220
+            remit.react(r => {
+                state.remit = r.features
+                m.redraw()
+            })
+        } else {
+            state.titolo = "Centrali"
+            appState.$remitCentraliFiltered.react(r => {
+                state.remit = r
+                m.redraw()
+            })
+        }
+    }
+
+    view({ attrs, state }) {
+        // prettier-ignore
+        return state.remit.length != 0
+            ? m(".tbl", [
+                m(".tbl__header", [
+                    m("table", [ 
+                        m("caption", state.titolo), 
+                        m(`thead.thead-${attrs.type}`, m("tr", this._header().map(key => m("th", { class: key }, key))))
+                    ])  
+                ]),
+                m(".tbl__content[data-simplebar='']", [
+                    m("table", [  
+                        m(`tbody.tbody-${attrs.type}`, this.remit.map((feature, index) => {
+                            return m("tr", state.row_attrs(feature, index), state.row_values(feature))
+                        }))
+                    ])
+                ]),
+            ])
+            : m("")
+    }
+
     _clickRow(feature, index) {
         this.activeLine = index
         if (this.type == "linee") {
@@ -20,56 +61,8 @@ class Table {
         }
     }
 
-    _header(remit) {
-        return Object.keys(remit.features[0].properties)
-    }
-
-    _featureValue(remit) {
-        return remit.features
-    }
-
-    oninit({ attrs, state }) {
-        if (attrs.type == "linee") {
-            state.volt = attrs.volt
-        }
-        state.type = attrs.type
-        state.activeLine = -1
-        appState.$data.react(() => (state.activeLine = -1))
-    }
-
-    view({ attrs, state }) {
-        if (attrs.type == "linee") {
-            var remit = attrs.volt == "380" ? appState.$remit_380.get() : appState.$remit_220.get()
-            var titolo = `TRANSMISSION ${attrs.volt}`
-            var tableType = "linee"
-        } else {
-            var remit = appState.$remit_centrali.get()
-            var titolo = "Centrali"
-            var tableType = "centrali"
-        }
-
-        if (remit && remit.features.length == 0) {
-            remit = undefined
-        }
-
-        // prettier-ignore
-        return remit
-            ? m(".tbl", [
-                m(".tbl__header", [
-                    m("table", [ 
-                        m("caption", titolo), 
-                        m(`thead.thead-${attrs.type}`, m("tr", this._header(remit).map(key => m("th", { class: key }, key))))
-                    ])  
-                ]),
-                m(".tbl__content[data-simplebar='']", [
-                    m("table", [  
-                        m(`tbody.tbody-${attrs.type}`, this._featureValue(remit).map((feature, index) => {
-                            return m("tr", state.row_attrs(feature, index), state.row_values(feature))
-                        }))
-                    ])
-                ]),
-            ])
-            : m("")
+    _header() {
+        return Object.keys(this.remit[0].properties)
     }
 
     row_attrs(feature, index) {
