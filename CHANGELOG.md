@@ -1,3 +1,15 @@
+## 1.2.1 (2018-05-02)
+### Added
+-  La tabella remit centrali reagisce in base ai filtri selezionati  ( 2018-05-02 ) [ sphynx79]
+-  Collegato filtri tecnologia ai filtri unita  ( 2018-05-01 ) [ sphynx79]
+-  Collegato filtri tecnologia ai filtri unita  ( 2018-05-01 ) [ sphynx79]
+
+### Changed
+-  Aggiornato libreria mapbox-gl  ( 2018-05-01 ) [ sphynx79]
+-  Cambiato logica gestione filtri unita  ( 2018-04-30 ) [ sphynx79]
+
+
+
 ## 1.2.0 (2018-04-28)
 ### Fixed
 -  Correto il problema in Mappa.exe dell'avvio del server  ( 2018-04-28 ) [ sphynx79]
