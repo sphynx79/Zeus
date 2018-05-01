@@ -4,7 +4,7 @@ import "./mapbox.scss"
 import mapboxgl from "mapbox-gl"
 import stream from "mithril/stream"
 import Legend from "components/legend/legend.js"
-import { derive, react } from "derivable"
+import { derive } from "derivable"
 
 var map
 
@@ -17,78 +17,16 @@ class MapBox {
         this._accessToken = "pk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjajIzYXRmNnQwMDBuMndwODl1MTdjdG1yIn0.FJ-S1md8BPQtSwTF4SZsMA"
     }
 
-    handleVisibilityUnitaOld() {
-        stream.combine(
-            (termico, eolico, idrico, autoprod, solare, pompaggi, geotermico, sottotipo, societa, unita) => {
-                let filter = ["all"]
-                let filter_tecnologia = ["in", "tipo"]
-                let filter_sottotipo = ["in", "sottotipo"]
-                let filter_societa = ["in", "company"]
-                let filter_unita = ["in", "etso"]
-                let filterMap = new Map()
-                filterMap.set("TERMICO", termico())
-                filterMap.set("EOLICO", eolico())
-                filterMap.set("IDRICO", idrico())
-                filterMap.set("AUTOPRODUTTORE", autoprod())
-                filterMap.set("SOLARE", solare())
-                filterMap.set("POMPAGGIO", pompaggi())
-                filterMap.set("GEOTERMICO", geotermico())
-
-                filterMap.forEach((value, key) => {
-                    value && filter_tecnologia.push(key)
-                })
-                filter.push(filter_tecnologia)
-
-                if (sottotipo().length > 0) {
-                    sottotipo().map(value => filter_sottotipo.push(value))
-                    filter.push(filter_sottotipo)
-                }
-
-                if (societa().length > 0) {
-                    societa().map(value => filter_societa.push(value))
-                    filter.push(filter_societa)
-                }
-
-                if (unita().length > 0) {
-                    unita().map(value => filter_unita.push(value))
-                    filter.push(filter_unita)
-                }
-
-                map.setFilter("centrali", filter)
-                map.setFilter("remit_centrali", filter)
-            },
-            [
-                appState.termico_visibility,
-                appState.eolico_visibility,
-                appState.idrico_visibility,
-                appState.autoprod_visibility,
-                appState.solare_visibility,
-                appState.pompaggi_visibility,
-                appState.geotermico_visibility,
-                appState.sottotipo_visibility,
-                appState.societa_visibility,
-                appState.unita_visibility,
-            ]
-        )
-    }
-
     handleVisibilityUnita() {
         let filter = derive(() => {
-            let filter = ["all"]
-            let filter_tecnologia = ["in", "tipo"]
-            // let filter_unita = ["in", "etso"]
-            let filterObj = {
-                TERMICO: appState.$termico_visibility.get(),
-                EOLICO: appState.$eolico_visibility.get(),
-                IDRICO: appState.$idrico_visibility.get(),
-                AUTOPRODUTTORE: appState.$autoprod_visibility.get(),
-                SOLARE: appState.$solare_visibility.get(),
-                POMPAGGIO: appState.$pompaggi_visibility.get(),
-                GEOTERMICO: appState.$geotermico_visibility.get(),
-            }
-            Object.entries(filterObj).forEach(([key, value]) => value && filter_tecnologia.push(key))
+            let filter = ["in", "etso"]
+            let etso = appState.$etsoVisibility.get()
 
-            filter.push(filter_tecnologia)
+            if (etso.length > 0) {
+                etso.map(value => filter.push(value))
+            }
+
+            // filter.push(filter_tecnologia)
             return filter
         })
 

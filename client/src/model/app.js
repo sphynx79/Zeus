@@ -28,16 +28,15 @@ class App {
         this.$geotermico_visibility = atom(true)
         // sincronizzare i filtri
         this.$lista_centrali = atom(this.fetchCentrali())
-        this.$selectTecnologia = atom([])
-        this.$filterSottotipo = derive(() => this.$lista_centrali.get())
+        this.$filterSottotipo = derive(() => this.filterTecnologia())
         this.$selectSottotipo = atom([])
-        this.$filterSocieta = derive(() => this.applyfilter(this.$filterSottotipo.get(), this.$selectSottotipo.get(), "sottotipo"))
+        this.$filterSocieta = derive(() => this.filterUnita(this.$filterSottotipo.get(), this.$selectSottotipo.get(), "sottotipo"))
         this.$selectSocieta = atom([])
-        this.$filterUnita = derive(() => this.applyfilter(this.$filterSocieta.get(), this.$selectSocieta.get(), "company"))
+        this.$filterUnita = derive(() => this.filterUnita(this.$filterSocieta.get(), this.$selectSocieta.get(), "company"))
         this.$selectUnita = atom([])
-        this.$unitaVisibility = derive(() => this.applyfilter(this.$filterUnita.get(), this.$selectUnita.get(), "etso"))
+        this.$unitaVisibility = derive(() => this.filterUnita(this.$filterUnita.get(), this.$selectUnita.get(), "etso"))
         this.$etsoVisibility = derive(() => this.$unitaVisibility.get().map(item => item["etso"]))
-
+        // gestione remit
         this.$remit_220 = atom()
         this.$remit_380 = atom()
         this.$remit_centrali = atom()
@@ -52,6 +51,9 @@ class App {
             },
             { skipFirst: true }
         )
+         this.$remit_centrali.react((r) => console.log(r), { skipFirst: true })
+
+
     }
 
     dispatch(action, args) {
@@ -61,14 +63,19 @@ class App {
         // })
     }
 
-    // hideSidebar(type) {
-    //     if (type == "left") {
-    //         this.sidebarLeft = false
-    //     } else {
-    //         this.sidebarRight = false
-    //     }
-    // }
-    applyfilter(filterValue, select, type) {
+    filterTecnologia() {
+        let select = []
+        this.$termico_visibility.get() && select.push("TERMICO")
+        this.$eolico_visibility.get() && select.push("EOLICO")
+        this.$idrico_visibility.get() && select.push("IDRICO")
+        this.$autoprod_visibility.get() && select.push("AUTOPRODUTTORE")
+        this.$solare_visibility.get() && select.push("SOLARE")
+        this.$pompaggi_visibility.get() && select.push("POMPAGGIO")
+        this.$geotermico_visibility.get() && select.push("GEOTERMICO")
+        return this.$lista_centrali.get().filter(item => select.includes(item["tipo"]))
+    }
+
+    filterUnita(filterValue, select, type) {
         return filterValue.filter(item => (select.length == 0 ? true : select.includes(item[type])))
     }
 

@@ -28,9 +28,7 @@ class FiltroTecnologiaContent {
                     id: checkBoxId,
                     label: label,
                     checked: checkbox.state.get(),
-                    onchange: () => {
-                        checkbox.state.set(!checkbox.state.get())
-                    },
+                    onchange: () => checkbox.state.set(!checkbox.state.get()),
                 })
             }),
         ])

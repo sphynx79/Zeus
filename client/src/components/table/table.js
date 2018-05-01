@@ -34,7 +34,7 @@ class Table {
         }
         state.type = attrs.type
         state.activeLine = -1
-        appState.$data.derive(() => (state.activeLine = -1))
+        appState.$data.react(() => (state.activeLine = -1))
     }
 
     view({ attrs, state }) {

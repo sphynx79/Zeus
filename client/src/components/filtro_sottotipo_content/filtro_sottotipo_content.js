@@ -26,9 +26,7 @@ class FiltroSottotipoContent {
                           id: "#filtro_sottotipo",
                           placeholder: "Sottotipo",
                           data: state.$filterOpt,
-                          onchange: selection => {
-                              state.$filterOpt.set(selection)
-                          },
+                          onchange: selection => state.$filterOpt.set(selection),
                       }),
                   ]
         )

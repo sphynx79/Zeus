@@ -16,8 +16,6 @@ class FiltroUnitaContent {
             get: () => appState.dispatch("parseFilter", [appState.$filterUnita.get(), state.id]),
             set: selection => appState.$selectUnita.set(selection),
         })
-        // appState.$unitaVisibility.react(r => console.dir(r))
-        // appState.$etsoVisibility.react(r => console.dir(r), { skipFirst: true })
     }
 
     view({ attrs, state }) {
@@ -25,12 +23,10 @@ class FiltroUnitaContent {
         return m(".bx--form-item",
                  [
                       m(Select, {
-                          id: "#filtro_unita",
-                          placeholder: "Unita",
-                          data: state.$filterOpt,
-                         onchange: selection => {
-                              state.$filterOpt.set(selection)
-                          },
+                         id: "#filtro_unita",
+                         placeholder: "Unita",
+                         data: state.$filterOpt,
+                         onchange: selection => state.$filterOpt.set(selection),
                       }),
                   ]
         )

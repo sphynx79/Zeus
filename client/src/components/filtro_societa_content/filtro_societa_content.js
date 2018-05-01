@@ -26,9 +26,7 @@ class FiltroSocietaContent {
                           id: "#filtro_societa",
                           placeholder: "Societa",
                           data: state.$filterOpt,
-                          onchange:  selection => {
-                              state.$filterOpt.set(selection)
-                          },
+                          onchange:  selection => state.$filterOpt.set(selection),
                       }),
                   ]
         )
