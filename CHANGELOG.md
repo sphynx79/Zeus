@@ -2,7 +2,6 @@
 ### Added
 -  La tabella remit centrali reagisce in base ai filtri selezionati  ( 2018-05-02 ) [ sphynx79]
 -  Collegato filtri tecnologia ai filtri unita  ( 2018-05-01 ) [ sphynx79]
--  Collegato filtri tecnologia ai filtri unita  ( 2018-05-01 ) [ sphynx79]
 
 ### Changed
 -  Aggiornato libreria mapbox-gl  ( 2018-05-01 ) [ sphynx79]
