@@ -1,3 +1,9 @@
+## 1.2.2 (2018-05-02)
+### Added
+-  Aggiunto freccette per scorrere i giorni  ( 2018-05-02 ) [ sphynx79]
+
+
+
 ## 1.2.1 (2018-05-02)
 ### Added
 -  La tabella remit centrali reagisce in base ai filtri selezionati  ( 2018-05-02 ) [ sphynx79]
