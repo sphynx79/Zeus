@@ -20,3 +20,12 @@
 .bx--date-picker__input {
     background-color: rgba(45, 63, 73, 0.78) !important;
 }
+
+.bx--date-picker-container {
+    display: flex;
+}
+
+.bx--number__controls {
+  left: 0;
+
+}
