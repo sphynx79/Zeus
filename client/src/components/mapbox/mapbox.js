@@ -178,10 +178,10 @@ class MapBox {
         map = new mapboxgl.Map({
             container: "mapid",
             style: "mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr?optimize=true",
-            center: [11.88, 42.18],
-            zoom: 5.7,
+            center: [11.88, 42.13],
+            zoom: 5.6,
             maxZoom: 13,
-            minZoom: 5.5,
+            minZoom: 5.3,
         })
         // map.addControl(new mapboxgl.FullscreenControl());
     }
