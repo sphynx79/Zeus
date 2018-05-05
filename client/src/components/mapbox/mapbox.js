@@ -198,25 +198,6 @@ class MapBox {
         }
     }
 
-    loop(fn) {
-        ;(function animLoop() {
-            fn()
-            setTimeout(function() {
-                requestAnimationFrame(animLoop)
-            }, 1000 / 10)
-        })()
-    }
-
-    enableLineAnimation(layerId) {
-        var step = 0
-        let dashArraySeq = [[0, 4, 3], [1, 4, 2], [2, 4, 1], [3, 4, 0], [0, 1, 3, 3], [0, 2, 3, 2], [0, 3, 3, 1]]
-
-        this.loop(() => {
-            step = (step + 1) % dashArraySeq.length
-            map.setPaintProperty(layerId, "line-dasharray", dashArraySeq[step])
-        })
-    }
-
     addLayerRemitLinee(volt) {
         if (volt == "380") {
             var remitId = "remit_380"
@@ -233,7 +214,7 @@ class MapBox {
             type: "line",
             source: {
                 type: "geojson",
-                data: remitData,
+                data: remitData === undefined ?  {"type": "FeatureCollection","features": []} : remitData,
             },
             paint: {
                 "line-color": color,
@@ -245,7 +226,20 @@ class MapBox {
                 "line-dasharray": [0, 4, 3],
             },
         })
-        this.enableLineAnimation(remitId)
+
+        let step = 0
+        let dashArraySeq = [[0, 4, 3], [1, 4, 2], [2, 4, 1], [3, 4, 0], [0, 1, 3, 3], [0, 2, 3, 2], [0, 3, 3, 1]]
+        let lenght = dashArraySeq.length
+        function animateLinee(timestamp) {
+            setTimeout(function() {
+                step = (step + 1) % lenght
+                map.setPaintProperty(remitId, "line-dasharray", dashArraySeq[step])
+                requestAnimationFrame(animateLinee)
+            }, 1000 / 10)
+        }
+
+        // Start the animation.
+        animateLinee(0)
     }
 
     addLayerRemitCentrali() {
@@ -274,7 +268,7 @@ class MapBox {
 
         map.addSource("remit_centrali", {
             type: "geojson",
-            data: remitData,
+            data: remitData === undefined ?  {"type": "FeatureCollection","features": []} : remitData
         })
 
         map.addLayer({
@@ -343,21 +337,9 @@ class MapBox {
 
         function animateMarker(timestamp) {
             setTimeout(function() {
-                requestAnimationFrame(animateMarker)
                 var zoom = map.getZoom()
                 var maxRadius = -0.06 * Math.pow(zoom, 2) + 1.14 * zoom - 2.68
                 radius += (maxRadius - radius) / framesPerSecond
-
-                // if (opacity <= 0.9 && direction == 0) {
-                //     opacity += 1.15 / framesPerSecond
-                // } else if (opacity >= 0.4) {
-                //     direction = 1
-                //     opacity -= 0.7 / framesPerSecond
-                // } else {
-                //     direction = 0
-                //     opacity = initialOpacity
-                //     radius = 0
-                // }
 
                 radius += (maxRadius - radius) / framesPerSecond
                 opacity -= 0.9 / framesPerSecond
@@ -373,11 +355,7 @@ class MapBox {
                     radius = initialRadius
                     opacity = initialOpacity
                 }
-
-                // if (opacity <= 0.2) {
-                //     // radius = initialRadius
-                //     opacity = initialOpacity
-                // }
+                requestAnimationFrame(animateMarker)
             }, 1000 / framesPerSecond)
         }
 

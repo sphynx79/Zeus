@@ -7,6 +7,7 @@ import FiltroLinee from "components/filtro_linee/filtro_linee.js"
 import FiltroTecnologia from "components/filtro_tecnologia/filtro_tecnologia.js"
 import FiltroSottotipo from "components/filtro_sottotipo/filtro_sottotipo.js"
 import FiltroSocieta from "components/filtro_societa/filtro_societa.js"
+import FiltroImpianto from "components/filtro_impianto/filtro_impianto.js"
 import FiltroUnita from "components/filtro_unita/filtro_unita.js"
 
 class Filtri {
@@ -25,6 +26,7 @@ class Filtri {
                     m(FiltroTecnologia),
                     m(FiltroSottotipo),
                     m(FiltroSocieta),
+                    m(FiltroImpianto),
                     m(FiltroUnita),
             ]),
         ])

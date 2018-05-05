@@ -55,12 +55,6 @@ class DataPicker {
 
     oncreate(vnode) {
         let el = vnode.dom.lastChild
-        console.log(el)
-
-        // debugger
-        // console.log(el)
-        // let up = el.getElementsByClassName("up-icon")[0]
-        // let down = el.getElementsByClassName("down-icon")[0]
 
         vnode.picker = DatePicker.create(el, {
             dateFormat: "d-m-Y",
@@ -69,7 +63,6 @@ class DataPicker {
         })
 
         vnode.picker.calendar.config.onChange.push((selectedDates, dateStr, instance) => {
-            console.log(dateStr)
             appState.$data.set(dateStr)
         })
         vnode.state.picker = vnode.picker
