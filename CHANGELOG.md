@@ -1,3 +1,9 @@
+## 1.2.3 (2018-05-05)
+### Added
+-  aggiunto filtro impianto  ( 2018-05-05 ) [ sphynx79]
+
+
+
 ## 1.2.2 (2018-05-02)
 ### Added
 -  Aggiunto freccette per scorrere i giorni  ( 2018-05-02 ) [ sphynx79]
