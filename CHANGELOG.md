@@ -1,3 +1,9 @@
+## 1.3.2 (2018-05-17)
+### Changed
+-  Aggiornato mapbox e webpack  ( 2018-05-17 ) [ sphynx79]
+
+
+
 ## 1.3.1 (2018-05-16)
 ### Changed
 -  Inserito in gemfile versioni delle librerie  ( 2018-05-16 ) [ sphynx79]
