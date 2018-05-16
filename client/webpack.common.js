@@ -66,6 +66,8 @@ module.exports = {
                                         browsers: ["last 2 versions", "not ie <= 11"],
                                     },
                                     modules: false,
+                                    debug: true,
+                                    // useBuiltins: "usage",
                                     // exclude: ["transform-regenerator"],
                                 },
                             ],

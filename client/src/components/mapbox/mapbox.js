@@ -214,7 +214,7 @@ class MapBox {
             type: "line",
             source: {
                 type: "geojson",
-                data: remitData === undefined ?  {"type": "FeatureCollection","features": []} : remitData,
+                data: remitData === undefined ? { type: "FeatureCollection", features: [] } : remitData,
             },
             paint: {
                 "line-color": color,
@@ -268,7 +268,7 @@ class MapBox {
 
         map.addSource("remit_centrali", {
             type: "geojson",
-            data: remitData === undefined ?  {"type": "FeatureCollection","features": []} : remitData
+            data: remitData === undefined ? { type: "FeatureCollection", features: [] } : remitData,
         })
 
         map.addLayer({
