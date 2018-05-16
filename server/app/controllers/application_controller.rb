@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
 class ApplicationController < Sinatra::Base
   @@my_app = {}
-  def self.new(*) self < ApplicationController ? super : Rack::URLMap.new(@@my_app) end
-  def self.map(url) @@my_app[url] = self end
+  def self.new(*)
+    self < ApplicationController ? super : Rack::URLMap.new(@@my_app)
+  end
+
+  def self.map(url)
+    @@my_app[url] = self
+  end
 
   register Sinatra::Namespace
 
@@ -11,23 +18,23 @@ class ApplicationController < Sinatra::Base
     p "ip: #{ip}:80"
     set :port, 80
     set :logging, false
-    File.open('ip.txt', 'w') { |file| file.write(ip) }
+    # File.open('ip.txt', 'w') { |file| file.write(ip) }
     set :server_adress, ip
     begin
-      db =  Mongo::Client.new(['10.130.96.220:27018','10.130.96.220:27019', '10.130.96.144:27018'], database: 'transmission', write: {w: 0, j: true})
-      # db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false}) 
+      # db = Mongo::Client.new(['10.130.96.220:27018', '10.130.96.220:27019', '10.130.96.144:27018'], database: 'transmission', write: { w: 0, j: true })
+      db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: { w: 0, j: false })
       db.database_names
       set :db, db
-    rescue Mongo::Error::NoServerAvailable => e
-      p ('Non riesco connetermi al server mongo db')
+    rescue Mongo::Error::NoServerAvailable
+      p 'Non riesco connetermi al server mongo db'
       exit!
     end
     use Rack::Cache, verbose: false
     use Rack::Deflater
     set :public_folder, 'public'
-    use Rack::GzipStatic, urls: ['/css', '/js', '/fonts'], root: 'public', header_rules: [[:all, {'Cache-Control' => 'public, max-age=3600'}]]
-    #set :static_cache_control, [:public, :max_age => 3600]
-    #use Rack::Static, :root => 'public'
+    use Rack::GzipStatic, urls: ['/css', '/js', '/fonts'], root: 'public', header_rules: [[:all, { 'Cache-Control' => 'public, max-age=3600' }]]
+    # set :static_cache_control, [:public, :max_age => 3600]
+    # use Rack::Static, :root => 'public'
   end
 
   configure(:development) do
@@ -41,15 +48,15 @@ class ApplicationController < Sinatra::Base
 
     use BetterErrors::Middleware
     use PryRescue::Rack
-    BetterErrors.application_root = File.expand_path('..', __FILE__)
+    BetterErrors.application_root = File.expand_path(__dir__)
     set :raise_errors, true
     set :server_adress, 'localhost'
     begin
-      db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: {w: 0, j: false}) 
+      db = Mongo::Client.new(['127.0.0.1:27030'], database: 'transmission', write: { w: 0, j: false })
       db.database_names
       set :db, db
-    rescue Mongo::Error::NoServerAvailable => e
-      p ('Non riesco connetermi al server mongo db')
+    rescue Mongo::Error::NoServerAvailable
+      p 'Non riesco connetermi al server mongo db'
       exit!
     end
     # la seguente riga mi permette di usare yarn watch
@@ -68,6 +75,4 @@ class ApplicationController < Sinatra::Base
     set :remit_linee_collection, settings.db[:remit_linee]
     set :remit_centrali_collection, settings.db[:remit_centrali]
   end
-
 end
-

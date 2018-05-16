@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransmissionController < ApplicationController
   # helpers Sinatra::Database
 
@@ -14,21 +16,20 @@ class TransmissionController < ApplicationController
     @remit_centrali_collection ||= remit_centrali_collection
   end
 
-  map "/"
+  map '/'
 
   #
   # Pagina iniziale static index.html
   # Attraverso il codice javascript carica la mia app
   #
-  get "/?:query?" do
+  get '/?:query?' do
     # usare questo per usare un static index.html creato da webpack
     # la public folder in develoment mode e dentro client/dist
     # la public folder in production mode e dentro public
-    send_file File.join(settings.public_folder, "index.html")
+    send_file File.join(settings.public_folder, 'index.html')
     # se invece voglio usare la directory view con i file erb e il layout
     # usare la seguente riga
     # erb :index
-
   end
 
   #
@@ -36,10 +37,10 @@ class TransmissionController < ApplicationController
   #
   # Per fare una query alle API http://[adress]:[port]/api/[query]
   #
-  namespace "/api" do
+  namespace '/api' do
     before do
       content_type :json
-      headers "Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Methods" => ["OPTIONS", "GET", "POST"]
+      headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => %w[OPTIONS GET POST]
     end
 
     #
@@ -48,40 +49,38 @@ class TransmissionController < ApplicationController
     # @param data [String] data di flusso della remit nella forma gg-mm-yyyy
     # @param volt [String] voltaggio della remit 220 oppure 380
     #
-    get "/remits/:data/:volt" do
-      day, month, year = params["data"].split("-").map(&:to_i)
-
-      start_dt = Date.parse(params["data"]).to_time.utc
-      end_dt = (Date.parse(params["data"]) + 1).to_time.utc
-      volt = params["volt"]
+    get '/remits/:data/:volt' do
+      start_dt = Date.parse(params['data']).to_time.utc
+      end_dt = (Date.parse(params['data']) + 1).to_time.utc
+      volt = params['volt']
 
       pipeline = []
 
-      pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, volt: volt,
-                               :$or => [{:$and => [{"start_dt": {:$gte => start_dt}}, {"start_dt": {:$lte => end_dt}}]}, {"start_dt": {:$lte => start_dt}, "end_dt": {:$gte => start_dt}}]}}
+      pipeline << { :$match => { "dt_upd": { :$lte => start_dt }, volt: volt,
+                                 :$or => [{ :$and => [{ "start_dt": { :$gte => start_dt } }, { "start_dt": { :$lte => end_dt } }] }, { "start_dt": { :$lte => start_dt }, "end_dt": { :$gte => start_dt } }] } }
 
-      pipeline << {:$group => {'_id': "$nome",
-                               'dt_upd': {'$last': "$dt_upd"},
-                               'nome': {'$first': "$nome"},
-                               'volt': {'$first': "$volt"},
-                               'start_dt': {'$first': "$start_dt"},
-                               'end_dt': {'$first': "$end_dt"},
-                               'reason': {'$first': "$reason"},
-                               'id_transmission': {'$first': "$id_transmission"}}}
+      pipeline << { :$group => { '_id': '$nome',
+                                 'dt_upd': { '$last': '$dt_upd' },
+                                 'nome': { '$first': '$nome' },
+                                 'volt': { '$first': '$volt' },
+                                 'start_dt': { '$first': '$start_dt' },
+                                 'end_dt': { '$first': '$end_dt' },
+                                 'reason': { '$first': '$reason' },
+                                 'id_transmission': { '$first': '$id_transmission' } } }
 
       remit_result = @remit_linee_collection.aggregate(pipeline).allow_disk_use(true).to_a
 
       features = Parallel.map(remit_result, in_threads: 4) do |x|
         feature = {}
-        id_transmission = x["id_transmission"]
-        feature["type"] = "Feature"
-        feature["properties"] = {}
-        feature["properties"]["nome"] = x["nome"]
+        id_transmission = x['id_transmission']
+        feature['type'] = 'Feature'
+        feature['properties'] = {}
+        feature['properties']['nome'] = x['nome']
         # feature["properties"]["volt"]     = x["volt"]
-        feature["properties"]["update"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["start"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["end"] = x["end_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["geometry"] = instance_variable_get("@linee_#{volt}").lazy.select { |f| f["id"] == id_transmission }.first["geometry"]
+        feature['properties']['update'] = x['dt_upd'].strftime('%d-%m-%Y %H:%M')
+        feature['properties']['start'] = x['start_dt'].strftime('%d-%m-%Y %H:%M')
+        feature['properties']['end'] = x['end_dt'].strftime('%d-%m-%Y %H:%M')
+        feature['geometry'] = instance_variable_get("@linee_#{volt}").lazy.select { |f| f['id'] == id_transmission }.first['geometry']
         feature
       end
       # feature_debug = features
@@ -102,62 +101,62 @@ class TransmissionController < ApplicationController
       # end
       #
       geojson_hash = to_feature_collection features
-      Oj.dump(geojson_hash, :mode => :compat)
+      Oj.dump(geojson_hash, mode: :compat)
     end
 
-    get "/remits_centrali/:data" do
-      data = params["data"]
+    get '/remits_centrali/:data' do
+      data = params['data']
       start_dt = Date.parse(data)
       end_dt = Date.parse(data)
 
       pipeline = []
-      pipeline << { :$match => { "event_status": "Active" }}
-      pipeline << { :$match => { "dt_upd": {:$lte => start_dt},
-                               :$or => [{:$and => [{"dt_start": {:$gte => start_dt}}, {"dt_start": {:$lte => end_dt}}]}, {"dt_start": {:$lte => start_dt}, "dt_end": {:$gte => start_dt}}]}}
-       pipeline << {"$project": {
-         "_id": 0,
-          "etso": "$etso",
-          "dt_upd": "$dt_upd",
-          "dt_start": "$dt_start",
-          "dt_end": "$dt_end",      
-       }}
+      pipeline << { :$match => { "event_status": 'Active' } }
+      pipeline << { :$match => { "dt_upd": { :$lte => start_dt },
+                                 :$or => [{ :$and => [{ "dt_start": { :$gte => start_dt } }, { "dt_start": { :$lte => end_dt } }] }, { "dt_start": { :$lte => start_dt }, "dt_end": { :$gte => start_dt } }] } }
+      pipeline << { "$project": {
+        "_id": 0,
+        "etso": '$etso',
+        "dt_upd": '$dt_upd',
+        "dt_start": '$dt_start',
+        "dt_end": '$dt_end'
+      } }
 
       remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(true).to_a
 
       features = Parallel.map(remit_result, in_threads: 4) do |x|
         feature = {}
-        etso = x["etso"]
-        mapbox_feature = @centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
-        feature["type"] = "Feature"
-        feature["properties"] = {}
-        feature["properties"]["nome"] = x["etso"]
-        feature["properties"]["company"] = mapbox_feature["properties"]["company"]
-        feature["properties"]["tipo"] = mapbox_feature["properties"]["tipo"]
-        feature["properties"]["sottotipo"] = mapbox_feature["properties"]["sottotipo"]
-        feature["properties"]["pmax"] = mapbox_feature["properties"]["pmax"]
-        feature["properties"]["update"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["start"] = x["dt_start"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["end"] = x["dt_end"].strftime("%d-%m-%Y %H:%M")
-        feature["geometry"] = mapbox_feature["geometry"]
+        etso = x['etso']
+        mapbox_feature = @centrali.lazy.select { |f| f['properties']['etso'] == etso }.first
+        feature['type'] = 'Feature'
+        feature['properties'] = {}
+        feature['properties']['nome'] = x['etso']
+        feature['properties']['company'] = mapbox_feature['properties']['company']
+        feature['properties']['tipo'] = mapbox_feature['properties']['tipo']
+        feature['properties']['sottotipo'] = mapbox_feature['properties']['sottotipo']
+        feature['properties']['pmax'] = mapbox_feature['properties']['pmax']
+        feature['properties']['update'] = x['dt_upd'].strftime('%d-%m-%Y %H:%M')
+        feature['properties']['start'] = x['dt_start'].strftime('%d-%m-%Y %H:%M')
+        feature['properties']['end'] = x['dt_end'].strftime('%d-%m-%Y %H:%M')
+        feature['geometry'] = mapbox_feature['geometry']
         feature
       end
 
       geojson_hash = to_feature_collection features
-      Oj.dump(geojson_hash, :mode => :compat)
+      Oj.dump(geojson_hash, mode: :compat)
     end
 
     #
     # API => Elenco tutte le centrali con relative proprieta
     #
-    get "/lista_centrali" do
-      cache_control :public, :must_revalidate, :max_age => 3600
+    get '/lista_centrali' do
+      cache_control :public, :must_revalidate, max_age: 3600
       last_modified Time.now
       lista_centrali = []
       @centrali.map do |centrale|
-        lista_centrali << centrale["properties"]
+        lista_centrali << centrale['properties']
       end
       etag Digest::MD5.hexdigest(lista_centrali.to_s)
-      Oj.dump(lista_centrali, :mode => :compat)
+      Oj.dump(lista_centrali, mode: :compat)
     end
   end
 
@@ -222,7 +221,7 @@ class TransmissionController < ApplicationController
   #
   # Per fare una query alle API http://[adress]:[port]/api/v1/[query]
   #
-  #namespace '/api/v1' do
+  # namespace '/api/v1' do
   #  before do
   #    content_type :json
   #    headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
@@ -283,14 +282,14 @@ class TransmissionController < ApplicationController
   #    Oj.dump(geojson_hash, :mode => :compat)
   #  end
 
-  #end
+  # end
 
   ##
   ## NameSpace per le mie api V2
   ##
   ## Per fare una query alle API http://[adress]:[port]/api/v2/[query]
   ##
-  #namespace '/api/v2' do
+  # namespace '/api/v2' do
   #  before do
   #    content_type :json
   #    headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
@@ -330,14 +329,14 @@ class TransmissionController < ApplicationController
   #    Oj.dump(geojson_hash, :mode => :compat)
   #  end
 
-  #end
+  # end
 
   ##
   ## NameSpace per le mie api V3
   ##
   ## Per fare una query alle API http://[adress]:[port]/api/v3/[query]
   ##
-  #namespace '/api/v3' do
+  # namespace '/api/v3' do
   #  before do
   #    content_type :json
   #    headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
@@ -388,14 +387,14 @@ class TransmissionController < ApplicationController
   #    geojson_hash = to_feature_collection features
   #    Oj.dump(geojson_hash, :mode => :compat)
   #  end
-  #end
+  # end
 
   ##
   ## NameSpace per le mie api V4
   ##
   ## Per fare una query alle API http://[adress]:[port]/api/v4/[query]
   ##
-  #namespace '/api/v4' do
+  # namespace '/api/v4' do
   #  before do
   #    content_type :json
   #    headers 'Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
@@ -438,7 +437,7 @@ class TransmissionController < ApplicationController
   #    remit_result = @remit_centrali_collection.aggregate(pipeline).allow_disk_use(true).to_a
   #    Oj.dump(remit_result, :mode => :compat)
   #  end
-  #end
+  # end
 
   #
   # NameSpace per le mie api V2
@@ -450,12 +449,11 @@ class TransmissionController < ApplicationController
   # Metodi si supporto alle api
   #
   helpers do
-
     #
     # Creao un oggetto geojson standardizzato della remit delle linee
     #
     def to_feature_collection(features)
-      {"type" => "FeatureCollection", "features" => features}
+      { 'type' => 'FeatureCollection', 'features' => features }
     end
 
     #
@@ -463,12 +461,12 @@ class TransmissionController < ApplicationController
     # e mi restituisce tutte le linee 380
     #
     def get_linee_380
-      url = "https://api.mapbox.com/datasets/v1/browserino/cjcb6ahdv0daq2xnwfxp96z9t/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
+      url = 'https://api.mapbox.com/datasets/v1/browserino/cjcb6ahdv0daq2xnwfxp96z9t/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg'
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       geojson = http.get(uri.request_uri).body
-      Oj.load(geojson, :mode => :compat)["features"].freeze
+      Oj.load(geojson, mode: :compat)['features'].freeze
     end
 
     #
@@ -476,12 +474,12 @@ class TransmissionController < ApplicationController
     # e mi restituisce tutte le linee 220
     #
     def get_linee_220
-      url = "https://api.mapbox.com/datasets/v1/browserino/cjcfb90n41pub2xp6liaz7quj/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
+      url = 'https://api.mapbox.com/datasets/v1/browserino/cjcfb90n41pub2xp6liaz7quj/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg'
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       geojson = http.get(uri.request_uri).body
-      Oj.load(geojson, :mode => :compat)["features"].freeze
+      Oj.load(geojson, mode: :compat)['features'].freeze
     end
 
     #
@@ -489,12 +487,12 @@ class TransmissionController < ApplicationController
     # e mi restituisce tutte le centrali
     #
     def get_centrali
-      url = "https://api.mapbox.com/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg"
+      url = 'https://api.mapbox.com/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=sk.eyJ1IjoiYnJvd3NlcmlubyIsImEiOiJjamEzdjBxOGM5Nm85MzNxdG9mOTdnaDQ0In0.tMMxfE2W6-WCYIRzBmCVKg'
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       geojson = http.get(uri.request_uri).body
-      Oj.load(geojson, :mode => :compat)["features"].freeze
+      Oj.load(geojson, mode: :compat)['features'].freeze
     end
 
     #
@@ -504,27 +502,27 @@ class TransmissionController < ApplicationController
       group = {}
       set = []
       1.upto 24 do |i|
-        group[i] = {:$push => {:doc => "$days.hours.#{i}",
-                               :dt_upd => "$dt_upd",
-                               :d_bdofrdt => "$days.d_bdofrdt",
-                               :dt_flusso => "$_id.dt_flusso",
-                               :dt_start => "$dt_start",
-                               :dt_end => "$dt_end",
-                               :etso => "$etso",
-                               :fuel_type => "$fuel_type",
-                               :unavailability_type => "$unavailability_type",
-                               :msg_id => "$msg_id",
-                               :p_min => "$p_min",
-                               :p_max => "$p_max",
-                               :tp_ind => "$tp_ind",
-                               :nm_source => "$nm_source",
-                               :tp_source => "$tp_source",
-                               :hour => {:$literal => i}}}
+        group[i] = { :$push => { doc: "$days.hours.#{i}",
+                                 dt_upd: '$dt_upd',
+                                 d_bdofrdt: '$days.d_bdofrdt',
+                                 dt_flusso: '$_id.dt_flusso',
+                                 dt_start: '$dt_start',
+                                 dt_end: '$dt_end',
+                                 etso: '$etso',
+                                 fuel_type: '$fuel_type',
+                                 unavailability_type: '$unavailability_type',
+                                 msg_id: '$msg_id',
+                                 p_min: '$p_min',
+                                 p_max: '$p_max',
+                                 tp_ind: '$tp_ind',
+                                 nm_source: '$nm_source',
+                                 tp_source: '$tp_source',
+                                 hour: { :$literal => i } } }
         set.push("$#{i}")
       end
-      group[:_id] = {:$dateToString => {:format => "%Y-%m-%d", :date => "$days.dt_flusso"}}
-      project = {:docs => {:$setUnion => set}}
-      return group, project
+      group[:_id] = { :$dateToString => { format: '%Y-%m-%d', date: '$days.dt_flusso' } }
+      project = { docs: { :$setUnion => set } }
+      [group, project]
     end
 
     #
@@ -542,4 +540,3 @@ class TransmissionController < ApplicationController
     end
   end
 end
-

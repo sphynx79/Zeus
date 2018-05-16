@@ -8,6 +8,19 @@ $:.unshift File.expand_path("app",  File.dirname(__dir__))
 ENV['RACK_ENV'] ||= 'development'
 ENV['TZ']       ||= 'UTC'
 
+require 'rubygems'
+require 'bundler/setup'
+require 'bootsnap'
+Bootsnap.setup(
+  cache_dir:            './cache',
+  development_mode:     ENV['RACK_ENV'] == 'development',
+  load_path_cache:      true,
+  autoload_paths_cache: true,
+  disable_trace:        true,
+  compile_cache_iseq:   true,
+  compile_cache_yaml:   true
+)
+
 require 'bundler/setup'
 require 'mongo'
 require 'require_all'

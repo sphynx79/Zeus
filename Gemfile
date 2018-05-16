@@ -6,8 +6,6 @@ ruby '2.5.1'
 
 source 'https://rubygems.org'
 
-gem 'activesupport', '~>5.2.0'
-gem 'bootsnap', '~>1.3.0', require: false
 gem 'mongo', '~>2.5.3'
 gem 'oj', '~>3.6.0'
 gem 'parallel', '~>1.12.1'
