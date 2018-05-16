@@ -1,3 +1,9 @@
+## 1.3.0 (2018-05-16)
+### Added
+-  Aggiunto supporto per le nuove remit delle centrali che si basano sul PIP  ( 2018-05-16 ) [ sphynx79]
+
+
+
 ## 1.2.3 (2018-05-05)
 ### Added
 -  aggiunto filtro impianto  ( 2018-05-05 ) [ sphynx79]
