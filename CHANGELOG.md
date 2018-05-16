@@ -1,3 +1,9 @@
+## 1.3.1 (2018-05-16)
+### Changed
+-  Inserito in gemfile versioni delle librerie  ( 2018-05-16 ) [ sphynx79]
+
+
+
 ## 1.3.0 (2018-05-16)
 ### Added
 -  Aggiunto supporto per le nuove remit delle centrali che si basano sul PIP  ( 2018-05-16 ) [ sphynx79]
