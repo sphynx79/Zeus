@@ -28,12 +28,15 @@ class Select {
             data: vnode.attrs.data.get(),
             customClass: "custom-style",
             width: 500,
+            pagination: 30,
         })
 
         let elId = document.querySelector(`${vnode.attrs.id}`)
 
         vnode.select.on("selectr.open", () => {
             elId && elId.style.setProperty("--space", "16rem")
+            // debugger
+            // document.querySelector("#sidebar_right > div > ul").scrollTop += 500
         })
 
         vnode.select.on("selectr.close", () => {

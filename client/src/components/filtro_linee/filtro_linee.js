@@ -1,3 +1,6 @@
+// src/components/filtro_linee/filtro_linee.js
+
+import "./filtro_linee.scss"
 import FiltriItem from "components/filtri_item/filtri_item.js"
 import FiltroLineeContent from "components/filtro_linee_content/filtro_linee_content.js"
 

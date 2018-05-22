@@ -26,7 +26,7 @@ class Layout {
             m(attrs.sidebarLeft,  {class: (appState.sidebarLeft ? "active" : "") + " " + "left",type: "left", }),
             m(attrs.burgerLeft,   {class: (appState.sidebarLeft ? "active" : "") + " " + "left",onclick: () => { state._toggleSideBar("left") }}),
             m(attrs.sidebarRight, {class: (appState.sidebarRight ? "active" : "") + " " + "right", type: "right"}),
-            m(attrs.burgerRight,  {class: (appState.sidebarRight ? "active" : "") + " " + "right", onclick: () => { state._toggleSideBar("right")}}),
+            m(attrs.burgerRight,  {class: (appState.sidebarRight ? "active" : "") + " " + "right", onclick: () => { state._toggleSideBar("right") }}),
             m(attrs.remitTransmission),
             // m(attrs.remitTransmission, {onclick: () => {state._hideSideBar()}}),
         ])

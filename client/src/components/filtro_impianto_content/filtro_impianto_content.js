@@ -23,8 +23,8 @@ class FiltroImpiantoContent {
         return m(".bx--form-item",
                  [
                       m(Select, {
-                          id: "#filtro_societa",
-                          placeholder: "Societa",
+                          id: "#filtro_impianto",
+                          placeholder: "Impianto",
                           data: state.$filterOpt,
                           onchange:  selection => state.$filterOpt.set(selection),
                       }),

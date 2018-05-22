@@ -19,13 +19,21 @@ class App {
         this.$linee_380_visibility = atom(true)
         this.$linee_220_visibility = atom(true)
         // toggle visibility tecnologia
-        this.$termico_visibility = atom(true)
-        this.$eolico_visibility = atom(true)
-        this.$idrico_visibility = atom(true)
-        this.$autoprod_visibility = atom(true)
-        this.$solare_visibility = atom(true)
-        this.$pompaggi_visibility = atom(true)
-        this.$geotermico_visibility = atom(true)
+        this.$termicoVisibility = atom(true)
+        this.$eolicoVisibility = atom(true)
+        this.$idricoVisibility = atom(true)
+        this.$autoprodVisibility = atom(true)
+        this.$solareVisibility = atom(true)
+        this.$pompaggiVisibility = atom(true)
+        this.$geotermicoVisibility = atom(true)
+        // filtro pmin e pmax tecnologia
+        this.$termicoPminPmax = atom([-1500, 1500])
+        this.$eolicoPminPmax = atom([-1500, 1500])
+        this.$idricoPminPmax = atom([-1500, 1500])
+        this.$autoprodPminPmax = atom([-1500, 1500])
+        this.$solarePminPmax = atom([-1500, 1500])
+        this.$pompaggiPminPmax = atom([-1500, 1500])
+        this.$geotermicoPminPmax = atom([-1500, 1500])
         // sincronizzare i filtri
         this.$lista_centrali = atom(this.fetchCentrali())
         this.$filterSottotipo = derive(() => this.filterTecnologia())
@@ -65,15 +73,31 @@ class App {
     }
 
     filterTecnologia() {
-        let select = []
-        this.$termico_visibility.get() && select.push("TERMICO")
-        this.$eolico_visibility.get() && select.push("EOLICO")
-        this.$idrico_visibility.get() && select.push("IDRICO")
-        this.$autoprod_visibility.get() && select.push("AUTOPRODUTTORE")
-        this.$solare_visibility.get() && select.push("SOLARE")
-        this.$pompaggi_visibility.get() && select.push("POMPAGGIO")
-        this.$geotermico_visibility.get() && select.push("GEOTERMICO")
-        return this.$lista_centrali.get().filter(item => select.includes(item["tipo"]))
+        let filterArray = []
+        this.$termicoVisibility.get() && filterArray.push({ tipo: "TERMICO", pmin: this.$termicoPminPmax.get()[0], pmax: this.$termicoPminPmax.get()[1] })
+        this.$eolicoVisibility.get() && filterArray.push({ tipo: "EOLICO", pmin: this.$eolicoPminPmax.get()[0], pmax: this.$eolicoPminPmax.get()[1] })
+        this.$idricoVisibility.get() && filterArray.push({ tipo: "IDRICO", pmin: this.$idricoPminPmax.get()[0], pmax: this.$idricoPminPmax.get()[1] })
+        this.$autoprodVisibility.get() && filterArray.push({ tipo: "AUTOPRODUTTORE", pmin: this.$autoprodPminPmax.get()[0], pmax: this.$autoprodPminPmax.get()[1] })
+        this.$solareVisibility.get() && filterArray.push({ tipo: "SOLARE", pmin: this.$solarePminPmax.get()[0], pmax: this.$solarePminPmax.get()[1] })
+        this.$pompaggiVisibility.get() && filterArray.push({ tipo: "POMPAGGIO", pmin: this.$pompaggiPminPmax.get()[0], pmax: this.$pompaggiPminPmax.get()[1] })
+        this.$geotermicoVisibility.get() && filterArray.push({ tipo: "GEOTERMICO", pmin: this.$geotermicoPminPmax.get()[0], pmax: this.$geotermicoPminPmax.get()[1] })
+        let filterArrayLenght = filterArray.length
+        let centrali = this.$lista_centrali.get()
+        let centraliLenght = centrali.length
+        let centraliFiltered = []
+
+        for (let i = 0; i < centraliLenght; i++) {
+            let centrale = centrali[i]
+
+            for (let y = 0; y < filterArrayLenght; y++) {
+                let filter = filterArray[y]
+                if (centrale["tipo"] === filter.tipo && centrale["pmin"] >= filter.pmin && centrale["pmax"] <= filter.pmax) {
+                    centraliFiltered.push(centrale)
+                    break
+                }
+            }
+        }
+        return centraliFiltered
     }
 
     filterUnita(filterValue, select, type) {

@@ -1,5 +1,6 @@
 // src/components/filtro_tecnologia/filtro_tecnologia.js
 
+import "./filtro_tecnologia.scss"
 import FiltriItem from "components/filtri_item/filtri_item.js"
 import FiltroTecnologiaContent from "components/filtro_tecnologia_content/filtro_tecnologia_content.js"
 

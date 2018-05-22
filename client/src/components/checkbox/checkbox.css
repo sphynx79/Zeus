@@ -1,4 +1,15 @@
 .bx--checkbox-label::before {
     outline: 1px solid #e0e1e2;
     border: none;
+    height: .9rem;
+    width: .9rem;
 }
+.bx--checkbox-label::after {
+      left: 0.1rem;
+      top: 0.14vh;
+      margin-top: 0;
+      width: .5vw;
+      height: .4vh;
+}
+
+
