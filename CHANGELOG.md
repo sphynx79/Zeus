@@ -1,3 +1,9 @@
+## 1.3.4 (2018-05-27)
+### Added
+-  Aggiunto filtro per selezionare abilitazione mercato MSD  ( 2018-05-27 ) [ sphynx79]
+
+
+
 ## 1.3.3 (2018-05-22)
 ### Added
 -  Aggiunto filtro per le potenze  ( 2018-05-22 ) [ sphynx79]
