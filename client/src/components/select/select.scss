@@ -105,6 +105,9 @@
 .custom-style.selectr-container.open .selectr-options-container {
     display: block;
     margin-top: 10px;
+    ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-track  { 
+      visibility: visible;
+    }
 }
 
 .custom-style .selectr-selected > div {

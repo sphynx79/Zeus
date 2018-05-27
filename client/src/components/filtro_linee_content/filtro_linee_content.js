@@ -10,7 +10,10 @@ class FiltroLineeContent {
     }
 
     oninit() {
-        this.checkboxs = [{ label: "Linee 380", state: appState.$linee_380_visibility }, { label: "Linee 220", state: appState.$linee_220_visibility }]
+        this.checkboxs = [
+            { label: "Linee 380", state: appState.$linee_380_visibility },
+            { label: "Linee 220", state: appState.$linee_220_visibility }
+        ]
     }
 
     view({ state }) {

@@ -28,7 +28,7 @@ class Select {
             data: vnode.attrs.data.get(),
             customClass: "custom-style",
             width: 500,
-            pagination: 30,
+            // pagination: 30,
         })
 
         let elId = document.querySelector(`${vnode.attrs.id}`)

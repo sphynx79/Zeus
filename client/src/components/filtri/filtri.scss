@@ -6,10 +6,22 @@
   display: block;
   color: #fff;
   margin-top: 50px;
+  ::-webkit-scrollbar-thumb, 
+  ::-webkit-scrollbar-track  {  
+    visibility: hidden;
+  }
+  // &:hover ::-webkit-scrollbar-thumb,  
+  //  &:hover ::-webkit-scrollbar-track { 
+  //   visibility: visible;
+  // }
 
   .bx--accordion {
     max-height: 86vh;
-    overflow-y: auto;
+    overflow-x: scroll;
+    > .bx--accordion__item{
+        margin-right: 6px;
+    
+    }
   }
 
   .bx--fieldset {

@@ -48,7 +48,7 @@
     "dependencies": {
         "carbon-components": "^8.21.3",
         "mapbox-gl": "^0.45.0",
-        "mithril": "https://github.com/MithrilJS/mithril.js#next",
+        "mithril": "^1.1.6",
         "remove": "^0.1.5",
         "simplebar": "^2.6.1"
     }

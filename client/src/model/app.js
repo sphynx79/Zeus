@@ -27,16 +27,19 @@ class App {
         this.$pompaggiVisibility = atom(true)
         this.$geotermicoVisibility = atom(true)
         // filtro pmin e pmax tecnologia
-        this.$termicoPminPmax = atom([-1500, 1500])
-        this.$eolicoPminPmax = atom([-1500, 1500])
-        this.$idricoPminPmax = atom([-1500, 1500])
-        this.$autoprodPminPmax = atom([-1500, 1500])
-        this.$solarePminPmax = atom([-1500, 1500])
-        this.$pompaggiPminPmax = atom([-1500, 1500])
-        this.$geotermicoPminPmax = atom([-1500, 1500])
+        this.$termicoPminPmax = atom([0, 1200])
+        this.$eolicoPminPmax = atom([0, 300])
+        this.$idricoPminPmax = atom([0, 1200])
+        this.$autoprodPminPmax = atom([0, 300])
+        this.$solarePminPmax = atom([0, 300])
+        this.$pompaggiPminPmax = atom([-1300, 1300])
+        this.$geotermicoPminPmax = atom([0, 300])
+        // filro msd
+        this.$msdComboValue = atom("ALL")
         // sincronizzare i filtri
         this.$lista_centrali = atom(this.fetchCentrali())
-        this.$filterSottotipo = derive(() => this.filterTecnologia())
+        this.$filterMsd = derive(() => this.filterMsd(this.filterTecnologia(), this.$msdComboValue.get()))
+        this.$filterSottotipo = derive(() => this.$filterMsd.get())
         this.$selectSottotipo = atom([])
         this.$filterSocieta = derive(() => this.filterUnita(this.$filterSottotipo.get(), this.$selectSottotipo.get(), "sottotipo"))
         this.$selectSocieta = atom([])
@@ -91,7 +94,8 @@ class App {
 
             for (let y = 0; y < filterArrayLenght; y++) {
                 let filter = filterArray[y]
-                if (centrale["tipo"] === filter.tipo && centrale["pmin"] >= filter.pmin && centrale["pmax"] <= filter.pmax) {
+                let min = centrale["tipo"] === "POMPAGGIO" ? centrale["pmin"] : centrale["pmax"]
+                if (centrale["tipo"] === filter.tipo && min >= filter.pmin && centrale["pmax"] <= filter.pmax) {
                     centraliFiltered.push(centrale)
                     break
                 }
@@ -116,6 +120,18 @@ class App {
         let unique = [...new Set(items.map(item => item[type]))]
         let selectItems = unique.map(item => new Object({ value: item, text: item }))
         return selectItems
+    }
+
+    filterMsd(filterValue, select) {
+        if (select == "ALL") {
+            return filterValue
+        }
+        return filterValue.filter(item => item["msd"] == select)
+    }
+
+    parseFilterMsd(items) {
+        let unique = [...new Set(items.map(item => item["msd"]))]
+        return unique.length == 2 ? "ALL" : unique[0]
     }
 
     fetchCentrali() {
