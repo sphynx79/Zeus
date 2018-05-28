@@ -177,12 +177,15 @@ class MapBox {
 
         map = new mapboxgl.Map({
             container: "mapid",
-            style: "mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr?optimize=true",
+            // style: "mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr?optimize=true",
+            style: "mapbox://styles/browserino/cjhpwzyrx3ymw2smgsezxdwra?optimize=true",
             center: [11.88, 42.13],
             zoom: 5.6,
             maxZoom: 13,
             minZoom: 5.3,
         })
+        // let nav = new mapboxgl.NavigationControl()
+        // map.addControl(nav, 'bottom-right');
         // map.addControl(new mapboxgl.FullscreenControl());
     }
 

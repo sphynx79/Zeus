@@ -116,6 +116,7 @@ class TransmissionController < ApplicationController
       pipeline << { "$project": {
         "_id": 0,
         "etso": '$etso',
+        "remit": '$unaviable_capacity',
         "dt_upd": '$dt_upd',
         "dt_start": '$dt_start',
         "dt_end": '$dt_end'
@@ -133,6 +134,7 @@ class TransmissionController < ApplicationController
         feature['properties']['company'] = mapbox_feature['properties']['company']
         feature['properties']['tipo'] = mapbox_feature['properties']['tipo']
         feature['properties']['sottotipo'] = mapbox_feature['properties']['sottotipo']
+        feature['properties']['remit'] = x['remit'].to_i
         feature['properties']['pmax'] = mapbox_feature['properties']['pmax']
         feature['properties']['update'] = x['dt_upd'].strftime('%d-%m-%Y %H:%M')
         feature['properties']['start'] = x['dt_start'].strftime('%d-%m-%Y %H:%M')
