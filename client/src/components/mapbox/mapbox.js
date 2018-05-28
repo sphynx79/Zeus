@@ -172,6 +172,27 @@ class MapBox {
         )
     }
 
+    handleResetZoom() {
+        let el = document.querySelector("button.mapboxgl-ctrl-icon.mapboxgl-ctrl-compass")
+        el.addEventListener(
+            "click",
+            () => {
+                map.flyTo({
+                    center: [11.88, 42.13],
+                    zoom: 5.6,
+                    bearing: 0,
+                    pitch: 0,
+                    speed: 1.2,
+                    curve: 1.1,
+                    easing: function(t) {
+                        return t
+                    },
+                })
+            },
+            false
+        )
+    }
+
     initMap() {
         mapboxgl.accessToken = this._accessToken
 
@@ -184,8 +205,8 @@ class MapBox {
             maxZoom: 13,
             minZoom: 5.3,
         })
-        // let nav = new mapboxgl.NavigationControl()
-        // map.addControl(nav, 'bottom-right');
+        let nav = new mapboxgl.NavigationControl()
+        map.addControl(nav, "bottom-right")
         // map.addControl(new mapboxgl.FullscreenControl());
     }
 
@@ -258,15 +279,7 @@ class MapBox {
             base: 1,
             type: "categorical",
             property: "tipo",
-            stops: [
-                ["TERMICO", "#E0090C"],
-                ["EOLICO", "#5907AB"],
-                ["IDRICO", "#04A1A1"],
-                ["AUTOPRODUTTORE", "#9E577C"],
-                ["SOLARE", "#9E4F0B"],
-                ["POMPAGGIO", "#0E952F"],
-                ["GEOTERMICO", "#7E4F21"],
-            ],
+            stops: [["TERMICO", "#E0090C"], ["EOLICO", "#5907AB"], ["IDRICO", "#04A1A1"], ["AUTOPRODUTTORE", "#9E577C"], ["SOLARE", "#9E4F0B"], ["POMPAGGIO", "#0E952F"], ["GEOTERMICO", "#7E4F21"]],
         }
 
         map.addSource("remit_centrali", {
@@ -516,6 +529,7 @@ class MapBox {
         })
         this.handleSelectLine()
         this.handleSelectCentrale()
+        this.handleResetZoom()
 
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
