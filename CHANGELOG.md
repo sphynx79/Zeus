@@ -1,3 +1,10 @@
+## 1.3.5 (2018-05-28)
+### Added
+-  Aggiunto controllo per reset zoom level  ( 2018-05-28 ) [ sphynx79]
+-  Aggiunto valore di remit nella tabella delle centrali  ( 2018-05-28 ) [ sphynx79]
+
+
+
 ## 1.3.4 (2018-05-27)
 ### Added
 -  Aggiunto filtro per selezionare abilitazione mercato MSD  ( 2018-05-27 ) [ sphynx79]
