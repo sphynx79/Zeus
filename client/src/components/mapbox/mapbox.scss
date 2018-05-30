@@ -33,10 +33,11 @@
 
 .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {
     margin: 0 10px 10px 0;
-    /* float: right; */
     position: absolute;
     right: 18.5rem;
-    bottom: 12px;
+    bottom: 2.8vh;
+    border: 2px solid #152935;
+    box-shadow: rgba(0, 0, 0, 0.39) -3px -2px 2px 0px;
 }
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
@@ -62,9 +63,8 @@
 }
 
 .mapboxgl-ctrl-group > button + button {
-    border-top: 1px solid #152935;
+    border-top: 2px solid #152935;
 }
-
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%0A%09%3Cpolygon%20fill%3D%27%23ffffff%27%20points%3D%276%2C9%2010%2C1%2014%2C9%27%2F%3E%0A%09%3Cpolygon%20fill%3D%27%23828484%27%20points%3D%276%2C11%2010%2C19%2014%2C11%20%27%2F%3E%0A%3C%2Fsvg%3E");

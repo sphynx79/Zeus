@@ -9,13 +9,12 @@
 
     &.left {
         left: 15px;
-
-        transition: left 500ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
+        transition: transform 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     }
 
     &.right {
         right: 15px;
-        transition: right 500ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
+        transition: transform 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     }
 
     div {
@@ -23,21 +22,23 @@
         height: 2px;
         margin-bottom: 8px;
         background-color: #5aaafa;
-        transition: opacity 500ms, background-color 250ms,
-            -webkit-transform 500ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
+        transition: opacity 400ms, background-color 650ms, transform 500ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     }
 
    &.left.active {
-      left: 41vw;
+      transform: translate3d(41.5vw, 0, 0); 
       @media screen and (max-width: 1390px) {
-        left: 550px;
+        transform: translate3d(530px, 0, 0); 
       }
     }
 
     &.right.active {
-        right: 16.6vw;
-      @media screen and (max-width: 1390px) {
-        right: 190px;
+      transform: translate3d(-16.6vw, 0, 0); 
+      @media screen and (max-width: 1490px) {
+        transform: translate3d(-15.2vw, 0, 0);
+      }
+      @media screen and (max-width: 1210px) {
+        transform: translate3d(-160px, 0, 0);
       }
     }
 
