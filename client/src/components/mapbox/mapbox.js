@@ -225,7 +225,7 @@ class MapBox {
 
     initAnimation() {
         let dashArraySeq = [[0, 4, 3], [1, 4, 2], [2, 4, 1], [3, 4, 0], [0, 1, 3, 3], [0, 2, 3, 2], [0, 3, 3, 1]]
-        let dashSpeed = 140
+        let dashSpeed = 100
         let dashArrayPos = 0
         let dashArraylastPos = 0
         let limit = dashArraySeq.length
