@@ -2,8 +2,8 @@
 
 import "./mapbox.scss"
 import mapboxgl from "mapbox-gl"
-import stream from "mithril/stream"
 import Legend from "components/legend/legend.js"
+import MainLoop from "mainloop.js"
 
 var map
 
@@ -220,6 +220,51 @@ class MapBox {
         if (!map.getLayer("remit_centrali")) {
             this.addLayerRemitCentrali()
         }
+        this.initAnimation()
+    }
+
+    initAnimation() {
+        let dashArraySeq = [[0, 4, 3], [1, 4, 2], [2, 4, 1], [3, 4, 0], [0, 1, 3, 3], [0, 2, 3, 2], [0, 3, 3, 1]]
+        let dashSpeed = 140
+        let dashArrayPos = 0
+        let dashArraylastPos = 0
+        let limit = dashArraySeq.length
+        let radiusSpeed = 50
+        let initialRadius = 3
+        let radius = initialRadius
+        let initialOpacity = 1
+        let opacity = initialOpacity
+        let maxRadius = 0
+        let zoom = 0
+
+        function update(delta) {
+            dashArrayPos = dashArrayPos + delta / dashSpeed
+            if (dashArrayPos >= limit) dashArrayPos = 0
+
+            zoom = map.getZoom()
+            maxRadius = -0.06 * Math.pow(zoom, 2) + 1.14 * zoom - 2.68
+            radius += (maxRadius - radius) / (delta + radiusSpeed)
+            opacity -= 0.9 / (delta + radiusSpeed)
+
+            if (opacity < 0.2) {
+                radius = initialRadius
+                opacity = initialOpacity
+            }
+        }
+
+        function draw(interop) {
+            let intPos = parseInt(dashArrayPos)
+            if (dashArraylastPos != intPos) {
+                map.setPaintProperty("remit_380", "line-dasharray", dashArraySeq[intPos])
+                map.setPaintProperty("remit_220", "line-dasharray", dashArraySeq[intPos])
+                dashArraylastPos = intPos
+            }
+            map.setPaintProperty("remit_centrali", "circle-stroke-width", radius)
+            map.setPaintProperty("remit_centrali", "circle-stroke-opacity", opacity)
+        }
+        MainLoop.setUpdate(update)
+            .setDraw(draw)
+            .start()
     }
 
     addLayerRemitLinee(volt) {
@@ -250,31 +295,10 @@ class MapBox {
                 "line-dasharray": [0, 4, 3],
             },
         })
-
-        let step = 0
-        let dashArraySeq = [[0, 4, 3], [1, 4, 2], [2, 4, 1], [3, 4, 0], [0, 1, 3, 3], [0, 2, 3, 2], [0, 3, 3, 1]]
-        let lenght = dashArraySeq.length
-        function animateLinee(timestamp) {
-            setTimeout(function() {
-                step = (step + 1) % lenght
-                map.setPaintProperty(remitId, "line-dasharray", dashArraySeq[step])
-                requestAnimationFrame(animateLinee)
-            }, 1000 / 10)
-        }
-
-        // Start the animation.
-        animateLinee(0)
     }
 
     addLayerRemitCentrali() {
-        var remitId = "remit_centrali"
         var remitData = appState.$remit_centrali.get()
-        var framesPerSecond = 10
-        var initialOpacity = 1
-        var opacity = initialOpacity
-        var initialRadius = 3
-        var radius = initialRadius
-        var direction = 0
         var color = {
             base: 1,
             type: "categorical",
@@ -294,7 +318,7 @@ class MapBox {
             paint: {
                 "circle-color": color,
                 "circle-stroke-color": "#FFFF00",
-                "circle-stroke-opacity": initialOpacity,
+                "circle-stroke-opacity": 1,
                 "circle-stroke-width": 2,
                 "circle-opacity": 1,
                 "circle-radius": {
@@ -350,33 +374,6 @@ class MapBox {
                 },
             },
         })
-
-        function animateMarker(timestamp) {
-            setTimeout(function() {
-                var zoom = map.getZoom()
-                var maxRadius = -0.06 * Math.pow(zoom, 2) + 1.14 * zoom - 2.68
-                radius += (maxRadius - radius) / framesPerSecond
-
-                radius += (maxRadius - radius) / framesPerSecond
-                opacity -= 0.9 / framesPerSecond
-
-                if (opacity < 0.2) {
-                    opacity = 0.2
-                }
-
-                map.setPaintProperty("remit_centrali", "circle-stroke-width", radius)
-                map.setPaintProperty("remit_centrali", "circle-stroke-opacity", opacity)
-
-                if (opacity == 0.2) {
-                    radius = initialRadius
-                    opacity = initialOpacity
-                }
-                requestAnimationFrame(animateMarker)
-            }, 1000 / framesPerSecond)
-        }
-
-        // Start the animation.
-        animateMarker(0)
     }
 
     initHoverEffect() {
