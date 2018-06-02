@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
     context: resolve(__dirname, "src"),
+    // entry: ["regenerator-runtime/runtime", "./pack/application.js"],
     entry: ["./pack/application.js"],
     output: {
         path: resolve(__dirname, "dist/"),

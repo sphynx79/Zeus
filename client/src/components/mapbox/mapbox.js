@@ -4,6 +4,7 @@ import "./mapbox.scss"
 import mapboxgl from "mapbox-gl"
 import Legend from "components/legend/legend.js"
 import MainLoop from "mainloop.js"
+import { atom, derive } from "derivable"
 
 var map
 
@@ -229,22 +230,26 @@ class MapBox {
         let dashArrayPos = 0
         let dashArraylastPos = 0
         let limit = dashArraySeq.length
-        let radiusSpeed = 50
+        let radiusSpeed = 20
         let initialRadius = 3
         let radius = initialRadius
         let initialOpacity = 1
         let opacity = initialOpacity
-        let maxRadius = 0
-        let zoom = 0
+        // let maxRadius = 0
+        // let zoom = 5.6
+        let zoom = atom(5.6)
+        let maxRadius = derive(() => {let z = zoom.get(); return -0.06 * Math.pow(z, 2) + 1.14 * z - 2.68 })
+        map.on("zoom", () => zoom.set(map.getZoom()))
 
         function update(delta) {
             dashArrayPos = dashArrayPos + delta / dashSpeed
             if (dashArrayPos >= limit) dashArrayPos = 0
 
-            zoom = map.getZoom()
-            maxRadius = -0.06 * Math.pow(zoom, 2) + 1.14 * zoom - 2.68
-            radius += (maxRadius - radius) / (delta + radiusSpeed)
-            opacity -= 0.9 / (delta + radiusSpeed)
+            radius += (maxRadius.get() - radius) / radiusSpeed
+            // zoom = map.getZoom()
+            // maxRadius = -0.06 * Math.pow(zoom, 2) + 1.14 * zoom - 2.68
+            // radius += (maxRadius - radius) / radiusSpeed
+            opacity -= 0.9 / radiusSpeed
 
             if (opacity < 0.2) {
                 radius = initialRadius
@@ -262,6 +267,8 @@ class MapBox {
             map.setPaintProperty("remit_centrali", "circle-stroke-width", radius)
             map.setPaintProperty("remit_centrali", "circle-stroke-opacity", opacity)
         }
+        MainLoop.setSimulationTimestep(70)
+        MainLoop.setMaxAllowedFPS(20)
         MainLoop.setUpdate(update)
             .setDraw(draw)
             .start()

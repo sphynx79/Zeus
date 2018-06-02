@@ -19,7 +19,7 @@ class SideBar {
             return m("nav.sidebar#sidebar_left", attrs, [
                 appState.$remit_380.get() === undefined ? "" : m(Table, { type: "linee", volt: "380" }),
                 appState.$remit_220.get() === undefined ? "" : m(Table, { type: "linee", volt: "220" }),
-                appState.$remitCentraliFiltered.get() === undefined ? "" : m(Table, { type: "centrali" }),
+                appState.$remit_centrali.get() === undefined ? "" : m(Table, { type: "centrali" }),
             ])
         }
     }

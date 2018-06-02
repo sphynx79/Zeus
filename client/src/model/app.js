@@ -54,28 +54,14 @@ class App {
         this.$remit_380 = atom()
         this.$remit_centrali = atom()
         this.$remitCentraliFiltered = derive(() => this.filterRemitCentrali())
-        // TODO: spostare questa parte nel component datapicker
-        this.$data.react(
-            data => {
-                let urlLinee220 = `http://${this.server}:${this.port}/api/remits/${data}/220`
-                let urlLinee380 = `http://${this.server}:${this.port}/api/remits/${data}/380`
-                let urlCentrali = `http://${this.server}:${this.port}/api/remits_centrali/${data}`
-                this.getRemit(urlLinee220)
-                this.getRemit(urlLinee380)
-                this.getRemit(urlCentrali)
-            },
-            { skipFirst: true }
-        )
     }
 
     dispatch(action, args) {
         return this[action].apply(this, args || [])
-        // requestAnimationFrame(function() {
-        //     localStorage["transmission"] = JSON.stringify(this)
-        // })
     }
 
     filterTecnologia() {
+        if (this.$lista_centrali.get() === undefined) return []
         let filterArray = []
         this.$termicoVisibility.get() && filterArray.push({ tipo: "TERMICO", pmin: this.$termicoPminPmax.get()[0], pmax: this.$termicoPminPmax.get()[1] })
         this.$eolicoVisibility.get() && filterArray.push({ tipo: "EOLICO", pmin: this.$eolicoPminPmax.get()[0], pmax: this.$eolicoPminPmax.get()[1] })
@@ -105,15 +91,22 @@ class App {
     }
 
     filterUnita(filterValue, select, type) {
-        return filterValue.filter(item => (select.length == 0 ? true : select.includes(item[type])))
+        if (select.length == 0) return filterValue
+        let unitaFiltered = []
+        let filterValueLength = filterValue.length
+        for (let i = 0; i < filterValueLength; i++) {
+            let unita = filterValue[i]
+            if (select.indexOf(unita[type]) != -1) unitaFiltered.push(unita)
+        }
+        // return filterValue.filter(item => (select.length == 0 ? true : select.includes(item[type])))
+        return unitaFiltered
     }
 
     filterRemitCentrali() {
-        let remit = this.$remit_centrali.get()
-        if (remit === undefined) {
-            return undefined
-        }
-        return remit.features.filter(item => this.$etsoVisibility.get().includes(item.properties.nome))
+        let remits = this.$remit_centrali.get()
+        if (remits === undefined) return undefined
+        let etsoVisibility = this.$etsoVisibility.get()
+        return remits.features.filter(item => etsoVisibility.includes(item.properties.nome))
     }
 
     parseFilter(items, type) {
