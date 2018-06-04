@@ -1,3 +1,9 @@
+## 1.3.6 (2018-06-04)
+### Changed
+-  Ottimizzato performance delle animazioni  ( 2018-05-31 ) [ sphynx79]
+
+
+
 ## 1.3.5 (2018-05-28)
 ### Added
 -  Aggiunto controllo per reset zoom level  ( 2018-05-28 ) [ sphynx79]
