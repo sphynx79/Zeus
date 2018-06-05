@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TransmissionController < ApplicationController
-  # helpers Sinatra::Database
+  helpers Sinatra::Database
 
   attr_reader :linee_380, :linee_220, :centrali
 
@@ -145,6 +145,13 @@ class TransmissionController < ApplicationController
 
       geojson_hash = to_feature_collection features
       Oj.dump(geojson_hash, mode: :compat)
+    end
+
+    get '/report_centrali/:start_dt/:end_dt' do
+      start_dt = Date.parse(params['start_dt'])
+      end_dt = Date.parse(params['end_dt'])
+       prova
+
     end
 
     #
