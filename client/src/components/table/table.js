@@ -2,7 +2,7 @@
 
 import "./table.scss"
 import { derive } from "derivable"
-import SimpleBar from "SimpleBar"
+import { SimpleBar } from "SimpleBar"
 
 class Table {
     constructor() {

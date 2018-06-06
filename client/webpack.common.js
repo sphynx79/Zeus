@@ -64,7 +64,7 @@ module.exports = {
                                 "@babel/preset-env",
                                 {
                                     targets: {
-                                        browsers: ["last 2 versions", "not ie <= 11"],
+                                        browsers: ["last 2 versions", "IE 10"],
                                     },
                                     modules: false,
                                     debug: true,
@@ -86,6 +86,7 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             m: "mithril", //Global access
+            noUiSlider: "nouislider",
             // PubSubEs6: 'pub-sub-es6',
             // dispatch: ['pub-sub-es6', 'dispatch'],
             // receive: ['pub-sub-es6', 'receive'],

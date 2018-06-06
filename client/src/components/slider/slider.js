@@ -1,8 +1,6 @@
 // src/components/checkbox/checkbox.js
 
 import "./slider.scss"
-import "./nouislider.css"
-import noUiSlider from "./nouislider.js"
 
 class Slider {
     constructor() {
