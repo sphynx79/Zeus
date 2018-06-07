@@ -3,31 +3,37 @@
 table {
     width: 100%;
     table-layout: fixed;
+    @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
+        backdrop-filter: blur(3px);
+    }
 }
 
 .tbl {
     margin-top: 5vh;
     width: 100%;
     background: #333;
+    @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
+        background: #333333c9;
+    }
     @media screen and (max-height: 600px) {
         margin-top: 3.7vh;
     }
     &__header {
         width: 100%;
         // padding-right: 0.58vw;
-        border-top: 1.2px solid #ffffff;
-        border-left: 1.2px solid #ffffff;
-        border-right: 1.2px solid #ffffff;
+        border-top: 1.2px solid #b1b1b1;
+        border-left: 1.2px solid #b1b1b1;
+        border-right: 1.2px solid #b1b1b1;
         > table {
             caption {
                 letter-spacing: 1px;
                 font-weight: bold;
                 font-size: 1.05rem;
                 // background: #333;
-                background:linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, 0.8) 50%, #143b63 100%);
+                background:linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, 0.8) 50%, #143b63 40%);
                 padding: 0.6vh 0;
                 // margin-right: -0.64vw;
-                border-bottom: 1.2px solid #ffffff;
+                border-bottom: 1.2px solid #b1b1b1;
             }
             thead {
                 background: #333;
@@ -35,7 +41,7 @@ table {
                     height: 2.6vh;
                     th {
                         overflow: hidden;
-                        background: linear-gradient(to bottom, rgba(47, 47, 47, 0.8) 0%, rgb(86, 86, 86) 50%, rgba(47, 47, 47, 0.8) 100%);
+                        background: linear-gradient(to bottom, rgba(47, 47, 47, 0.14) 0%, #5656566b 50%, rgba(47, 47, 47, 0.48) 20%);
                         white-space: nowrap;
                         text-overflow: ellipsis;
                         font-size: 0.86rem;
@@ -44,7 +50,7 @@ table {
                         letter-spacing: 1px;
                         vertical-align: middle;
                         padding-left: 0.4vw;
-                        border-right: 1px solid #ffffff;
+                        border-right: 1px solid #b1b1b1;
                         &:last-of-type {
                             border-right: none;
                         }
@@ -98,15 +104,14 @@ table {
         max-height: 18vh;
         overflow-x: hidden;
         overflow-y: hidden;
-        border: 1.2px solid #ffffff;
+        border: 1.2px solid #b1b1b1;
 
          table > tbody {
-            background-color: rgba(40, 40, 40, 0.1);
             tr {
                 cursor: pointer;
                 height: 1.2vh;
                 &:nth-child(even) {
-                    background-color: rgba(90, 90, 90, 0.35);
+                    background-color: rgba(90, 90, 90, 0.3);
                 }
                 &:hover {
                     z-index: 100;
@@ -127,7 +132,7 @@ table {
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    border-right: 1px solid #e2e2e2e0;
+                    border-right: 1px solid #b1b1b1;
                     &:last-of-type {
                         border-right: none;
                     }
@@ -189,3 +194,4 @@ table {
     -webkit-transition: opacity 0 linear;
     transition: opacity 0 linear;
 }
+

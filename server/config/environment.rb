@@ -32,6 +32,7 @@ require 'sinatra/namespace'
 require 'rack/cache'
 require 'net/http'
 require 'rack/gzip_static'
+require 'helpers/mapbox'
 require 'helpers/database'
 
 if ENV['RACK_ENV'] == 'development'
