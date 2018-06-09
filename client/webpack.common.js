@@ -39,7 +39,7 @@ module.exports = {
                 loader: "file-loader",
                 options: {
                     name: "[name].[ext]",
-                    publicPath: "../", // override the default path
+                    publicPath: "../fonts/", // override the default path
                     outputPath: "fonts/",
                     limit: 10 * 1024,
                 },
@@ -53,40 +53,42 @@ module.exports = {
                     outputPath: "images/",
                 },
             },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [
-                            [
-                                "@babel/preset-env",
-                                {
-                                    targets: {
-                                        browsers: ["last 2 versions", "IE 10"],
-                                    },
-                                    modules: false,
-                                    debug: true,
-                                    // useBuiltins: "usage",
-                                    // exclude: ["transform-regenerator"],
-                                },
-                            ],
-                        ],
-                        plugins: ["module:mopt"],
-                    },
-                },
-            },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     use: {
+            //         loader: "babel-loader",
+            //         options: {
+            //             presets: [
+            //                 [
+            //                     "@babel/preset-env",
+            //                     {
+            //                         targets: {
+            //                             browsers: ["last 2 versions", "IE 10"],
+            //                         },
+            //                         modules: false,
+            //                         debug: true,
+            //                         // useBuiltins: "usage",
+            //                         // exclude: ["transform-regenerator"],
+            //                     },
+            //                 ],
+            //             ],
+            //             plugins: ["module:mopt"],
+            //         },
+            //     },
+            // },
         ],
     },
     plugins: [
         new HtmlWebPackPlugin({
             template: "./index.html",
             filename: "./index.html",
+            inject: false,
         }),
         new webpack.ProvidePlugin({
             m: "mithril", //Global access
             noUiSlider: "nouislider",
+            MainLoop: "mainloop.js",
             // PubSubEs6: 'pub-sub-es6',
             // dispatch: ['pub-sub-es6', 'dispatch'],
             // receive: ['pub-sub-es6', 'receive'],

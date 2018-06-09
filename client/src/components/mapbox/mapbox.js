@@ -1,10 +1,9 @@
 // src/components/mapbox/mapbox.js
 
 import "./mapbox.scss"
-import mapboxgl from "mapbox-gl"
-import Legend from "components/legend/legend.js"
-import MainLoop from "mainloop.js"
+// import mapboxgl from "mapbox-gl"
 import { atom, derive } from "derivable"
+import Legend from "components/legend/legend.js"
 
 var map
 
@@ -221,7 +220,6 @@ class MapBox {
         if (!map.getLayer("remit_centrali")) {
             this.addLayerRemitCentrali()
         }
-        this.initAnimation()
     }
 
     initAnimation() {
@@ -238,7 +236,10 @@ class MapBox {
         // let maxRadius = 0
         // let zoom = 5.6
         let zoom = atom(5.6)
-        let maxRadius = derive(() => {let z = zoom.get(); return -0.06 * Math.pow(z, 2) + 1.14 * z - 2.68 })
+        let maxRadius = derive(() => {
+            let z = zoom.get()
+            return -0.06 * Math.pow(z, 2) + 1.14 * z - 2.68
+        })
         map.on("zoom", () => zoom.set(map.getZoom()))
 
         function update(delta) {
@@ -268,7 +269,7 @@ class MapBox {
             map.setPaintProperty("remit_centrali", "circle-stroke-opacity", opacity)
         }
         MainLoop.setSimulationTimestep(70)
-        MainLoop.setMaxAllowedFPS(20)
+        // MainLoop.setMaxAllowedFPS(20)
         MainLoop.setUpdate(update)
             .setDraw(draw)
             .start()
@@ -530,6 +531,7 @@ class MapBox {
             this.handleVisibilityUnita()
             this.handleRefreshRemitLinee()
             this.handleRefreshRemitCentrali()
+            this.initAnimation()
         })
         this.handleSelectLine()
         this.handleSelectCentrale()

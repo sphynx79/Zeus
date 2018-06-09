@@ -2,15 +2,14 @@ const { resolve } = require("path")
 const webpack = require("webpack")
 const merge = require("webpack-merge")
 const common = require("./webpack.common.js")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = merge(common, {
     mode: "development",
     devtool: "inline-source-map",
-    // devtool: "source-map",
     devServer: {
         stats: "errors-only",
-        // contentBase: "./dist",
+        contentBase: "./dist",
         hot: true,
         port: 3000,
         // proxy: {
@@ -26,17 +25,26 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /(\.css|\.scss)$/,
-                use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"],
+                use: [
+                    {
+                        loader: "css-hot-loader",
+                    },
+                ].concat(
+                    ExtractTextPlugin.extract({
+                        fallback: { loader: "style-loader", options: { sourceMap: true } },
+                        use: [{ loader: "css-loader", options: { sourceMap: true } }, { loader: "postcss-loader", options: { sourceMap: true } }, { loader: "sass-loader", options: { sourceMap: true } }],
+                    })
+                ),
             },
         ],
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        // Ignore node_modules so CPU usage with poll
-        // watching drops significantly.
         new webpack.WatchIgnorePlugin([resolve(__dirname, "node_modules")]),
-        new MiniCssExtractPlugin({
-            filename: "css/[name].css",
+        new ExtractTextPlugin({
+            filename: getPath => {
+                return getPath("css/[name].css")
+            },
             allChunks: true,
         }),
     ],

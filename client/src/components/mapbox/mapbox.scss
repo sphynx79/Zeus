@@ -37,7 +37,12 @@
     right: 18.5rem;
     bottom: 2.8vh;
     border: 2px solid #152935;
-    box-shadow: rgba(0, 0, 0, 0.39) -3px -2px 2px 0px;
+    @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
+      border: 1.5px solid #20343e;
+    }
+    @supports ( not ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) ) {
+          box-shadow: rgba(0, 0, 0, 0.39) -3px 2px 2px 0px;
+    }
 }
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
@@ -60,10 +65,17 @@
 }
 .mapboxgl-ctrl-group {
     background: rgba(37, 37, 37, 0.93);
+    @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
+      backdrop-filter: blur(3px);
+      box-shadow: none;
+      background-color: rgba(37, 37, 37, 0.6);
+    }
 }
 
 .mapboxgl-ctrl-group > button + button {
     border-top: 2px solid #152935;
+
+
 }
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {

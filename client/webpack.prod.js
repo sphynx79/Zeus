@@ -1,6 +1,5 @@
 const merge = require("webpack-merge")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
@@ -15,7 +14,19 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /(\.css|\.scss)$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"],
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: "css-loader",
+                            options: {
+                                minimize: true,
+                            },
+                        },
+                        "postcss-loader",
+                        "sass-loader",
+                    ],
+                }),
             },
         ],
     },
@@ -46,17 +57,15 @@ module.exports = merge(common, {
                     ie8: false,
                 },
             }),
-            new OptimizeCSSAssetsPlugin({
-                cssProcessor: require("cssnano"),
-                cssProcessorOptions: { discardComments: { removeAll: true } },
-            }),
             new OptimizeJsPlugin({ sourceMap: false }),
         ],
     },
     plugins: [
         new CleanWebpackPlugin(["dist/*.*"]),
-        new MiniCssExtractPlugin({
-            filename: "css/[name].css",
+        new ExtractTextPlugin({
+            filename: getPath => {
+                return getPath("css/[name].css")
+            },
             allChunks: true,
         }),
         new CompressionPlugin({
