@@ -1,3 +1,10 @@
+## 1.3.7 (2018-06-13)
+### Added
+-  Aggiunto dashboard per i grafici e creato api lato server per report remit lungo termine  ( 2018-06-13 ) [ sphynx79]
+-  Aggiunto effetto blur per le finestre  ( 2018-06-08 ) [ sphynx79]
+
+
+
 ## 1.3.6 (2018-06-04)
 ### Changed
 -  Ottimizzato performance delle animazioni  ( 2018-05-31 ) [ sphynx79]
