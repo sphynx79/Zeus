@@ -184,9 +184,13 @@ class TransmissionController < ApplicationController
             aggregation_step[remit["tipo"].downcase.to_sym].push(remit["remit"])
           end
         end
+        aggregation_step.each do |key, value|
+          if key != :data
+            aggregation_step[key] = aggregation_step[key].empty? ? nil : aggregation_step[key].sum.to_i
+          end
+        end
         aggregation << aggregation_step
       end
-
       # aggregation.each do |x|
       #   array = [x[:data]]
       #   x.keys[1..-1].each do |y|
@@ -194,16 +198,17 @@ class TransmissionController < ApplicationController
       #   end
       # end
 
-      aggregation_array = []
-      Parallel.map(aggregation, in_threads: 8) do |x|
-        array = [x[:data]]
-        x.keys[1..-1].each do |y|
-          array << x[y].sum.to_i
-        end
-        aggregation_array << array
-      end
+      # aggregation_array = []
+      # Parallel.map(aggregation, in_threads: 8) do |x|
+      #   array = [x[:data]]
+      #   x.keys[1..-1].each do |y|
+      #     x[y].empty? ? array << nil : array << x[y].sum.to_i
+      #     # array << x[y].sum.to_i
+      #   end
+      #   aggregation_array << array
+      # end
 
-      Oj.dump(aggregation_array, mode: :compat)
+      Oj.dump(aggregation, mode: :compat)
     end
 
     #

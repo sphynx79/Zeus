@@ -1,0 +1,37 @@
+/* src/components/dashboard/dashboard.scss */
+
+nav.dashboard {
+    position: fixed;
+    z-index: 2;
+    bottom: 0;
+    left: 50%;
+    opacity: 0;
+
+    width: 98vw;
+    height: 98vh;
+
+    transition: transform 800ms cubic-bezier(.6, .05, .28, .91), opacity 1000ms cubic-bezier(.6, .05, .28, .91) ;
+    transform: translate3d(-50%, 100%, 0);
+
+    border: 2px solid #152935;
+    border-radius: 10px 10px 0 0;
+    background-color: rgba(37, 37, 37, .93);
+
+    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none)
+    {
+        background-color: rgba(37, 37, 37, .6);
+        backdrop-filter: blur(3px);
+    }
+
+    @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))
+    {
+        box-shadow: rgba(0, 0, 0, .39) -3px 2px 2px 0;
+    }
+
+  &.active {
+      transform: translate3d(-50%, 0, 0);
+      opacity: 1;
+  }
+ 
+}
+

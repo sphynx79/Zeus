@@ -35,7 +35,7 @@
     margin: 0 10px 10px 0;
     position: absolute;
     right: 18.5rem;
-    bottom: 2.8vh;
+    bottom: 2vh;
     border: 2px solid #152935;
     @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
       border: 1.5px solid #20343e;
@@ -74,8 +74,6 @@
 
 .mapboxgl-ctrl-group > button + button {
     border-top: 2px solid #152935;
-
-
 }
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {

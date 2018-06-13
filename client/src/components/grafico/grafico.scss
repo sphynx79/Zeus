@@ -1,0 +1,17 @@
+/* src/components/grafico/grafico.scss */
+
+#grafico {
+ position: relative;
+ width: 70%;
+ height: 550px;
+ margin: 30px auto 30px auto;
+ top: 50px;
+ border: 1.4px solid #FFF;
+ border-radius: 14px;
+ & > div {
+   border-radius: 14px;
+   margin-bottom: 20px;
+ }
+ 
+}
+
