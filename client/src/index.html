@@ -9,50 +9,80 @@
   <title>Amper</title>
   <meta name=description content="">
   <meta name=viewport content="width=device-width,initial-scale=1">
-  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
   <div id=app> </div>
   <script type="text/javascript">
-    async function loadScripts(scripts) {
+   
+    var load = (function() {
+      // Function which returns a function: https://davidwalsh.name/javascript-functions
+      function _load(tag) {
+        return function(url) {
+          // This promise will be used by Promise.all to determine success or failure
+          return new Promise(function(resolve, reject) {
+            var element = document.createElement(tag);
 
-      function get(src) {
-        return new Promise(function(resolve, reject) {
-          var el = document.createElement("script");
-          el.async = true;
-          if (src.includes("cdn")) {
-            el.setAttribute("rel", "dns-prefetch preconnect");
-          }
-          el.addEventListener("load", function() {
-            resolve(src);
-          }, false);
-          el.addEventListener("error", function() {
-            reject(src);
-          }, false);
-          el.src = src;
-          (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(el);
-        });
+            var parent = 'body';
+            var attr = 'src';
+
+            // Important success and error for the promise
+            element.onload = function() {
+              resolve(url);
+            };
+            element.onerror = function() {
+              reject(url);
+            };
+
+            // Need to set different attributes depending on tag type
+            switch (tag) {
+              case 'script':
+                element.async = true;
+                element.setAttribute("as", "script");
+                <!-- element.setAttribute("rel", "preload"); -->
+                if (url.includes("cdn")) {
+                  element.setAttribute("rel", "dns-prefetch");
+                }
+                break;
+              case 'link':
+                element.type = 'text/css';
+                element.rel = 'stylesheet';
+                <!-- element.setAttribute("rel", "preload"); -->
+                <!-- element.setAttribute("as", "style"); -->
+                <!-- element.setAttribute("onload", "this.rel='stylesheet'"); -->
+                attr = 'href';
+                parent = 'head';
+            }
+
+            // Inject into document to kick off loading
+            element[attr] = url;
+            document[parent].appendChild(element);
+          });
+        };
       }
 
-      const myPromises = scripts.map(async function(script, index) {
-        return await get(script);
-      });
+      return {
+        css: _load('link'),
+        js: _load('script'),
+        img: _load('img')
+      }
+    })();
 
-      return await Promise.all(myPromises);
-    }
-
-    // How to use it
-    loadScripts([
-      "https://cdn.jsdelivr.net/npm/mapbox-gl@0.45.0/dist/mapbox-gl.min.js",
-      "./js/manifest-bundle.js",
-      "js/vendor-bundle.js"
+    // Usage:  Load different file types with one callback
+    Promise.all([
+      load.css("css/vendor.css"),
+      load.css("css/main.css"),
+      load.js("https://cdn.jsdelivr.net/npm/mapbox-gl@0.45.0/dist/mapbox-gl.min.js"),
+      load.js("./js/manifest-bundle.js"),
+      load.js("js/vendor-bundle.js"),
+      <!-- load.img('images/logo.png') -->
     ]).then(function() {
-      return loadScripts(["js/main-bundle.js"]);
+      load.js('js/main-bundle.js'),
+      console.log('Everything has loaded!');
+    }).catch(function() {
+      console.log('Oh no, epic failure!');
     });
   </script>
 </body>
 
 </html>
-
-

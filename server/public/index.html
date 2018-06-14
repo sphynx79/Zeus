@@ -70,6 +70,7 @@
 
     // Usage:  Load different file types with one callback
     Promise.all([
+      load.css("css/vendor.css"),
       load.css("css/main.css"),
       load.js("https://cdn.jsdelivr.net/npm/mapbox-gl@0.45.0/dist/mapbox-gl.min.js"),
       load.js("./js/manifest-bundle.js"),

@@ -2,7 +2,7 @@ const { resolve } = require("path")
 const webpack = require("webpack")
 const merge = require("webpack-merge")
 const common = require("./webpack.common.js")
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
 
 module.exports = merge(common, {
     mode: "development",
@@ -26,26 +26,20 @@ module.exports = merge(common, {
             {
                 test: /(\.css|\.scss)$/,
                 use: [
-                    {
-                        loader: "css-hot-loader",
-                    },
-                ].concat(
-                    ExtractTextPlugin.extract({
-                        fallback: { loader: "style-loader", options: { sourceMap: true } },
-                        use: [{ loader: "css-loader", options: { sourceMap: true } }, { loader: "postcss-loader", options: { sourceMap: true } }, { loader: "sass-loader", options: { sourceMap: true } }],
-                    })
-                ),
+                    ExtractCssChunks.loader,
+                    { loader: "css-loader", options: { sourceMap: true } },
+                    { loader: "postcss-loader" },
+                    { loader: "sass-loader" },
+                ],
             },
         ],
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.WatchIgnorePlugin([resolve(__dirname, "node_modules")]),
-        new ExtractTextPlugin({
-            filename: getPath => {
-                return getPath("css/[name].css")
-            },
-            allChunks: true,
+        new ExtractCssChunks({
+            filename: "css/[name].css",
+            hot: true,
         }),
     ],
 })
