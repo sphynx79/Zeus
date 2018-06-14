@@ -21,41 +21,43 @@ class Grafico {
     constructor() {
         this._componentName = this.constructor.name
         this.tecnologie = ["termico", "pompaggio", "idrico", "autoproduttore", "eolico", "solare", "geotermico"]
-        // termico color
-        this.termicoColor1 = "rgb(154, 31, 26)"
-        this.termicoColor2 = "rgb(228, 93, 87)"
-        this.termicoEmphasisColor1 = "rgb(144, 21, 16)"
-        this.termicoEmphasisColor2 = "rgb(228, 93, 87)"
-        // pompaggio color
-        this.pompaggioColor1 = "rgb(0,92,59)"
-        this.pompaggioColor2 = "rgb(22,190,114)"
-        this.pompaggioEmphasisColor1 = "rgb(0,84,54)"
-        this.pompaggioEmphasisColor2 = "rgb(17,142,85)"
-        // idrico color
-        this.idricoColor1 = "rgb(0,119,144)"
-        this.idricoColor2 = "rgb(69,195,222)"
-        this.idricoEmphasisColor1 = "rgb(1,94,113)"
-        this.idricoEmphasisColor2 = "rgb(52,162,185)"
-        // idrico color
-        this.autoproduttoreColor1 = "rgb(85,72,184)"
-        this.autoproduttoreColor2 = "rgb(110,96,219)"
-        this.autoproduttoreEmphasisColor1 = "rgb(73,58,183)"
-        this.autoproduttoreEmphasisColor2 = "rgb(17,142,85)"
-        // eolico color
-        this.eolicoColor1 = "rgb(15,122,205)"
-        this.eolicoColor2 = "rgb(84,159,216)"
-        this.eolicoEmphasisColor1 = "rgb(3,107,186)"
-        this.eolicoEmphasisColor2 = "rgb(59,141,204)"
-        // solare color
-        this.solareColor1 = "rgb(239,212,38)"
-        this.solareColor2 = "rgb(255,245,181)"
-        this.solareEmphasisColor1 = "rgb(209,163,19)"
-        this.solareEmphasisColor2 = "rgb(217,217, 87)"
-        // geotermico color
-        this.geotermicoColor1 = "rgb(100,61,22)"
-        this.geotermicoColor2 = "rgb(178,123,67)"
-        this.geotermicoEmphasisColor1 = "rgb(89, 53, 16)"
-        this.geotermicoEmphasisColor2 = "rgb(217, 217, 87)"
+        this.colors = {
+            // termico color
+            termicoColor1: "rgb(154, 31, 26)",
+            termicoColor2: "rgb(228, 93, 87)",
+            termicoEmphasisColor1: "rgb(144, 21, 16)",
+            termicoEmphasisColor2: "rgb(228, 93, 87)",
+            // pompaggio color
+            pompaggioColor1: "rgb(0,92,59)",
+            pompaggioColor2: "rgb(22,190,114)",
+            pompaggioEmphasisColor1: "rgb(0,84,54)",
+            pompaggioEmphasisColor2: "rgb(17,142,85)",
+            // idrico color
+            idricoColor1: "rgb(0,119,144)",
+            idricoColor2: "rgb(69,195,222)",
+            idricoEmphasisColor1: "rgb(1,94,113)",
+            idricoEmphasisColor2: "rgb(52,162,185)",
+            // idrico color
+            autoproduttoreColor1: "rgb(85,72,184)",
+            autoproduttoreColor2: "rgb(110,96,219)",
+            autoproduttoreEmphasisColor1: "rgb(73,58,183)",
+            autoproduttoreEmphasisColor2: "rgb(17,142,85)",
+            // eolico color
+            eolicoColor1: "rgb(15,122,205)",
+            eolicoColor2: "rgb(84,159,216)",
+            eolicoEmphasisColor1: "rgb(3,107,186)",
+            eolicoEmphasisColor2: "rgb(59,141,204)",
+            // solare color
+            solareColor1: "rgb(239,212,38)",
+            solareColor2: "rgb(255,245,181)",
+            solareEmphasisColor1: "rgb(209,163,19)",
+            solareEmphasisColor2: "rgb(217,217, 87)",
+            // geotermico color
+            geotermicoColor1: "rgb(100,61,22)",
+            geotermicoColor2: "rgb(178,123,67)",
+            geotermicoEmphasisColor1: "rgb(89, 53, 16)",
+            geotermicoEmphasisColor2: "rgb(217, 217, 87)",
+        }
     }
 
     view() {
@@ -76,15 +78,15 @@ class Grafico {
                         color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                             {
                                 offset: 0,
-                                color: eval(`this.${tec}EmphasisColor1`),
+                                color: this.colors[`${tec}EmphasisColor2`],
                             },
                             {
                                 offset: 0.5,
-                                color: eval(`this.${tec}EmphasisColor2`),
+                                color: this.colors[`${tec}EmphasisColor2`],
                             },
                             {
                                 offset: 1,
-                                color: eval(`this.${tec}EmphasisColor1`),
+                                color: this.colors[`${tec}EmphasisColor1`],
                             },
                         ]),
                     },
@@ -103,15 +105,15 @@ class Grafico {
                         color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                             {
                                 offset: 0,
-                                color: eval(`this.${tec}Color1`),
+                                color: this.colors[`${tec}Color1`],
                             },
                             {
                                 offset: 0.5,
-                                color: eval(`this.${tec}Color2`),
+                                color: this.colors[`${tec}Color2`],
                             },
                             {
                                 offset: 1,
-                                color: eval(`this.${tec}Color1`),
+                                color: this.colors[`${tec}Color1`],
                             },
                         ]),
                     },
