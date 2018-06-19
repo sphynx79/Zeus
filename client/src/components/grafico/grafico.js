@@ -215,7 +215,7 @@ class Grafico {
                 },
             },
             toolbox: {
-                show: false,
+                show: true,
                 orient: "vertical",
                 left: "right",
                 top: "center",
