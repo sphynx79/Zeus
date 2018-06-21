@@ -53,7 +53,6 @@
         "carbon-components": "^8.23.0",
         "echarts": "^4.1.0",
         "mainloop.js": "^1.0.4",
-        "mapbox-gl": "^0.45.0",
         "mithril": "^1.1.6",
         "nouislider": "^11.1.0",
         "remove": "^0.1.5",

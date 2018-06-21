@@ -39,7 +39,7 @@
               case 'script':
                 element.async = true;
                 element.setAttribute("as", "script");
-                <!-- element.setAttribute("rel", "preload"); -->
+                element.setAttribute("rel", "preload");
                 if (url.includes("cdn")) {
                   element.setAttribute("rel", "dns-prefetch");
                 }
@@ -70,9 +70,10 @@
 
     // Usage:  Load different file types with one callback
     Promise.all([
+      load.css("https://cdn.jsdelivr.net/npm/mapbox-gl@0.46.0/dist/mapbox-gl.css"),
       load.css("css/vendor.css"),
       load.css("css/main.css"),
-      load.js("https://cdn.jsdelivr.net/npm/mapbox-gl@0.45.0/dist/mapbox-gl.min.js"),
+      load.js("https://cdn.jsdelivr.net/npm/mapbox-gl@0.46.0/dist/mapbox-gl.min.js"),
       load.js("./js/manifest-bundle.js"),
       load.js("js/vendor-bundle.js"),
       <!-- load.img('images/logo.png') -->
@@ -86,3 +87,4 @@
 </body>
 
 </html>
+
