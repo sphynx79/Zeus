@@ -1,3 +1,6 @@
+## 1.3.8 (2018-06-25)
+
+
 ## 1.3.7 (2018-06-13)
 ### Added
 -  Aggiunto dashboard per i grafici e creato api lato server per report remit lungo termine  ( 2018-06-13 ) [ sphynx79]
