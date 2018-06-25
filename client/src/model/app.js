@@ -133,7 +133,8 @@ class App {
         // prettier-ignore
         m.request({ 
             method: "GET",
-            url: `http://${this.server}:${this.port}/api/lista_centrali`,
+            url: `http://${this.server}:${this.port}/api/v1/centrali`,
+            headers: {"Cache-Control": "max-age=0" },
         }).then(response => {
             this.$lista_centrali.set(response)
         }).catch(err => {
@@ -149,13 +150,13 @@ class App {
             })
             .then(response => {
                 switch (url) {
-                  case String(url.match(/.*remits_centrali.*/)):
+                  case String(url.match(/.*\/remits\/centrali\/.*/)):
                     this.$remit_centrali.set(response)
                     break
-                  case String(url.match(/.*\/remits\/.*\/220/)):
+                  case String(url.match(/.*\/remits\/linee\/.*\/220/)):
                     this.$remit_220.set(response)
                     break
-                  case String(url.match(/.*\/remits\/.*\/380/)):
+                  case String(url.match(/.*\/remits\/linee\/.*\/380/)):
                     this.$remit_380.set(response)
                     break
                   default:

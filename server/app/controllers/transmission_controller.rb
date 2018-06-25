@@ -38,10 +38,25 @@ class TransmissionController < ApplicationController
   #
   # Per fare una query alle API http://[adress]:[port]/api/[query]
   #
-  namespace "/api" do
+  namespace "/api/v1" do
     before do
       content_type :json
       headers "Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Methods" => %w[OPTIONS GET POST]
+    end
+
+    #
+    # API => Elenco tutte le centrali con relative proprieta
+    #
+    get "/centrali" do
+      cache_control :public, :must_revalidate, max_age: 3600
+      # last_modified Time.now
+      lista_centrali = []
+      etag Digest::MD5.hexdigest(@centrali.to_s)
+      @centrali.map do |centrale|
+        lista_centrali << centrale["properties"]
+      end
+      # etag Digest::MD5.hexdigest(lista_centrali.to_s)
+      Oj.dump(lista_centrali, mode: :compat)
     end
 
     #
@@ -50,7 +65,7 @@ class TransmissionController < ApplicationController
     # @param data [String] data di flusso della remit nella forma gg-mm-yyyy
     # @param volt [String] voltaggio della remit 220 oppure 380
     #
-    get "/remits/:data/:volt" do
+    get "/remits/linee/:data/:volt" do
       start_dt = Date.parse(params["data"]).to_time.utc
       end_dt = (Date.parse(params["data"]) + 1).to_time.utc
       volt = params["volt"]
@@ -105,7 +120,7 @@ class TransmissionController < ApplicationController
       Oj.dump(geojson_hash, mode: :compat)
     end
 
-    get "/remits_centrali/:data" do
+    get "/remits/centrali/:data" do
       data = params["data"]
       start_dt = Date.parse(data)
       end_dt = Date.parse(data)
@@ -211,19 +226,6 @@ class TransmissionController < ApplicationController
       Oj.dump(aggregation, mode: :compat)
     end
 
-    #
-    # API => Elenco tutte le centrali con relative proprieta
-    #
-    get "/lista_centrali" do
-      cache_control :public, :must_revalidate, max_age: 3600
-      last_modified Time.now
-      lista_centrali = []
-      @centrali.map do |centrale|
-        lista_centrali << centrale["properties"]
-      end
-      etag Digest::MD5.hexdigest(lista_centrali.to_s)
-      Oj.dump(lista_centrali, mode: :compat)
-    end
   end
 
 end

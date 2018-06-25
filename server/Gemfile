@@ -17,6 +17,7 @@ gem 'rack-gzip-file', '~>0.0.1'
 gem 'rake', '~>12.3.1'
 gem 'require_all', '~>2.0.0'
 gem 'sinatra', '~>2.0.1', require: 'sinatra/base'
+gem 'rack-brotli'
 
 group :development, :test do
   gem 'awesome_print', '~>1.8.0'

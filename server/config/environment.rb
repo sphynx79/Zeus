@@ -34,6 +34,7 @@ require 'net/http'
 require 'rack/gzip_static'
 require 'helpers/mapbox'
 require 'helpers/database'
+require 'rack/brotli'
 
 if ENV['RACK_ENV'] == 'development'
   require 'hirb'

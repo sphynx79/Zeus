@@ -25,7 +25,7 @@ class Dashboard {
 
     oninit({ state }) {
         state.$remitReport = []
-        let urlRemitReport = `http://${appState.server}:${appState.port}/api/report_centrali/20-03-2018/20-04-2018`
+        let urlRemitReport = `http://${appState.server}:${appState.port}/api/v1/report_centrali/20-03-2018/20-04-2018`
         this._getRemit(urlRemitReport)
     }
 
