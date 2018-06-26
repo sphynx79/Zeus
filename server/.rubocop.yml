@@ -1,73 +1,38 @@
 AllCops:
-  TargetRubyVersion: 2.3
   Exclude:
     - 'vendor/**/*'
-    - 'test/**/*'
-    - 'script/**/*'
-    - '.git/**/*'
-    - 'db/**/*'
-    - 'tmp/**/*'
     - 'bin/**/*'
-    - 'lib/backup/**/*'
-    - 'lib/ci/backup/**/*'
-    - 'lib/tasks/**/*'
-    - 'lib/ci/migrate/**/*'
-    - 'lib/email_validator.rb'
-    - 'lib/gitlab/upgrader.rb'
-    - 'lib/gitlab/seeder.rb'
-    - 'generator_templates/**/*'  
+  TargetRubyVersion: 2.2
+
 Metrics/LineLength:
-  Max: 230
-Metrics/BlockLength:
+  Max: 130
+
+Style/NumericLiterals:
+  MinDigits: 15
+
+Layout/SpaceBeforeBlockBraces:
+  EnforcedStyle: space
+
+Layout/SpaceInsideBrackets:
   Enabled: false
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%i': '[]'
-    '%w': '[]'
-    '%W': '[]'
+
 Style/Documentation:
   Enabled: false
+
 Metrics/MethodLength:
-  Enabled: false
+  Max: 50
+
+Metrics/BlockLength:
+  Max: 50
+
 Metrics/ClassLength:
-  Enabled: false
-Metrics/PerceivedComplexity:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/AbcSize:
-  Enabled: false
-Metrics/ModuleLength:
-  Enabled: false
-Style/GuardClause:
-  Enabled: false
-Style/VariableNumber:
-  Enabled: false
-EndOfLine:
-  Enabled: false
-Style/GlobalVars:
-  Enabled: false
-Style/Semicolon:
-  Enabled: false
-Layout/DotPosition:
-  Enabled: false
-Layout/MultilineMethodCallIndentation:
-  Enabled: false
-Naming/AsciiIdentifiers:
-  Enabled: false
-Security/Eval:
-  Enabled: false
-Style/ModuleFunction:
-    Enabled: false
-Lint/Debugger:
-  Enabled: false
-Security/Open:
-  Enabled: false
-Style/DateTime:
-  Enabled: false
-Naming/AccessorMethodName:
+  Max: 150
+
+Style/AsciiComments:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false
 
-
-
+Metrics/ParameterLists:
+  Enabled: false

@@ -1,3 +1,5 @@
-require_relative './config/environment'
+# frozen_string_literal: true
 
-run ApplicationController
+require_relative './config/boot'
+
+run(Ampere.development? ? Unreloader : Ampere.freeze.app)
