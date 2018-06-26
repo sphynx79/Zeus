@@ -21,7 +21,6 @@ class DataPicker {
             let urlLinee220 = `http://${appState.server}:${appState.port}/api/v1/remits/linee/${data}/220`
             let urlLinee380 = `http://${appState.server}:${appState.port}/api/v1/remits/linee/${data}/380`
             let urlCentrali = `http://${appState.server}:${appState.port}/api/v1/remits/centrali/${data}`
-            console.log(urlCentrali)
             appState.dispatch("getRemit", [urlLinee220])
             appState.dispatch("getRemit", [urlLinee380])
             appState.dispatch("getRemit", [urlCentrali])

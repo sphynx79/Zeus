@@ -167,7 +167,6 @@ class TransmissionController < ApplicationController
       start_dt = Date.parse(params["start_dt"])
       end_dt = Date.parse(params["end_dt"])
 
-
       pipeline = []
       pipeline << {:$match => {"event_status": "Active"}}
       pipeline << {:$match => {"dt_upd": {:$lte => start_dt},
