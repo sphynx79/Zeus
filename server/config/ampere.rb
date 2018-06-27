@@ -13,8 +13,8 @@ class Ampere < Roda
   Unreloader.require('./routes') {}
 
   configure :development do
-    use Rack::CommonLogger, LOGGER
     LOGGER.info("Sono in development")
+    use Rack::CommonLogger, LOGGER
   end
 
   configure :production do

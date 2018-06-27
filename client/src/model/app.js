@@ -134,7 +134,7 @@ class App {
         m.request({ 
             method: "GET",
             url: `http://${this.server}:${this.port}/api/v1/centrali`,
-            headers: {"Cache-Control": "max-age=0" },
+            headers: (process.env.NODE_ENV == "production") ? {"Cache-Control": "public, max-age=0" } : {},
         }).then(response => {
             this.$lista_centrali.set(response)
         }).catch(err => {
