@@ -5,7 +5,7 @@ class Ampere < Roda
   plugin :multi_route
   plugin :public, gzip: true
   plugin :caching
-  plugin :early_hints
+  # plugin :early_hints
   plugin :halt
   # plugin :not_found do "Where did it go?" end
   # plugin :json, classes: [Array, Hash]
@@ -13,12 +13,20 @@ class Ampere < Roda
   Unreloader.require('./routes') {}
 
   configure :development do
-    LOGGER.info("Sono in development")
+    p "Start Development mode"
+    p "ip: localhost:9292"
+    p "ip db: #{Settings.database.adress.join(", ")}"
+    p "#"*70
     use Rack::CommonLogger, LOGGER
   end
 
   configure :production do
-    LOGGER.info("Sono in produzione")
+    # LOGGER.info("Sono in produzione")
+    ip = Socket.ip_address_list.keep_if { |intf| intf.ipv4_private? && (intf.ip_address =~ /^10/ || intf.ip_address =~ /^192/) }[0].ip_address
+    p "Start Production mode"
+    p "ip: #{ip}:80"
+    p "ip db: #{Settings.database.adress.join(", ")}"
+    p "#"*70
     use Rack::Cache, verbose: false
     use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
     # LOGGER.level = Logger::FATAL
@@ -37,7 +45,6 @@ class Ampere < Roda
     r.root do
       response['Content-Type'] = 'text/html'
       File.read(File.join(APP_ROOT, "public/index.html"))
-      # 'It works!'
     end
   end
 
