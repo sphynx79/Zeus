@@ -35,6 +35,9 @@ module.exports = merge(common, {
         ],
     },
     plugins: [
+        new webpack.DefinePlugin({
+            NEXT: JSON.stringify(process.env.next),
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.WatchIgnorePlugin([resolve(__dirname, "node_modules")]),
         new ExtractCssChunks({

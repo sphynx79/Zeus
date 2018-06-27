@@ -4,8 +4,10 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
-        "build": "webpack --config webpack.prod.js",
+        "start": "set next=false && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
+        "build": "set next=false && webpack --config webpack.prod.js",
+        "start:next": "set next=true && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
+        "build:next": "set next=true && webpack --config webpack.prod.js",
         "watch": "webpack --watch --progress --colors --display-error-details --config webpack.watch.js"
     },
     "devDependencies": {

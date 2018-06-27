@@ -1,4 +1,5 @@
 const merge = require("webpack-merge")
+const webpack = require("webpack")
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
@@ -54,6 +55,9 @@ module.exports = merge(common, {
         ],
     },
     plugins: [
+        new webpack.DefinePlugin({
+            NEXT: JSON.stringify(process.env.next),
+        }),
         new CleanWebpackPlugin(["dist/*.*"]),
         new ExtractCssChunks({
             filename: "css/[name].css",
