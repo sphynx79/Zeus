@@ -80,15 +80,11 @@ module.exports = {
         ],
     },
     plugins: [
-        new HtmlWebPackPlugin({
-            template: "./index.html",
-            filename: "./index.html",
-            inject: false,
-        }),
         new webpack.ProvidePlugin({
             m: "mithril", //Global access
             noUiSlider: "nouislider",
             MainLoop: "mainloop.js",
+            echarts: "echarts",
             // PubSubEs6: 'pub-sub-es6',
             // dispatch: ['pub-sub-es6', 'dispatch'],
             // receive: ['pub-sub-es6', 'receive'],

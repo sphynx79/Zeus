@@ -1,112 +1,72 @@
 // src/components/grafico/grafico.js
 
-import "./grafico.scss"
-// import * as echarts from "echarts"
+import "./grafico_zone.scss"
 
-class Grafico {
+class GraficoZone {
     constructor() {
         this._componentName = this.constructor.name
-        this.tecnologie = ["termico", "pompaggio", "idrico", "autoproduttore", "eolico", "solare", "geotermico"]
+        this.zone = ["brnn", "cnor", "csud", "fogn", "nord", "prgp", "rosn", "sard", "sici", "sud"]
         this.colors = {
-            // termico color
-            termicoColor1: "rgb(154, 31, 26)",
-            termicoColor2: "rgb(228, 93, 87)",
-            termicoEmphasisColor1: "rgb(144, 21, 16)",
-            termicoEmphasisColor2: "rgb(228, 93, 87)",
-            // pompaggio color
-            pompaggioColor1: "rgb(0,92,59)",
-            pompaggioColor2: "rgb(22,190,114)",
-            pompaggioEmphasisColor1: "rgb(0,84,54)",
-            pompaggioEmphasisColor2: "rgb(17,142,85)",
-            // idrico color
-            idricoColor1: "rgb(0,119,144)",
-            idricoColor2: "rgb(69,195,222)",
-            idricoEmphasisColor1: "rgb(1,94,113)",
-            idricoEmphasisColor2: "rgb(52,162,185)",
-            // idrico color
-            autoproduttoreColor1: "rgb(85,72,184)",
-            autoproduttoreColor2: "rgb(110,96,219)",
-            autoproduttoreEmphasisColor1: "rgb(73,58,183)",
-            autoproduttoreEmphasisColor2: "rgb(17,142,85)",
-            // eolico color
-            eolicoColor1: "rgb(15,122,205)",
-            eolicoColor2: "rgb(84,159,216)",
-            eolicoEmphasisColor1: "rgb(3,107,186)",
-            eolicoEmphasisColor2: "rgb(59,141,204)",
-            // solare color
-            solareColor1: "rgb(239,212,38)",
-            solareColor2: "rgb(255,245,181)",
-            solareEmphasisColor1: "rgb(209,163,19)",
-            solareEmphasisColor2: "rgb(217,217, 87)",
-            // geotermico color
-            geotermicoColor1: "rgb(100,61,22)",
-            geotermicoColor2: "rgb(178,123,67)",
-            geotermicoEmphasisColor1: "rgb(89, 53, 16)",
-            geotermicoEmphasisColor2: "rgb(217, 217, 87)",
+            // brnn color
+            brnnColor1: "#ADED5F",
+            // cnor color
+            cnorColor1: "#3ABDEC",
+            // csud color
+            csudColor1: "#F0563C",
+            // fogn color
+            fognColor1: "#3A8E78",
+            // nord color
+            nordColor1: "#FD8E32",
+            // prgp color
+            prgpColor1: "#F93B1C",
+            // rosn color
+            rosnColor1: "#6AB015",
+            // sard color
+            sardColor1: "#2C81A5",
+            // sici color
+            siciColor1: "#BE2A14",
+            // sud color
+            sudColor1: "#245749",
+            // termicoColor2: "rgb(228, 93, 87)",
+            // termicoEmphasisColor1: "rgb(144, 21, 16)",
+            // termicoEmphasisColor2: "rgb(228, 93, 87)",
+          
         }
     }
 
     view() {
-        return m("#grafico__remit")
+        return m("#grafico__zone")
     }
 
     setSerie() {
-        let series = this.tecnologie.map(tec => {
+        let series = this.zone.map(zona => {
             return {
                 // TERMICO
-                type: "bar",
+                type: "line",
                 stack: "1",
-                // barWidth: "20%",
-                barMaxWidth: 14,
-                barCategoryGap: "20%",
+                symbolSize: 1,
+                showSymbol: true,
                 animationDuration: 600,
-                // barGap: "90%",
+                // color: this.colors[`${zona}Color1`],
+                // barWidth: "30%",
                 emphasis: {
                     itemStyle: {
                         shadowColor: "rgba(0, 0, 0, 1)",
-                        shadowOffsetX: 3,
-                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                            {
-                                offset: 0,
-                                color: this.colors[`${tec}EmphasisColor2`],
-                            },
-                            {
-                                offset: 0.5,
-                                color: this.colors[`${tec}EmphasisColor2`],
-                            },
-                            {
-                                offset: 1,
-                                color: this.colors[`${tec}EmphasisColor1`],
-                            },
-                        ]),
+                        shadowOffsetX: 2,
+                        // color:  this.colors[`${zona}Color1`],
+                        symbolSize: 5,
                     },
                 },
-                itemStyle: {
+                lineStyle: {
+                    width: 0.5,
+                    opacity: 0.8,
+                    // color: this.colors[`${zona}Color1`]
+                },
+                areaStyle: {
                     normal: {
-                        label: {
-                            show: false,
-                        },
-                        barBorderWidth: "0.4",
-                        barBorderColor: "#000",
-                        opacity: 1,
-                        shadowColor: "rgba(0, 0, 0, 0.7)",
-                        shadowBlur: 6,
-                        shadowOffsetX: 2,
-                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                            {
-                                offset: 0,
-                                color: this.colors[`${tec}Color1`],
-                            },
-                            {
-                                offset: 0.5,
-                                color: this.colors[`${tec}Color2`],
-                            },
-                            {
-                                offset: 1,
-                                color: this.colors[`${tec}Color1`],
-                            },
-                        ]),
-                    },
+                        opacity: 0.75,
+                         // color: this.colors[`${zona}Color1`],
+                    }
                 },
             }
         })
@@ -114,12 +74,12 @@ class Grafico {
     }
 
     oncreate({ attrs, state }) {
-        var myChart = echarts.init(document.getElementById("grafico__remit"), "dark")
+        var myChart = echarts.init(document.getElementById("grafico__zone"), "dark")
 
         var option = {
             title: {
                 show: true,
-                text: "Totale indisponibilità programmate lungo termine per tecnologia",
+                text: "Totale indisponibilità programmate lungo termine per zona",
                 left: "center",
                 y: "100",
                 top: "16",
@@ -162,24 +122,24 @@ class Grafico {
             animationDuration: 800,
             animationEasing: "elasticOut",
             dataset: {
-                dimensions: ["data", "termico", "pompaggio", "idrico", "autoproduttore", "eolico", "solare", "geotermico"],
+                dimensions: ["data", "brnn", "cnor", "csud", "fogn", "nord", "prgp", "rosn", "sard", "sici", "sud"],
                 source: attrs.remit,
             },
             tooltip: {
-                trigger: "item",
-                triggerOn: "click",
-                hideDelay: 40,
+                trigger: 'axis',
+                // triggerOn: "click",
+                // hideDelay: 40,
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 textStyle: {
                     fontSize: 12,
                 },
                 axisPointer: {
-                    // type: "cross",
-                    type: "shadow",
-                    snap: true,
+                    type: "cross",
+                    // type: "shadow",
+                    // snap: true,
                     crossStyle: {
                         color: "rgba(230, 230, 230, 0.6)",
-                        type: "solid",
+                        // type: "solid",
                         textStyle: {
                             backgroundColor: "rgba(0, 0, 0, 0.9)",
                             fontSize: 11,
@@ -193,8 +153,8 @@ class Grafico {
             },
             legend: {
                 top: "48px",
-                itemWidth: 18,
-                itemHeight: 8,
+                // itemWidth: 18,
+                // itemHeight: 8,
                 padding: 15,
                 formatter: name => {
                     return name[0].toUpperCase() + name.slice(1)
@@ -209,7 +169,7 @@ class Grafico {
                 orient: "vertical",
                 right: 30,
                 top: "center",
-                showTitle: false,
+                height: 200,
                 feature: {
                     mark: {
                         show: true,
@@ -222,7 +182,7 @@ class Grafico {
                     },
                     magicType: {
                         show: true,
-                        type: ["line", "bar", "stack", "tiled"],
+                        type: ["line", "bar"],
                         title: {
                             line: "Switch Line Chart",
                             bar: "Switch Bar Chart",
@@ -280,14 +240,14 @@ class Grafico {
             xAxis: {
                 name: "Data",
                 type: "category",
-                nameGap: 0,
+                boundaryGap: false,
                 nameTextStyle: {
                     color: "#DADBDD",
                     fontSize: 12,
                     padding: [0, 0, -24, 0],
                 },
                 splitLine: {
-                    show: false,
+                    show: true,
                     lineStyle: {
                         color: "#B2B4B8",
                     },
@@ -346,11 +306,12 @@ class Grafico {
                     show: true,
                     lineStyle: {
                         color: "#8B8E94",
-                        type: "dashed",
+                        type: "solid",
                     },
                 },
             },
             series: this.setSerie(),
+            color: ["#ADED5F","#3ABDEC", '#F0563C', '#3A8E78', '#FD8E32','#F93B1C',  '#6AB015', '#2C81A5','#BE2A14', '#245749', '#c4ccd3'],
         }
 
         myChart.setOption(option, true)
@@ -382,4 +343,4 @@ class Grafico {
     }
 }
 
-export default Grafico
+export default GraficoZone

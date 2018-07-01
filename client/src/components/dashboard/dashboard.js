@@ -2,6 +2,7 @@
 
 import "./dashboard.scss"
 import Grafico from "components/grafico/grafico.js"
+import GraficoZone from "components/grafico_zone/grafico_zone.js"
 
 class Dashboard {
     constructor() {
@@ -23,17 +24,34 @@ class Dashboard {
             })
     }
 
+    _getRemitZone(url) {
+        m.request({
+            method: "GET",
+            url: url,
+        })
+            .then(response => {
+                this.$remitReportZone = response
+            })
+            .catch(err => {
+                console.log(`Errore richiesta json remit  ${url}`, err)
+            })
+    }
+
     oninit({ state }) {
         state.$remitReport = []
-        let urlRemitReport = `http://${appState.server}:${appState.port}/api/v1/report_centrali/20-03-2018/20-04-2018`
+        state.$remitReportZone = []
+        let urlRemitReport = `http://${appState.server}:${appState.port}/api/v1/report/centrali/20-03-2018/20-04-2018`
+        let urlRemitReportZone = `http://${appState.server}:${appState.port}/api/v1/report/centrali_zona/20-03-2018/20-04-2018`
         this._getRemit(urlRemitReport)
+        this._getRemitZone(urlRemitReportZone)
     }
 
     view({ attrs, state }) {
         // prettier-ignore
-        return m("nav.dashboard", attrs, [
+        return m("nav.dashboard", attrs, m( "#grafico" ,[
             state.$remitReport.length > 0 ? m(Grafico, { remit: state.$remitReport }) : "",
-        ])
+            state.$remitReportZone.length > 0 ? m(GraficoZone, { remit: state.$remitReportZone }) : "",
+        ]))
     }
 
     oncreate({ attrs, state }) {

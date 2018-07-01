@@ -6,7 +6,10 @@ nav.dashboard {
     bottom: 0;
     left: 50%;
     opacity: 0;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
     width: 98vw;
     height: 98vh;
 
@@ -35,3 +38,12 @@ nav.dashboard {
  
 }
 
+#grafico {
+  width: 80%;
+  margin-top: 65px;
+  &::-webkit-scrollbar { 
+      // display: none;
+  }
+  overflow-y: auto;
+
+}

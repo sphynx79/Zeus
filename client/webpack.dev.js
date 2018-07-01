@@ -3,13 +3,14 @@ const webpack = require("webpack")
 const merge = require("webpack-merge")
 const common = require("./webpack.common.js")
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
+const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = merge(common, {
     mode: "development",
     devtool: "inline-source-map",
     devServer: {
         stats: "errors-only",
-        contentBase: "./dist",
+        // contentBase: "./dist",
         hot: true,
         port: 3000,
         // proxy: {
@@ -35,6 +36,11 @@ module.exports = merge(common, {
         ],
     },
     plugins: [
+        new HtmlWebPackPlugin({
+            template: "./index_dev.html",
+            filename: "./index.html",
+            inject: true,
+        }),
         new webpack.DefinePlugin({
             NEXT: JSON.stringify(process.env.next),
         }),

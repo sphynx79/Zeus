@@ -7,6 +7,7 @@ const CompressionPlugin = require("compression-webpack-plugin")
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
 const OptimizeJsPlugin = require("optimize-js-plugin")
 const common = require("./webpack.common.js")
+const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = merge(common, {
     mode: "production",
@@ -55,6 +56,11 @@ module.exports = merge(common, {
         ],
     },
     plugins: [
+        new HtmlWebPackPlugin({
+            template: "./index.html",
+            filename: "./index.html",
+            inject: false,
+        }),
         new webpack.DefinePlugin({
             NEXT: JSON.stringify(process.env.next),
         }),
