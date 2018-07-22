@@ -4,24 +4,39 @@ const merge = require("webpack-merge")
 const common = require("./webpack.common.js")
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
+const compress = require('koa-compress')
 
 module.exports = merge(common, {
     mode: "development",
     devtool: "inline-source-map",
-    devServer: {
-        stats: "errors-only",
-        // contentBase: "./dist",
-        hot: true,
-        port: 3000,
-        // proxy: {
-        //     '/api': 'http://localhost:3001',
-        // },
-        open: false,
-        overlay: {
-            errors: true,
-            warnings: true,
+    serve: {
+        option: {
+            http2: true,
+            clipboard: false,
+        },
+        add: (app, middleware, options) => {
+            app.use(compress({threshold: 2048}));
         },
     },
+    // optimization: {
+    //     splitChunks: {
+    //         chunks: "all"
+    //     }
+    // },
+    // devServer: {
+    //     stats: "errors-only",
+    //     // contentBase: "./dist",
+    //     hot: true,
+    //     port: 3000,
+    //     // proxy: {
+    //     //     '/api': 'http://localhost:3001',
+    //     // },
+    //     open: false,
+    //     overlay: {
+    //         errors: true,
+    //         warnings: true,
+    //     },
+    // },
     module: {
         rules: [
             {
@@ -37,14 +52,13 @@ module.exports = merge(common, {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./index_dev.html",
+            template: "./index.html",
             filename: "./index.html",
             inject: true,
         }),
         new webpack.DefinePlugin({
             NEXT: JSON.stringify(process.env.next),
         }),
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.WatchIgnorePlugin([resolve(__dirname, "node_modules")]),
         new ExtractCssChunks({
             filename: "css/[name].css",

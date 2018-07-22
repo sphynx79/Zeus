@@ -2,7 +2,7 @@
 
 import "./dashboard.scss"
 import Grafico from "components/grafico/grafico.js"
-import GraficoZone from "components/grafico_zone/grafico_zone.js"
+import { atom, derive } from "derivable"
 
 class Dashboard {
     constructor() {
@@ -12,49 +12,53 @@ class Dashboard {
     }
 
     _getRemit(url) {
-        m.request({
+       let request = m.request({
             method: "GET",
             url: url,
         })
-            .then(response => {
-                this.$remitReport = response
-            })
-            .catch(err => {
-                console.log(`Errore richiesta json remit  ${url}`, err)
-            })
-    }
-
-    _getRemitZone(url) {
-        m.request({
-            method: "GET",
-            url: url,
-        })
-            .then(response => {
-                this.$remitReportZone = response
-            })
-            .catch(err => {
-                console.log(`Errore richiesta json remit  ${url}`, err)
-            })
+        return request
     }
 
     oninit({ state }) {
-        state.$remitReport = []
-        state.$remitReportZone = []
-        let urlRemitReport = `http://${appState.server}:${appState.port}/api/v1/report/centrali/20-03-2018/20-04-2018`
-        let urlRemitReportZone = `http://${appState.server}:${appState.port}/api/v1/report/centrali_zona/20-03-2018/20-04-2018`
-        this._getRemit(urlRemitReport)
-        this._getRemitZone(urlRemitReportZone)
+        let startDt = derive(() => dayjs(appState.$data.get()).subtract(11, 'month').format('DD-MM-YYYY'))
+        let endDt = derive(() => dayjs(appState.$data.get()).add(1, 'month').format('DD-MM-YYYY'))  
+        let startDtGiornaliera = derive(() => dayjs(appState.$data.get()).subtract(10, 'day').format('DD-MM-YYYY'))
+        let endDtGiornaliera = derive(() => dayjs(appState.$data.get()).add(3, 'day').format('DD-MM-YYYY'))  
+        state.$remitReportTecnologia = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_tecnologia/${startDt.get()}/${endDt.get()}`))
+        state.$remitReportGiornalieroTecnologia = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_giornaliero_tecnologia/${startDtGiornaliera.get()}/${endDtGiornaliera.get()}`))
+        state.$remitReportZona = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_zona/${startDt.get()}/${endDt.get()}`))
+        state.$remitReportGiornalieroZona = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_giornaliero_zona/${startDtGiornaliera.get()}/${endDtGiornaliera.get()}`))
     }
 
     view({ attrs, state }) {
         // prettier-ignore
         return m("nav.dashboard", attrs, m( "#grafico" ,[
-            state.$remitReport.length > 0 ? m(Grafico, { remit: state.$remitReport }) : "",
-            state.$remitReportZone.length > 0 ? m(GraficoZone, { remit: state.$remitReportZone }) : "",
+            m(Grafico, { 
+                elId: "grafico__remit",
+                title: "Totale indisponibilità programmate lungo termine per tecnologia",
+                data: state.$remitReportTecnologia 
+            }),
+            m(Grafico, { 
+                elId: "grafico__giornaliero",
+                title: "Totale indisponibilità programmate breve termine per tecnologia",
+                data: state.$remitReportGiornalieroTecnologia 
+            }),
+            m(Grafico, { 
+                elId: "grafico__zone",
+                title: "Totale indisponibilità programmate lungo termine per zona",
+                data: state.$remitReportZona
+            }),
+            m(Grafico, { 
+                elId: "grafico__giornaliero__zone",
+                title: "Totale indisponibilità programmate breve termine per zona",
+                data: state.$remitReportGiornalieroZona
+            }),
+
         ]))
     }
 
     oncreate({ attrs, state }) {
+
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
                 attrs: attrs,

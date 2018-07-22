@@ -13,10 +13,6 @@ class DataPicker {
     }
 
     oninit({ state }) {
-        let data = new Date()
-        data.setDate(data.getDate() + 1)
-        let tomorrowStr = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`
-        appState.$data.set(tomorrowStr)
         appState.$data.react(data => {
             let urlLinee220 = `http://${appState.server}:${appState.port}/api/v1/remits/linee/${data}/220`
             let urlLinee380 = `http://${appState.server}:${appState.port}/api/v1/remits/linee/${data}/380`
@@ -53,10 +49,11 @@ class DataPicker {
     }
 
     changeData(incremento) {
-        let currentDate = new Date(appState.$data.get().replace(/-/g, "/"))
-        currentDate.setDate(currentDate.getDate() + incremento)
-        let dataStrPicker = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`
-        let dataStr = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`
+        let currentDate = dayjs(appState.$data.get())
+        let newDate = currentDate.add(incremento, 'day')
+        
+        let dataStrPicker = newDate.format('DD-MM-YYYY')
+        let dataStr = newDate.format('YYYY-MM-DD')
         this.picker.calendar.setDate(dataStrPicker)
         appState.$data.set(dataStr)
     }
@@ -71,7 +68,7 @@ class DataPicker {
         })
 
         vnode.picker.calendar.config.onChange.push((selectedDates, dateStr, instance) => {
-            appState.$data.set(dateStr)
+            appState.$data.set(dayjs(selectedDates).format('YYYY-MM-DD'))
         })
         vnode.state.picker = vnode.picker
 

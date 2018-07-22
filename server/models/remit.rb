@@ -26,7 +26,7 @@ class Remit
         feature["properties"]["update"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["start"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
         feature["properties"]["end"] = x["end_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["geometry"] = MAPBOX.send("linee_#{volt}").lazy.select { |f| f["id"] == id_transmission }.first["geometry"]
+        feature["geometry"] = MAPBOX.send("linee_#{volt}").detect { |f| f["id"] == id_transmission }["geometry"]
         feature
       end
     end
@@ -35,7 +35,7 @@ class Remit
       Parallel.map(remit_result, in_threads: 4) do |x|
         feature = {}
         etso = x["etso"]
-        mapbox_feature = MAPBOX.centrali.lazy.select { |f| f["properties"]["etso"] == etso }.first
+        mapbox_feature = MAPBOX.centrali.detect { |f| f["properties"]["etso"] == etso }
         feature["type"] = "Feature"
         feature["properties"] = {}
         feature["properties"]["nome"] = x["etso"]
@@ -54,9 +54,9 @@ class Remit
 
     def set_pipeline_centrali(start_dt, end_dt)
       pipeline = []
-      pipeline << {:$match => {"event_status": "Active"}}
-      pipeline << {:$match => {"dt_upd": {:$lte => start_dt},
-                               :$or => [{:$and => [{"dt_start": {:$gte => start_dt}}, {"dt_start": {:$lte => end_dt}}]}, {"dt_start": {:$lte => start_dt}, "dt_end": {:$gte => start_dt}}]}}
+      pipeline << {:$match => {"event_status":  /.*active.*/i}}
+      # pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, :$or => [{:$and => [{"dt_start": {:$gte => start_dt}}, {"dt_start": {:$lte => end_dt}}]}, {"dt_start": {:$lte => start_dt}, "dt_end": {:$gte => start_dt}}]}}
+      pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
       pipeline << {"$project": {
         "_id": 0,
         "etso": "$etso",
@@ -70,8 +70,8 @@ class Remit
 
     def set_pipeline_linee(start_dt, end_dt, volt)
       pipeline = []
-      pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, volt: volt,
-                               :$or => [{:$and => [{"start_dt": {:$gte => start_dt}}, {"start_dt": {:$lte => end_dt}}]}, {"start_dt": {:$lte => start_dt}, "end_dt": {:$gte => start_dt}}]}}
+      pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, "volt": volt}}
+      pipeline << {:$match => {"start_dt": {:$lte => end_dt}, "end_dt": {:$gte => start_dt}}}
       pipeline << {:$group => {'_id': "$nome",
                                'dt_upd': {'$last': "$dt_upd"},
                                'nome': {'$first': "$nome"},

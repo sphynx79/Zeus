@@ -57,7 +57,7 @@ module.exports = merge(common, {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./index.html",
+            template: "./index_prod.html",
             filename: "./index.html",
             inject: false,
         }),

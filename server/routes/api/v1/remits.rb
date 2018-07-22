@@ -6,17 +6,16 @@ class Ampere
     
       r.is 'centrali', String do |data|
         # r.halt(403, {'Content-Type'=>'text/html'}, 'La data non è corretta') if self.class.data_is_correct(data)
-        start_dt = Date.parse(data)
-        end_dt = Date.parse(data)
+        start_dt = (Time.parse(data) + UTC_OFFSET).utc
+        end_dt = (Time.parse(data) + UTC_OFFSET + (3600 * 24) - 1).utc
         remit = Remit.get_remit(start_dt, end_dt, "centrali")
         Oj.dump(remit, mode: :compat)
       end
 
       r.on 'linee', String  do |data|
         # r.halt(403, {'Content-Type'=>'text/html'}, 'La data non è corretta') if self.class.data_is_correct(data)
-        data = Date.parse(data)
-        start_dt = data
-        end_dt = (data + 1)
+        start_dt = (Time.parse(data) + UTC_OFFSET).utc
+        end_dt = (Time.parse(data) + UTC_OFFSET + (3600 * 24) - 1).utc
         # start_dt = Date.parse(data)
         # end_dt = Date.parse(data)
         r.is '380' do

@@ -1,7 +1,6 @@
 const { resolve } = require("path")
 
 var webpack = require("webpack")
-const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
     context: resolve(__dirname, "src"),
@@ -85,6 +84,7 @@ module.exports = {
             noUiSlider: "nouislider",
             MainLoop: "mainloop.js",
             echarts: "echarts",
+            dayjs: "dayjs",
             // PubSubEs6: 'pub-sub-es6',
             // dispatch: ['pub-sub-es6', 'dispatch'],
             // receive: ['pub-sub-es6', 'receive'],

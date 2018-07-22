@@ -17,28 +17,24 @@ class Ampere < Roda
     p "ip: localhost:9292"
     p "ip db: #{Settings.database.adress.join(", ")}"
     p "#"*70
-    use Rack::CommonLogger, LOGGER
   end
 
   configure :production do
-    # LOGGER.info("Sono in produzione")
     ip = Socket.ip_address_list.keep_if { |intf| intf.ipv4_private? && (intf.ip_address =~ /^10/ || intf.ip_address =~ /^192/) }[0].ip_address
     p "Start Production mode"
     p "ip: #{ip}:80"
     p "ip db: #{Settings.database.adress.join(", ")}"
     p "#"*70
     use Rack::Cache, verbose: false
-    use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
-    # LOGGER.level = Logger::FATAL
-    # use Rack::Cache, verbose: false
-    # use Rack::Deflater
+    # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
+    # IMPORTANTE: Uso deflate perchè brotli funziona solo con localhost o su https, con http tolgie brotli da Accept-Encoding: gzip, deflate
+    # Ho provato anche a settare nella riquiesta ajax Accept-Encoding: gzip, deflate, br ma il browser mi restituisce un allert 
+    use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
     # set :public_folder, 'public'
-    # use Rack::GzipStatic, urls: ['/css', '/js', '/fonts'], root: 'public', header_rules: [[:all, { 'Cache-Control' => 'public, max-age=3600' }]]
 
   end
 
   route do |r|
-
     r.public
     r.multi_route
 
@@ -48,11 +44,4 @@ class Ampere < Roda
     end
   end
 
-  def self.root
-    Pathname.new(File.expand_path('../..', __FILE__))
-  end
-
-  def self.logger
-    LOGGER
-  end
 end

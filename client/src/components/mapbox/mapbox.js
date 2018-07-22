@@ -531,7 +531,7 @@ class MapBox {
             this.handleVisibilityUnita()
             this.handleRefreshRemitLinee()
             this.handleRefreshRemitCentrali()
-            this.initAnimation()
+            // this.initAnimation()
         })
         this.handleSelectLine()
         this.handleSelectCentrale()
