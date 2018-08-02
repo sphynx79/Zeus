@@ -4,7 +4,7 @@ Mongo::Logger.logger << LOGGER
 Mongo::Logger.logger.level = ::Logger::FATAL
 
 begin
-  DB = Mongo::Client.new(Settings.database.adress, database: Settings.database.name, write: {w: 0, j: false})
+  DB = Mongo::Client.new(Settings.database.adress, database: Settings.database.name, write: {w: 0, j: false}, wait_queue_timeout: 3)
   DB.database_names
 rescue Mongo::Error::NoServerAvailable
   p "Non riesco connetermi al server mongo db"

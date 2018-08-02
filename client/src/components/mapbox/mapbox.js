@@ -531,7 +531,9 @@ class MapBox {
             this.handleVisibilityUnita()
             this.handleRefreshRemitLinee()
             this.handleRefreshRemitCentrali()
-            // this.initAnimation()
+            if (process.env.NODE_ENV == "production") {
+                this.initAnimation()
+            }
         })
         this.handleSelectLine()
         this.handleSelectCentrale()

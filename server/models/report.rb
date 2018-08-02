@@ -38,6 +38,21 @@ class Report
     end
 
     def serialize_tecnologia(aggragation_result, start_dt, end_dt)
+      # range_input = TimeRange.new(start_dt, end_dt)
+      # r = {}
+      # aggragation_result.each do |remit|
+      #   range_remit = TimeRange.new(remit["dt_start"], remit["dt_end"])
+      #   days = range_input.overlap_with(range_remit).dates
+
+      #   days.each do |day|
+      #     day = day.strftime("%Y-%m-%d")
+      #     r[day] ||= {termico: 0, pompaggio: 0, autoproduttore: 0, idrico: 0, eolico: 0, solare: 0, geotermico: 0}
+      #     r[day][remit["tipo"].downcase.to_sym] += remit["remit"].to_i
+      #   end
+      # end
+      # result = r.map { |k, v| {data: k}.merge(v) }.sort_by! { |remit| remit[:data] }
+      # result
+      # r
       range_input = TimeRange.new(start_dt, end_dt)
       r = {}
       aggragation_result.each do |remit|
@@ -46,11 +61,25 @@ class Report
 
         days.each do |day|
           day = day.strftime("%Y-%m-%d")
-          r[day] ||= {termico: 0, pompaggio: 0, autoproduttore: 0, idrico: 0, eolico: 0, solare: 0, geotermico: 0}
-          r[day][remit["tipo"].downcase.to_sym] += remit["remit"].to_i
+          r[day] ||= {termico: {}, pompaggio: {}, autoproduttore: {}, idrico: {}, eolico: {}, solare: {}, geotermico: {}}
+          tipo = remit["tipo"].downcase.to_sym
+          etso = remit["etso"]
+          r_tipo = r[day][tipo]
+          r_tipo[etso] ||= remit["remit"].to_i
+          # if r_zona.key?(etso)
+          #   r_zona[etso].push(remit["remit"].to_i)
+          # else
+          #   r_zona[etso] = [remit["remit"].to_i]
+          # end
         end
       end
-      result = r.map { |k, v| {data: k}.merge(v) }.sort_by! { |remit| remit[:data] }
+      result = r.map do |k, v|
+        j =  {}
+        v.each do |k,v|
+          j[k] = v.values.sum
+        end
+        {data: k}.merge(j) 
+      end.sort_by! { |remit| remit[:data] }
       result
     end
 
@@ -63,12 +92,27 @@ class Report
 
         days.each do |day|
           day = day.strftime("%Y-%m-%d")
-          r[day] ||= {brnn: 0, cnor: 0, csud: 0, fogn: 0, nord: 0, prgp: 0, rosn: 0, sard: 0, sici: 0, sud: 0}
-          # r[day][remit["zona"].downcase.to_sym][remit["etso"].downcase.to_sym] ||= [remit["remit"].to_i] 
-          r[day][remit["zona"].downcase.to_sym] += remit["remit"].to_i
+          r[day] ||= {brnn: {}, cnor: {}, csud: {}, fogn: {}, nord: {}, prgp: {}, rosn: {}, sard: {}, sici: {}, sud: {}}
+          # r[day][remit["zona"].downcase.to_sym][remit["etso"].downcase.to_sym] ||= [remit["remit"].to_i]
+          zona = remit["zona"].downcase.to_sym
+          etso = remit["etso"]
+          r_zona = r[day][zona]
+          r_zona[etso] ||= remit["remit"].to_i
+
+          # if r_zona.key?(etso)
+          #   r_zona[etso].push(remit["remit"].to_i)
+          # else
+          #   r_zona[etso] = [remit["remit"].to_i]
+          # end
         end
       end
-      result = r.map { |k, v| {data: k}.merge(v) }.sort_by! { |remit| remit[:data] }
+      result = r.map do |k, v|
+        j =  {}
+        v.each do |k,v|
+          j[k] = v.values.sum
+        end
+        {data: k}.merge(j) 
+      end.sort_by! { |remit| remit[:data] }
       result
     end
 
@@ -77,8 +121,10 @@ class Report
 
       r = {}
       aggragation_result.each do |remit|
-        # range_remit = TimeRange.new(remit["dt_start"].arrotonda(60.minutes), remit["dt_end"].arrotonda(60.minutes))
-        range_remit = TimeRange.new(remit["dt_start"].arrotonda(60.minutes), remit["dt_end"].arrotonda(60.minutes) - 1)
+        start_dt_round = remit["dt_start"].arrotonda(60.minutes)
+        end_dt_round = remit["dt_end"].arrotonda(60.minutes) - 1
+        start_dt_round < end_dt_round ? (range_remit = TimeRange.new(start_dt_round, end_dt_round)) : next
+        # range_remit = TimeRange.new(remit["dt_start"].arrotonda(60.minutes), remit["dt_end"].arrotonda(60.minutes) - 1)
         days = range_input.overlap_with(range_remit)
         next if days.nil?
         min_dt = days.min
@@ -103,8 +149,9 @@ class Report
 
       r = {}
       aggragation_result.each do |remit|
-        # range_remit = TimeRange.new(remit["dt_start"].arrotonda(60.minutes), remit["dt_end"].arrotonda(60.minutes))
-        range_remit = TimeRange.new(remit["dt_start"].arrotonda(60.minutes), remit["dt_end"].arrotonda(60.minutes) - 1)
+        start_dt_round = remit["dt_start"].arrotonda(60.minutes)
+        end_dt_round = remit["dt_end"].arrotonda(60.minutes) - 1
+        start_dt_round < end_dt_round ? (range_remit = TimeRange.new(start_dt_round, end_dt_round)) : next
         days = range_input.overlap_with(range_remit)
         next if days.nil?
         min_dt = days.min

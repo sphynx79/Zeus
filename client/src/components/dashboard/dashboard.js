@@ -22,8 +22,8 @@ class Dashboard {
     oninit({ state }) {
         let startDt = derive(() => dayjs(appState.$data.get()).subtract(11, 'month').format('DD-MM-YYYY'))
         let endDt = derive(() => dayjs(appState.$data.get()).add(1, 'month').format('DD-MM-YYYY'))  
-        let startDtGiornaliera = derive(() => dayjs(appState.$data.get()).subtract(10, 'day').format('DD-MM-YYYY'))
-        let endDtGiornaliera = derive(() => dayjs(appState.$data.get()).add(3, 'day').format('DD-MM-YYYY'))  
+        let startDtGiornaliera = derive(() => dayjs(appState.$data.get()).subtract(6, 'day').format('DD-MM-YYYY'))
+        let endDtGiornaliera = derive(() => dayjs(appState.$data.get()).add(1, 'day').format('DD-MM-YYYY'))  
         state.$remitReportTecnologia = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_tecnologia/${startDt.get()}/${endDt.get()}`))
         state.$remitReportGiornalieroTecnologia = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_giornaliero_tecnologia/${startDtGiornaliera.get()}/${endDtGiornaliera.get()}`))
         state.$remitReportZona = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_zona/${startDt.get()}/${endDt.get()}`))

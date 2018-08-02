@@ -6,7 +6,6 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    ast (2.4.0)
     awesome_print (1.8.0)
     bond (0.5.1)
     brotli (0.2.0)
@@ -23,18 +22,14 @@ GEM
     hirb (0.7.3)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
-    jaro_winkler (1.5.1)
     json (2.1.0)
     looksee (4.0.0)
     method_source (0.9.0)
     minitest (5.11.3)
-    mongo (2.5.3)
+    mongo (2.6.1)
       bson (>= 4.3.0, < 5.0.0)
-    oj (3.6.2)
+    oj (3.6.4)
     parallel (1.12.1)
-    parser (2.5.1.0)
-      ast (~> 2.4.0)
-    powerpack (0.1.2)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -50,19 +45,18 @@ GEM
     pry-inline (1.0.4)
       pry (> 0.10.0, < 0.12.0)
       unicode (~> 0.4.4)
-    puma (3.11.4)
+    puma (3.12.0)
     rack (2.0.5)
     rack-brotli (0.1.0)
       rack (>= 1.4)
     rack-cache (1.8.0)
       rack (>= 0.4)
-    rack-test (1.0.0)
+    rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack-unreloader (1.6.0)
-    rainbow (3.0.0)
     rake (12.3.1)
     rb-readline (0.5.5)
-    roda (3.9.0)
+    roda (3.10.0)
       rack
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
@@ -77,15 +71,6 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    rubocop (0.57.2)
-      jaro_winkler (~> 1.5.1)
-      parallel (~> 1.10)
-      parser (>= 2.5)
-      powerpack (~> 0.1)
-      rainbow (>= 2.2.2, < 4.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.0, >= 1.0.1)
-    ruby-progressbar (1.9.0)
     ruby-time_range (0.1.0)
     settingslogic (2.0.9)
     simplecov (0.16.1)
@@ -97,43 +82,41 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode (0.4.4.4)
-    unicode-display_width (1.4.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activesupport (~> 5.2.0)
-  awesome_print
+  awesome_print (~> 1.8.0)
   brotli
-  colorize
+  colorize (~> 0.8.1)
   database_cleaner
-  ffi
-  hirb
-  looksee
-  mongo
-  oj
-  parallel
-  pry
-  pry-bond
-  pry-byebug
-  pry-clipboard
-  pry-inline
-  puma
+  ffi (~> 1.9.25)
+  hirb (~> 0.7.3)
+  looksee (~> 4.0.0)
+  mongo (~> 2.6.1)
+  oj (~> 3.6.4)
+  parallel (~> 1.12.1)
+  pry (~> 0.11.3)
+  pry-bond (~> 0.0.1)
+  pry-byebug (~> 3.6.0)
+  pry-clipboard (~> 0.1.1)
+  pry-inline (~> 1.0.4)
+  puma (~> 3.12.0)
   rack-brotli
-  rack-cache
+  rack-cache (~> 1.8.0)
   rack-test
-  rack-unreloader
-  rake
-  roda
-  rspec
-  rubocop
-  ruby-time_range
-  settingslogic
+  rack-unreloader (~> 1.6.0)
+  rake (~> 12.3.1)
+  roda (~> 3.10.0)
+  rspec (~> 3.7.0)
+  ruby-time_range (~> 0.1.0)
+  settingslogic (~> 2.0.9)
   simplecov
 
 RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.1
+   1.16.3
