@@ -1640,6 +1640,10 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
 
+core-js@^2.5.7:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -3831,6 +3835,10 @@ lodash.tail@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.tail/-/lodash.tail-4.1.1.tgz#d2333a36d9e7717c8ad2f7cacafec7c32b444664"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -5545,7 +5553,7 @@ require-uncached@^1.0.3:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
 
-resize-observer-polyfill@^1.4.2:
+resize-observer-polyfill@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.0.tgz#660ff1d9712a2382baa2cad450a4716209f9ca69"
 
@@ -5786,13 +5794,12 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simplebar@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/simplebar/-/simplebar-2.6.1.tgz#578871eb91823712fc62d357a671062e12cb7ad6"
+simplebar@3.0.0-beta.0:
+  version "3.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/simplebar/-/simplebar-3.0.0-beta.0.tgz#0736ddf98629687180de61b333a853401a16ae05"
   dependencies:
-    lodash.debounce "^4.0.8"
-    object-assign "^4.1.1"
-    resize-observer-polyfill "^1.4.2"
+    lodash.throttle "^4.1.1"
+    resize-observer-polyfill "^1.5.0"
     scrollbarwidth "^0.1.3"
 
 slice-ansi@1.0.0:
