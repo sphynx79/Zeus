@@ -2,7 +2,6 @@
 
 
 env = ENV['RACK_ENV'] || 'development'
-ENV['TZ'] ||= 'UTC'
 is_dev = env == 'development'
 
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)

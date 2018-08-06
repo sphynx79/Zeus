@@ -29,7 +29,7 @@ class Ampere < Roda
     # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
     # IMPORTANTE: Uso deflate perchè brotli funziona solo con localhost o su https, con http tolgie brotli da Accept-Encoding: gzip, deflate
     # Ho provato anche a settare nella riquiesta ajax Accept-Encoding: gzip, deflate, br ma il browser mi restituisce un allert 
-    use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
+    use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600}
     # set :public_folder, 'public'
 
   end

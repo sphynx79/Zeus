@@ -123,7 +123,7 @@ class Grafico {
                     type: "slider",
                     realtime: true,
                     xAxisIndex: 0,
-                    start: 60,
+                    start: 61,
                     end: 100,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
@@ -301,6 +301,33 @@ class Grafico {
                     },
                 },
             },
+            dataZoom: [
+                {
+                    type: "slider",
+                    realtime: true,
+                    xAxisIndex: 0,
+                    start: 90,
+                    end: 95,
+                    bottom: "10",
+                    backgroundColor: "rgba(47,69,84,0)",
+                    borderColor: "rgba(250,250,250,0.5)",
+                    fillerColor: "rgba(47,69,84,0.3)",
+                    dataBackground: {
+                        lineStyle: {
+                            color: "#000000",
+                        },
+                        areaStyle: {
+                            color: "#FFF",
+                        },
+                    },
+                },
+                {
+                    type: "inside",
+                    xAxisIndex: 0,
+                    start: 0,
+                    end: 100,
+                },
+            ],
             series: [],
         }
 
@@ -399,6 +426,33 @@ class Grafico {
                     },
                 },
             },
+            dataZoom: [
+                {
+                    type: "slider",
+                    realtime: true,
+                    xAxisIndex: 0,
+                    start: 90,
+                    end: 95,
+                    bottom: "10",
+                    backgroundColor: "rgba(47,69,84,0)",
+                    borderColor: "rgba(250,250,250,0.5)",
+                    fillerColor: "rgba(47,69,84,0.3)",
+                    dataBackground: {
+                        lineStyle: {
+                            color: "#000000",
+                        },
+                        areaStyle: {
+                            color: "#FFF",
+                        },
+                    },
+                },
+                {
+                    type: "inside",
+                    xAxisIndex: 0,
+                    start: 0,
+                    end: 100,
+                },
+            ],
             series: [],
             color: ["#ADED5F", "#3ABDEC", "#F0563C", "#3A8E78", "#FD8E32", "#F93B1C", "#6AB015", "#2C81A5", "#BE2A14", "#245749", "#c4ccd3"],
         }
@@ -428,7 +482,6 @@ class Grafico {
             }
         })(this.elId)
 
-      
         return series
     }
 
@@ -747,20 +800,36 @@ class Grafico {
 
         attrs.data.react(resp => {
             resp.then(remit => {
-                state.dimensions = Object.keys(remit[0])
-                state.source = remit
+                switch (state.elId) {
+                    case "grafico__remit":
+                        state.dimensions = Object.keys(remit.tec_daily[0])
+                        state.source = remit.tec_daily
+                        break
+                    case "grafico__giornaliero":
+                        state.dimensions = Object.keys(remit.tec_hourly[0])
+                        state.source = remit.tec_hourly
+                        break
+                    case "grafico__zone":
+                        state.dimensions = Object.keys(remit.zona_daily[0])
+                        state.source = remit.zona_daily
+                        break
+                    case "grafico__giornaliero__zone":
+                        state.dimensions = Object.keys(remit.zona_hourly[0])
+                        state.source = remit.zona_hourly
+                        break
+                }
+
                 myChart.setOption({
                     dataset: {
                         dimensions: state.dimensions,
                         source: state.source,
                     },
                     series: this._Series(),
-            });
-            })
-            .catch(err => {
+                })
+            }).catch(err => {
                 console.log(`Errore richiesta json remit  ${url}`, err)
             })
-         })
+        })
 
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
