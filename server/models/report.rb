@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "csv"
-
 class Time
   def arrotonda(sec = 1)
     down = self - (to_i % sec)
