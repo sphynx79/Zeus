@@ -51,12 +51,19 @@ class Grafico {
             },
             tooltip: {
                 trigger: "axis",
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                // backgroundColor: "rgba(0, 0, 0, 0.7)",
                 textStyle: {
                     fontSize: 12,
                 },
                 axisPointer: {
                     type: "cross",
+                    label: {
+                        backgroundColor: "#2b2b2bd6",
+                        fontSize: 10,
+                        shadowColor: "#25252599",
+                        shadowBlur: 10,
+                        // show: false,
+                    },
                     crossStyle: {
                         type: "solid",
                         color: "rgba(230, 230, 230, 0.6)",
@@ -292,7 +299,7 @@ class Grafico {
                     formatter: function(value) {
                         let label
                         let m = value.match(/(\d+)-(\d+)-(\d+)\s+(\d+)/)
-                        if (m[4] == "01") {
+                        if (m[4] == "00") {
                             label = `${m[1]}-${m[2]}-${m[3]}`
                         } else {
                             label = `${m[4]}`
@@ -417,7 +424,7 @@ class Grafico {
                     formatter: function(value) {
                         let label
                         let m = value.match(/(\d+)-(\d+)-(\d+)\s+(\d+)/)
-                        if (m[4] == "01") {
+                        if (m[4] == "00") {
                             label = `${m[1]}-${m[2]}-${m[3]}`
                         } else {
                             label = `${m[4]}`
