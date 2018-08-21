@@ -1,3 +1,13 @@
+## 1.4.0 (2018-08-22)
+### Changed
+-  cambiato struttura e logica del Db per migliorare performance sulla creazione dei report  ( 2018-08-21 ) [ sphynx79]
+-  Utilizzo roda al posto si Sinatra come framework  ( 2018-06-27 ) [ sphynx79]
+
+### Added
+-  Creato i report per le remit delle centrali  ( 2018-07-22 ) [ sphynx79]
+
+
+
 ## 1.3.8 (2018-06-25)
 
 
