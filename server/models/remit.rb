@@ -54,9 +54,29 @@ class Remit
 
     def set_pipeline_centrali(start_dt, end_dt)
       pipeline = []
-      pipeline << {:$match => {"event_status":  /.*active.*/i}}
+      
+      pipeline << {
+        "$match": {
+          "$and": [
+          {
+            "event_status": "Active"
+          },
+          {
+            "last":	1
+          },
+          {
+            "dt_start": {
+              "$lte": end_dt,
+            },
+          }, {
+            "dt_end": {
+              "$gte": start_dt,
+            },
+          }],
+        },
+      }
       # pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, :$or => [{:$and => [{"dt_start": {:$gte => start_dt}}, {"dt_start": {:$lte => end_dt}}]}, {"dt_start": {:$lte => start_dt}, "dt_end": {:$gte => start_dt}}]}}
-      pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
+      # pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
       pipeline << {"$project": {
         "_id": 0,
         "etso": "$etso",

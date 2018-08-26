@@ -64,12 +64,14 @@ class Report
       # pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
       pipeline << {
         "$match": {
-          "$and": [{
-            "event_status": {
-              "$eq": "Active",
-            },
+          "$and": [
+          {
+            "event_status": "Active"
           },
-                   {
+          {
+            "last":	1
+          },
+          {
             "dt_start": {
               "$lte": end_dt,
             },
@@ -84,6 +86,13 @@ class Report
       pipeline << {
         "$unwind": "$days",
       }
+      
+      pipeline << {
+        "$match": {
+            "days.last": 1
+            }
+      }
+
 
       pipeline << {
         "$project": {
