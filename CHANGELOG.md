@@ -1,3 +1,6 @@
+## 1.4.1 (2018-08-26)
+
+
 ## 1.4.0 (2018-08-22)
 ### Changed
 -  cambiato struttura e logica del Db per migliorare performance sulla creazione dei report  ( 2018-08-21 ) [ sphynx79]
