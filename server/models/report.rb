@@ -44,6 +44,8 @@ class Report
     def aggragate_by_day_and_sum(remit)
       remit = remit.group_by { |h| h[:data][0..-10] }.values
       keys = remit[0].first.keys.drop(1)
+      # remit = remit.group_by { |h| h[:data][0..-10] }.values
+      # keys = remit[0].first.keys.drop(1)
       remit.map! { |first, *rest|
         if rest.empty?
           first
@@ -69,7 +71,7 @@ class Report
             "event_status": "Active"
           },
           {
-            "last":	1
+            "is_last":	1
           },
           {
             "dt_start": {
@@ -89,7 +91,7 @@ class Report
       
       pipeline << {
         "$match": {
-            "days.last": 1
+            "days.is_last": 1
             }
       }
 
@@ -123,7 +125,7 @@ class Report
 
       pipeline << {
         "$match": {
-          "hours.last": 1,
+          "hours.is_last": 1,
         },
       }
 

@@ -22,7 +22,7 @@ class Dashboard {
     oninit({ state }) {
         let startDt = derive(() =>
             dayjs(appState.$data.get())
-                .subtract(2, "month")
+                .subtract(11, "month")
                 .format("DD-MM-YYYY")
         )
         let endDt = derive(() =>

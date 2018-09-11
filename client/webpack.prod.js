@@ -78,7 +78,7 @@ module.exports = merge(common, {
             filename: "css/[name].css",
         }),
         new CompressionPlugin({
-            asset: "[path].gz[query]",
+            // asset: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$/,
             threshold: 10240,

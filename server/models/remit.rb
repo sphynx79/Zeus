@@ -62,7 +62,7 @@ class Remit
             "event_status": "Active"
           },
           {
-            "last":	1
+            "is_last":	1
           },
           {
             "dt_start": {
