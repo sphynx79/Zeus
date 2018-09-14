@@ -128,9 +128,9 @@ class Grafico {
             dataZoom: [
                 {
                     type: "slider",
-                    realtime: true,
+                    realtime: false,
                     xAxisIndex: 0,
-                    start: 50,
+                    start: 60,
                     end: 100,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
@@ -249,7 +249,10 @@ class Grafico {
                     },
                 },
                 axisLabel: {
-                    color: "#DADBDD",
+                    color: function (value, index) {
+                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                    },
+                    // color: "#DADBDD",
                     fontSize: 10,
                     rotate: 45,
                 },
@@ -293,9 +296,15 @@ class Grafico {
                     },
                 },
                 axisLabel: {
-                    color: "#DADBDD",
-                    fontSize: 10,
+                    // color: "#DADBDD",
+                    color: function (value, index) {
+                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                    },
+                    fontSize: 9,
                     rotate: 45,
+                    // formatter: function (value) {
+                    //     return echarts.format.formatTime('yyyy-MM-dd hh', value);
+                    // }
                     formatter: function(value) {
                         let label
                         let m = value.match(/(\d+)-(\d+)-(\d+)\s+(\d+)/)
@@ -311,10 +320,10 @@ class Grafico {
             dataZoom: [
                 {
                     type: "slider",
-                    realtime: true,
+                    realtime: false,
                     xAxisIndex: 0,
-                    start: 85,
-                    end: 92,
+                    start: 89,
+                    end: 95,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
@@ -373,8 +382,10 @@ class Grafico {
                     },
                 },
                 axisLabel: {
-                    color: "#DADBDD",
-                    fontSize: 10,
+                    color: function (value, index) {
+                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                    },
+                    fontSize: 9,
                     rotate: 45,
                 },
             },
@@ -418,8 +429,10 @@ class Grafico {
                     },
                 },
                 axisLabel: {
-                    color: "#DADBDD",
-                    fontSize: 10,
+                    color: function (value, index) {
+                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                    },
+                    fontSize: 9,
                     rotate: 45,
                     formatter: function(value) {
                         let label
@@ -436,10 +449,10 @@ class Grafico {
             dataZoom: [
                 {
                     type: "slider",
-                    realtime: true,
+                    realtime: false,
                     xAxisIndex: 0,
-                    start: 85,
-                    end: 92,
+                    start: 89,
+                    end: 95,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
