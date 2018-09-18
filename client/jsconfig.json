@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
-      "target": "ES6",
+      "target": "es2018",
+      "checkJs": true,
       "allowSyntheticDefaultImports": true,
       // This must be specified if "paths" is set
       "baseUrl": ".",
@@ -11,9 +12,11 @@
           "src/*",
           "src/components/*"
         ],
+        "components/*": ["src/components/*"],
+        "carbon_component/*": ["node_modules_custom/carbon-components/es/components/*"],
         "exclude": [
             "node_modules",
-            "dist",
+            "dist"
           ]
       }
     }

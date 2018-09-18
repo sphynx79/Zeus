@@ -5,10 +5,10 @@ class Ampere < Roda
   plugin :multi_route
   plugin :public, gzip: true
   plugin :caching
-  # plugin :early_hints
   plugin :halt
+  plugin :json, serializer: proc{ |o| Oj.dump o, mode: :compat }
   # plugin :not_found do "Where did it go?" end
-  # plugin :json, classes: [Array, Hash]
+  # plugin :early_hints
 
   Unreloader.require('./routes') {}
 

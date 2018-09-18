@@ -4,10 +4,15 @@ class Ampere
   
   route('report', 'api/v1') do |r|
     r.get "centrali", String, String do |start_dt, end_dt|
-      start_dt = (Time.parse(start_dt)).utc
-      end_dt = (Time.parse(end_dt) + (3600 * 24) - 1).utc
-      report = Report.get_report(start_dt, end_dt) 
-      Oj.dump(report, mode: :compat)
+      
+      start_dt = Time.parse(start_dt)
+      utc_offset_start_dt = start_dt.utc_offset
+      end_dt = Time.parse(end_dt)
+      utc_offset_end_dt = end_dt.utc_offset
+
+      start_dt = (start_dt + utc_offset_start_dt).utc
+      end_dt = (end_dt + utc_offset_end_dt + (3600 * 24) - 1).utc
+      Report.get_report(start_dt, end_dt)
     end
     # r.get "centrali_zona", String, String do |start_dt, end_dt|
     #   start_dt = (Time.parse(start_dt) + UTC_OFFSET).utc
@@ -28,14 +33,5 @@ class Ampere
     #   Oj.dump(report, mode: :compat)
     # end
   end
-  
-  # route('report_centrali', 'api/v1') do |r|
-  #   r.on String, String do |start_dt, end_dt|
-  #     start_dt = Date.parse(start_dt)
-  #     end_dt = Date.parse(end_dt)
-  #     report = Report.get_report(start_dt, end_dt) 
-  #     Oj.dump(report, mode: :compat)
-  #   end
-  # end
 
 end

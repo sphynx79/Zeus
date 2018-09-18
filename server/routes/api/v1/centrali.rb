@@ -15,7 +15,7 @@ class Ampere
       centrali.map do |centrale|
         lista_centrali << centrale["properties"]
       end
-      Oj.dump(lista_centrali, mode: :compat)
+      lista_centrali
     end
   end
 

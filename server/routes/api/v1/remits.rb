@@ -6,25 +6,26 @@ class Ampere
     
       r.is 'centrali', String do |data|
         # r.halt(403, {'Content-Type'=>'text/html'}, 'La data non è corretta') if self.class.data_is_correct(data)
-        start_dt = (Time.parse(data) + UTC_OFFSET).utc
-        end_dt = (Time.parse(data) + UTC_OFFSET + (3600 * 24) - 1).utc
-        remit = Remit.get_remit(start_dt, end_dt, "centrali")
-        Oj.dump(remit, mode: :compat)
+        data = Time.parse(data)
+        utc_offset = data.utc_offset
+        start_dt = (data + utc_offset).utc
+        end_dt = (data + utc_offset + (3600 * 24) - 1).utc
+        Remit.get_remit(start_dt, end_dt, "centrali")
       end
 
       r.on 'linee', String  do |data|
         # r.halt(403, {'Content-Type'=>'text/html'}, 'La data non è corretta') if self.class.data_is_correct(data)
-        start_dt = (Time.parse(data) + UTC_OFFSET).utc
-        end_dt = (Time.parse(data) + UTC_OFFSET + (3600 * 24) - 1).utc
+        data = Time.parse(data)
+        utc_offset = data.utc_offset
+        start_dt = (data + utc_offset).utc
+        end_dt = (data + utc_offset + (3600 * 24) - 1).utc
         # start_dt = Date.parse(data)
         # end_dt = Date.parse(data)
         r.is '380' do
-          remit = Remit.get_remit(start_dt, end_dt, "380")
-          Oj.dump(remit, mode: :compat)
+          Remit.get_remit(start_dt, end_dt, "380")
         end
         r.is '220' do
-          remit = Remit.get_remit(start_dt, end_dt, "220")
-          Oj.dump(remit, mode: :compat)
+          Remit.get_remit(start_dt, end_dt, "220")
         end
       end
       # r.redirect '/'
