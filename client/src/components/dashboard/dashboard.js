@@ -20,18 +20,14 @@ class Dashboard {
     }
 
     oninit({ state }) {
-        let startDt = derive(() =>
-            dayjs(appState.$data.get())
-                .subtract(3, "month")
-                .format("DD-MM-YYYY")
-        )
-        let endDt = derive(() =>
-            dayjs(appState.$data.get())
-                .add(7, "day")
-                .format("DD-MM-YYYY")
-        )
-
-        state.$remitReport = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali/${startDt.get()}/${endDt.get()}`))
+        let startDt = derive(() => dayjs(appState.$data.get()).subtract(11, 'month').format('DD-MM-YYYY'))
+        let endDt = derive(() => dayjs(appState.$data.get()).add(1, 'month').format('DD-MM-YYYY'))  
+        let startDtGiornaliera = derive(() => dayjs(appState.$data.get()).subtract(6, 'day').format('DD-MM-YYYY'))
+        let endDtGiornaliera = derive(() => dayjs(appState.$data.get()).add(1, 'day').format('DD-MM-YYYY'))  
+        state.$remitReportTecnologia = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_tecnologia/${startDt.get()}/${endDt.get()}`))
+        state.$remitReportGiornalieroTecnologia = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_giornaliero_tecnologia/${startDtGiornaliera.get()}/${endDtGiornaliera.get()}`))
+        state.$remitReportZona = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_zona/${startDt.get()}/${endDt.get()}`))
+        state.$remitReportGiornalieroZona = derive(() => state._getRemit(`http://${appState.server}:${appState.port}/api/v1/report/centrali_giornaliero_zona/${startDtGiornaliera.get()}/${endDtGiornaliera.get()}`))
     }
 
     view({ attrs, state }) {
@@ -40,22 +36,22 @@ class Dashboard {
             m(Grafico, { 
                 elId: "grafico__remit",
                 title: "Totale indisponibilità programmate lungo termine per tecnologia",
-                data:  state.$remitReport 
+                data: state.$remitReportTecnologia 
             }),
             m(Grafico, { 
                 elId: "grafico__giornaliero",
                 title: "Totale indisponibilità programmate breve termine per tecnologia",
-                data: state.$remitReport
+                data: state.$remitReportGiornalieroTecnologia 
             }),
             m(Grafico, { 
                 elId: "grafico__zone",
                 title: "Totale indisponibilità programmate lungo termine per zona",
-                data: state.$remitReport
+                data: state.$remitReportZona
             }),
             m(Grafico, { 
                 elId: "grafico__giornaliero__zone",
                 title: "Totale indisponibilità programmate breve termine per zona",
-                data: state.$remitReport
+                data: state.$remitReportGiornalieroZona
             }),
 
         ]))

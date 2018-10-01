@@ -130,7 +130,7 @@ class Grafico {
                     type: "slider",
                     realtime: false,
                     xAxisIndex: 0,
-                    start: 60,
+                    start: 70,
                     end: 100,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
@@ -322,8 +322,8 @@ class Grafico {
                     type: "slider",
                     realtime: false,
                     xAxisIndex: 0,
-                    start: 89,
-                    end: 95,
+                    start: 50,
+                    end: 100,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
@@ -451,8 +451,8 @@ class Grafico {
                     type: "slider",
                     realtime: false,
                     xAxisIndex: 0,
-                    start: 89,
-                    end: 95,
+                    start: 50,
+                    end: 100,
                     bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
@@ -820,36 +820,20 @@ class Grafico {
 
         attrs.data.react(resp => {
             resp.then(remit => {
-                switch (state.elId) {
-                    case "grafico__remit":
-                        state.dimensions = Object.keys(remit.tec_daily[0])
-                        state.source = remit.tec_daily
-                        break
-                    case "grafico__giornaliero":
-                        state.dimensions = Object.keys(remit.tec_hourly[0])
-                        state.source = remit.tec_hourly
-                        break
-                    case "grafico__zone":
-                        state.dimensions = Object.keys(remit.zona_daily[0])
-                        state.source = remit.zona_daily
-                        break
-                    case "grafico__giornaliero__zone":
-                        state.dimensions = Object.keys(remit.zona_hourly[0])
-                        state.source = remit.zona_hourly
-                        break
-                }
-
+                state.dimensions = Object.keys(remit[0])
+                state.source = remit
                 myChart.setOption({
                     dataset: {
                         dimensions: state.dimensions,
                         source: state.source,
                     },
                     series: this._Series(),
-                })
-            }).catch(err => {
-                console.log(`Errore richiesta json remit  ${url}`, err)
+            });
             })
-        })
+            .catch(err => {
+                console.log(`Errore richiesta json remit`, err)
+            })
+         })
 
         if (process.env.NODE_ENV !== "production") {
             let logStateAttrs = {
