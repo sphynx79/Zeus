@@ -9,7 +9,7 @@ development:
   database:
     adress:
       - '127.0.0.1:27030'
-    name: 'transmission'
+    name: 'Ampere'
 
 test:
   <<: *defaults
@@ -19,7 +19,8 @@ production:
   database:
     adress:
       # - '127.0.0.1:27030'
-      - '10.130.96.220:27018'
-      - '10.130.96.220:27019'
-      - '10.130.96.144:27018'
-    name: transmission
+      # - '10.130.96.220:27018'
+      # - '10.130.96.220:27019'
+      # - '10.130.96.144:27018'
+      - '192.168.0.102:27018'
+    name: 'Ampere'
