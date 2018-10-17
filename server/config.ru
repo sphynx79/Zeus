@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative './config/boot'
+require './app.rb'
 
 run(Ampere.development? ? Unreloader : Ampere.freeze.app)

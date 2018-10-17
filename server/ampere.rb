@@ -1,22 +1,26 @@
+#!/usr/bin/env ruby
+# Encoding: utf-8
+# warn_indent: true
 # frozen_string_literal: true
 
 class Ampere < Roda
   plugin :environments
   plugin :multi_route
+  plugin :optimized_string_matchers
   plugin :public, gzip: true
   plugin :caching
   plugin :halt
-  plugin :json, serializer: proc{ |o| Oj.dump o, mode: :compat }
-  # plugin :not_found do "Where did it go?" end
+  plugin :json, serializer: proc { |o| Oj.dump o, mode: :compat }
+  plugin :not_found do |r|
+   {'error'=> "Api #{r.path} non trovata"}
+  end
   # plugin :early_hints
-
-  Unreloader.require('./routes') {}
 
   configure :development do
     p "Start Development mode"
     p "ip: localhost:9292"
     p "ip db: #{Settings.database.adress.join(", ")}"
-    p "#"*70
+    p "#" * 70
   end
 
   configure :production do
@@ -24,24 +28,35 @@ class Ampere < Roda
     p "Start Production mode"
     p "ip: #{ip}:80"
     p "ip db: #{Settings.database.adress.join(", ")}"
-    p "#"*70
+    p "#" * 70
     use Rack::Cache, verbose: false
     # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
     # IMPORTANTE: Uso deflate perchè brotli funziona solo con localhost o su https, con http toglie brotli da Accept-Encoding: gzip, deflate
-    # Ho provato anche a settare nella richiesta ajax Accept-Encoding: gzip, deflate, br ma il browser mi restituisce un allert 
-    use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600}
+    # Ho provato anche a settare nella richiesta ajax Accept-Encoding: gzip, deflate, br ma il browser mi restituisce un allert
+    use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600 }
     # set :public_folder, 'public'
 
   end
 
   route do |r|
     r.public
-    r.multi_route
 
     r.root do
-      response['Content-Type'] = 'text/html'
+      response["Content-Type"] = "text/html"
       File.read(File.join(APP_ROOT, "public/index.html"))
     end
-  end
 
+    r.on "api/v1" do
+      response["Content-Type"] = "application/json"
+      response["Access-Control-Allow-Headers"] = "*"
+      response["Access-Control-Allow-Origin"] = "*"
+      response["Access-Control-Allow-Methods"] = "POST, PUT, DELETE, GET, OPTIONS"
+
+      r.multi_route("api/v1")
+
+    end
+
+
+  end
 end
+

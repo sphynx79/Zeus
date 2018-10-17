@@ -1,18 +1,6 @@
-GIT
-  remote: https://github.com/httprb/http
-  revision: 7c2a8613b75e79ba276c13d48d158030ac319d8d
-  specs:
-    http (4.0.0.dev)
-      addressable (~> 2.3)
-      http-cookie (~> 1.0)
-      http-form_data (~> 2.0)
-      http_parser.rb (~> 0.6.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.5.2)
-      public_suffix (>= 2.0.2, < 4.0)
     awesome_print (1.8.0)
     bond (0.5.1)
     bson (4.3.0)
@@ -22,20 +10,14 @@ GEM
     colorize (0.8.1)
     diff-lcs (1.3)
     docile (1.3.1)
-    domain_name (0.5.20180417)
-      unf (>= 0.0.5, < 1.0.0)
     ffi (1.9.25)
     hirb (0.7.3)
-    http-cookie (1.0.3)
-      domain_name (~> 0.5)
-    http-form_data (2.1.1)
-    http_parser.rb (0.6.0)
     json (2.1.0)
     looksee (4.0.0)
     method_source (0.9.0)
     mongo (2.6.2)
       bson (>= 4.3.0, < 5.0.0)
-    oj (3.6.11)
+    oj (3.6.12)
     parallel (1.12.1)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -52,7 +34,6 @@ GEM
     pry-inline (1.0.4)
       pry (> 0.10.0, < 0.12.0)
       unicode (~> 0.4.4)
-    public_suffix (3.0.3)
     puma (3.12.0)
     rack (2.0.5)
     rack-cache (1.8.0)
@@ -62,7 +43,7 @@ GEM
     rack-unreloader (1.6.0)
     rake (12.3.1)
     rb-readline (0.5.5)
-    roda (3.12.0)
+    roda (3.13.0)
       rack
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
@@ -83,9 +64,6 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.5)
     unicode (0.4.4.4)
 
 PLATFORMS
@@ -96,10 +74,9 @@ DEPENDENCIES
   colorize (~> 0.8.1)
   ffi (~> 1.9.25)
   hirb (~> 0.7.3)
-  http!
   looksee (~> 4.0.0)
   mongo (~> 2.6.2)
-  oj (~> 3.6.11)
+  oj (~> 3.6.12)
   parallel (~> 1.12.1)
   pry (~> 0.11.3)
   pry-bond (~> 0.0.1)
@@ -111,7 +88,7 @@ DEPENDENCIES
   rack-test
   rack-unreloader (~> 1.6.0)
   rake (~> 12.3.1)
-  roda (~> 3.12.0)
+  roda (~> 3.13.0)
   rspec (~> 3.8.0)
   settingslogic (~> 2.0.9)
   simplecov
