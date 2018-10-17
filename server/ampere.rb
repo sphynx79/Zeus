@@ -17,18 +17,22 @@ class Ampere < Roda
   # plugin :early_hints
 
   configure :development do
+    p "#" * 80
     p "Start Development mode"
+    p "Version: #{VERSION}"
     p "ip: localhost:9292"
     p "ip db: #{Settings.database.adress.join(", ")}"
-    p "#" * 70
+    p "#" * 80
   end
 
   configure :production do
     ip = Socket.ip_address_list.keep_if { |intf| intf.ipv4_private? && (intf.ip_address =~ /^10/ || intf.ip_address =~ /^192/) }[0].ip_address
+    p "#" * 80
     p "Start Production mode"
+    p "Version: #{VERSION}"
     p "ip: #{ip}:80"
     p "ip db: #{Settings.database.adress.join(", ")}"
-    p "#" * 70
+    p "#" * 80
     use Rack::Cache, verbose: false
     # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
     # IMPORTANTE: Uso deflate perchè brotli funziona solo con localhost o su https, con http toglie brotli da Accept-Encoding: gzip, deflate
