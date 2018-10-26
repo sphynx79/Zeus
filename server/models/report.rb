@@ -18,7 +18,7 @@ end
 
 class Report
   class << self
-    def get_report(start_dt, end_dt, type)
+    def get_report(type)
       # pipeline = set_pipeline(start_dt, end_dt)
       # aggragation_result = DB[:remit_centrali_last].aggregate(pipeline).allow_disk_use(true).to_a
 
@@ -44,20 +44,20 @@ class Report
       # remit[:zona_hourly] = zona_hourly
       # remit[:tec_daily] = remit_tec_daily
       # remit[:zona_daily] = remit_zona_daily
-      serialize = case type
+      collection = case type
                   when "tecnologia"
-                    DB[:remit_centrali_daily_tecologia].aggregate(pipeline_daily_tecologia(start_dt, end_dt)).allow_disk_use(true).to_a
+                    DB[:remit_centrali_daily_tecologia].aggregate(pipeline_daily_tecologia()).allow_disk_use(true).to_a
                   when "zona"
-                    DB[:remit_centrali_daily_zona].aggregate(pipeline_daily_zona(start_dt, end_dt)).allow_disk_use(true).to_a
+                    DB[:remit_centrali_daily_zona].aggregate(pipeline_daily_zona()).allow_disk_use(true).to_a
                   when "tecnologia_giornaliero"
-                    DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia(start_dt, end_dt)).allow_disk_use(true).to_a
+                    DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia()).allow_disk_use(true).to_a
                   when "zona_giornaliero"
-                    DB[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona(start_dt, end_dt)).allow_disk_use(true).to_a
+                    DB[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona()).allow_disk_use(true).to_a
                   else
                     "Errore"
                   end
-      serialize
-      
+      collection.inject({}) do |r, s| r.merge!({s["data"] => s.dup{|x| x.delete("data")}.to_json }) end
+   
 
       # remit = {}
       # remit[:tec_hourly] = DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia(start_dt, end_dt)).allow_disk_use(true).to_a
@@ -68,25 +68,25 @@ class Report
       # remit
     end
 
-    def pipeline_hourly_tecologia(start_dt, end_dt)
+    def pipeline_hourly_tecologia()
       pipeline = []
       # pipeline << {:$match => {"event_status": "Active"}}
       # pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
-      pipeline << {
-        "$match": {
-          "$and": [
-            {
-              "dataTime": {
-                "$lte": end_dt,
-              },
-            }, {
-              "dataTime": {
-                "$gte": start_dt,
-              },
-            },
-          ],
-        },
-      }
+      # pipeline << {
+      #   "$match": {
+      #     "$and": [
+      #       {
+      #         "dataTime": {
+      #           "$lte": end_dt,
+      #         },
+      #       }, {
+      #         "dataTime": {
+      #           "$gte": start_dt,
+      #         },
+      #       },
+      #     ],
+      #   },
+      # }
       pipeline << {
         "$project": {
           _id: 0,
@@ -106,25 +106,25 @@ class Report
       }
     end
 
-    def pipeline_hourly_zona(start_dt, end_dt)
+    def pipeline_hourly_zona()
       pipeline = []
       # pipeline << {:$match => {"event_status": "Active"}}
       # pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
-      pipeline << {
-        "$match": {
-          "$and": [
-            {
-              "dataTime": {
-                "$lte": end_dt,
-              },
-            }, {
-              "dataTime": {
-                "$gte": start_dt,
-              },
-            },
-          ],
-        },
-      }
+      # pipeline << {
+      #   "$match": {
+      #     "$and": [
+      #       {
+      #         "dataTime": {
+      #           "$lte": end_dt,
+      #         },
+      #       }, {
+      #         "dataTime": {
+      #           "$gte": start_dt,
+      #         },
+      #       },
+      #     ],
+      #   },
+      # }
       pipeline << {
         "$project": {
           _id: 0,
@@ -147,25 +147,25 @@ class Report
       }
     end
 
-    def pipeline_daily_zona(start_dt, end_dt)
+    def pipeline_daily_zona()
       pipeline = []
       # pipeline << {:$match => {"event_status": "Active"}}
       # pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
-      pipeline << {
-        "$match": {
-          "$and": [
-            {
-              "dataTime": {
-                "$lte": end_dt,
-              },
-            }, {
-              "dataTime": {
-                "$gte": start_dt,
-              },
-            },
-          ],
-        },
-      }
+      # pipeline << {
+      #   "$match": {
+      #     "$and": [
+      #       {
+      #         "dataTime": {
+      #           "$lte": end_dt,
+      #         },
+      #       }, {
+      #         "dataTime": {
+      #           "$gte": start_dt,
+      #         },
+      #       },
+      #     ],
+      #   },
+      # }
       pipeline << {
         "$project": {
           _id: 0,
@@ -188,25 +188,25 @@ class Report
       }
     end
 
-    def pipeline_daily_tecologia(start_dt, end_dt)
+    def pipeline_daily_tecologia()
       pipeline = []
       # pipeline << {:$match => {"event_status": "Active"}}
       # pipeline << {:$match => {"dt_start": {:$lte => end_dt}, "dt_end": {:$gte => start_dt}}}
-      pipeline << {
-        "$match": {
-          "$and": [
-            {
-              "dataTime": {
-                "$lte": end_dt,
-              },
-            }, {
-              "dataTime": {
-                "$gte": start_dt,
-              },
-            },
-          ],
-        },
-      }
+      # pipeline << {
+      #   "$match": {
+      #     "$and": [
+      #       {
+      #         "dataTime": {
+      #           "$lte": end_dt,
+      #         },
+      #       }, {
+      #         "dataTime": {
+      #           "$gte": start_dt,
+      #         },
+      #       },
+      #     ],
+      #   },
+      # }
       pipeline << {
         "$project": {
           _id: 0,
@@ -225,7 +225,6 @@ class Report
         },
       }
     end
-
   end
 end
 

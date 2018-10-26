@@ -10,9 +10,9 @@ class Ampere < Roda
   plugin :public, gzip: true
   plugin :caching
   plugin :halt
-  plugin :json, serializer: proc { |o| Oj.dump o, mode: :compat }
+  # plugin :json, serializer: proc { |o| Oj.dump o, mode: :compat }
   plugin :not_found do |r|
-   {'error'=> "Api #{r.path} non trovata"}
+    {"error" => "Api #{r.path} non trovata"}
   end
   # plugin :early_hints
 
@@ -57,10 +57,9 @@ class Ampere < Roda
       response["Access-Control-Allow-Methods"] = "POST, PUT, DELETE, GET, OPTIONS"
 
       r.multi_route("api/v1")
-
     end
 
-
   end
+
 end
 

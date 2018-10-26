@@ -7,6 +7,8 @@ APP_ROOT = Pathname.new(File.expand_path("../", __FILE__)).freeze
 APP_NAME = APP_ROOT.basename.to_s.freeze
 VERSION = File.read("../VERSION").strip
 
+ENV['TZ'] = 'Europe/Rome'
+
 env = ENV["RACK_ENV"] || "development"
 
 ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
@@ -14,6 +16,7 @@ require "bundler/setup" if File.exist?(ENV["BUNDLE_GEMFILE"])
 Bundler.require(:default, env)
 require "net/http"
 require "digest/sha1"
+require 'json'
 
 # require "logger"
 # LOGGER = Logger.new("./log/#{env}.log")
@@ -45,6 +48,33 @@ rescue Mongo::Error::NoServerAvailable
   p "Non riesco connetermi al server mongo db"
   exit!
 end
+
+class Module
+
+  def redefine_const(name, value)
+
+    __send__(:remove_const, name) if const_defined?(name)
+
+    const_set(name, value)
+
+  end
+
+end
+
+CACHE_TEC_DAILY = Report.get_report("tecnologia")
+CACHE_ZONA_DAILY = Report.get_report("zona")
+CACHE_TEC_HOURLY = Report.get_report("tecnologia_giornaliero")
+CACHE_ZONA_HOURLY = Report.get_report("zona_giornaliero")
+
+scheduler = Rufus::Scheduler.new
+
+scheduler.every '5m' do
+      Object.redefine_const(:CACHE_TEC_DAILY, Report.get_report("tecnologia"))
+      Object.redefine_const(:CACHE_ZONA_DAILY, Report.get_report("zona"))
+      Object.redefine_const(:CACHE_TEC_HOURLY, Report.get_report("tecnologia_giornaliero"))
+      Object.redefine_const(:CACHE_ZONA_HOURLY, Report.get_report("zona_giornaliero"))
+end
+
 
 MAPBOX = MapBox.new()
 

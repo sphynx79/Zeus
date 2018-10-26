@@ -9,7 +9,7 @@ class Ampere
         response.cache_control public: true, must_revalidate: true, max_age: 300
         r.etag Digest::SHA1.hexdigest(centrali.to_s)
       end
-      centrali
+      Oj.dump(centrali, mode: :compat)
     end
   end
 
