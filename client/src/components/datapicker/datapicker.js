@@ -1,7 +1,7 @@
 // src/components/datapicker/datapicker.js
 
 import "./datapicker.css"
-import DatePicker from "carbon_component/date-picker/date-picker.js"
+import { DatePicker } from "carbon-components"
 import { Italian } from "flatpickr/dist/l10n/it.js"
 import calendarIcon from "./calendarIcon.js"
 
@@ -30,30 +30,33 @@ class DataPicker {
                 m(".bx--date-picker-container", [
                     m(calendarIcon),
                     m("input.bx--date-picker__input[data-date-picker-input=''][id='date-picker'][pattern='d{1,2}/d{1,2}/d{4}'][placeholder='dd/mm/yyyy'][type='text']"),
-                    m(".bx--number__controls", [
-                        m("button.bx--number__control-btn.up-icon",{onclick: () => this.changeData(1)}, 
-                          m("svg[fill-rule='evenodd'][height='5'][viewBox='0 2 10 5'][width='10']", 
-                            m("path[d='M10 5L5 0 0 5z']")
-                          )
-                        ),
-                        m("button.bx--number__control-btn.down-icon", {onclick: () => this.changeData(-1)}, 
-                          m("svg[fill-rule='evenodd'][height='5'][viewBox='0 2 10 5'][width='10']", 
-                            m("path[d='M10 0L5 5 0 0z']")
-                          )
+                    // m(".bx--form-requirement", "Invalid date format.")
+                m(".bx--number__controls", [ m(".bx--number__control-btn.up-icon", {
+                            onclick: () => this.changeData(1)
+                        },
+                        m("svg[fill-rule='evenodd'][height='5'][viewBox='0 0 10 5'][width='10']",
+                            m("path[d='M0 5L5 .002 10 5z']")
                         )
-                    ]),
-                    m(".bx--form-requirement", "Invalid date format.")
-                ])
+                    ),
+                    m(".bx--number__control-btn.down-icon", {
+                            onclick: () => this.changeData(-1)
+                        },
+                        m("svg[fill-rule='evenodd'][height='5'][viewBox='0 0 10 5'][width='10']",
+                            m("path[d='M0 0l5 4.998L10 0z']")
+                        )
+                    )
+                ]),
+                ]),
+
             ),
         ])
     }
 
     changeData(incremento) {
         let currentDate = dayjs(appState.$data.get())
-        let newDate = currentDate.add(incremento, 'day')
-        
-        let dataStrPicker = newDate.format('DD-MM-YYYY')
-        let dataStr = newDate.format('YYYY-MM-DD')
+        let newDate = currentDate.add(incremento, "day")
+        let dataStrPicker = newDate.format("DD-MM-YYYY")
+        let dataStr = newDate.format("YYYY-MM-DD")
         this.picker.calendar.setDate(dataStrPicker)
         appState.$data.set(dataStr)
     }
@@ -68,7 +71,7 @@ class DataPicker {
         })
 
         vnode.picker.calendar.config.onChange.push((selectedDates, dateStr, instance) => {
-            appState.$data.set(dayjs(selectedDates).format('YYYY-MM-DD'))
+            appState.$data.set(dayjs(selectedDates).format("YYYY-MM-DD"))
         })
         vnode.state.picker = vnode.picker
 

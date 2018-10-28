@@ -1,11 +1,8 @@
 /* src/components/datapicker/datapicker.css */
 
 .bx--date-picker__icon {
-    top: 0.4rem;
-}
-
-.bx--date-picker__input {
-    height: 2rem;
+    top: 0.45rem;
+    left: 0.4rem;
 }
 
 .bx--date-picker.bx--date-picker--single .bx--date-picker__input {
@@ -19,12 +16,15 @@
 
 .bx--date-picker__input {
     background-color: rgba(45, 63, 73, 0.78) !important;
-}
-
-.bx--date-picker-container {
-    display: flex;
+    height: 2.2rem;
+    font-size: .79rem;
 }
 
 .bx--number__controls {
-  left: 0;
+  right: .4rem;
+  top: .5rem;
+}
+
+.bx--date-picker__icon ~ .bx--date-picker__input {
+    padding-left: 2.2rem;
 }

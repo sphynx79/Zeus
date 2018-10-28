@@ -15,7 +15,7 @@ module.exports = {
         extensions: [".js"],
         alias: {
             components: resolve(__dirname, "src/components"),
-            carbon_component: resolve(__dirname, "node_modules_custom/carbon-components/es/components"),
+            // carbon_component: resolve(__dirname, "node_modules_custom/carbon-components/es/components"),
         },
         // modules: [ resolve(__dirname, 'node_modules/') ]
     },

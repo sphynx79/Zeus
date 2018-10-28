@@ -5,7 +5,6 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
-const OptimizeJsPlugin = require("optimize-js-plugin")
 const common = require("./webpack.common.js")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 
@@ -52,7 +51,6 @@ module.exports = merge(common, {
                     ie8: false,
                 },
             }),
-            new OptimizeJsPlugin({ sourceMap: false }),
         ],
     },
     plugins: [
@@ -70,7 +68,7 @@ module.exports = merge(common, {
                 discardComments: {
                     removeAll: true,
                 },
-                },
+            },
             canPrint: true,
         }),
         new CleanWebpackPlugin(["dist/*.*"]),

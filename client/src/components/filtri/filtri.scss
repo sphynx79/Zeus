@@ -20,6 +20,11 @@
     overflow-x: scroll;
     > .bx--accordion__item{
         margin-right: 6px;
+        .bx--accordion__heading > .bx--accordion__title {
+          font-size: 1rem;
+          line-height: 1.25;
+          font-weight: 600;
+        }
     
     }
   }

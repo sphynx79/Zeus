@@ -3,7 +3,7 @@
 @import "./theme.scss";
 // $font-prefix: '~@ibm/plex';
 // @import '~@ibm/plex/scss/sans/regular/_latin1.scss';
-$font-path: '~@ibm/plex/IBM-Plex-Sans/fonts/split/woff2/';
+$font-path: '~carbon-components/src/globals/fonts';
 // $font-path: 'https://cdn.jsdelivr.net/npm/@ibm/type@0.5.4/fonts/Sans/web/woff2/';
 @import "./node_modules_custom/carbon-components/scss/globals/scss/styles";
 @import "~simplebar/dist/simplebar.css";
