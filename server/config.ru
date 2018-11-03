@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-require './app.rb'
+require './server'
 
-run(Ampere.development? ? Unreloader : Ampere.freeze.app)
+$stdout.sync = true
+
+run(Server.freeze.app)

@@ -1,64 +1,37 @@
 # frozen_string_literal: true
 
-class Time
-  def arrotonda(sec = 1)
-    down = self - (to_i % sec)
-    up = down + sec
+class Report < Mongodb
+  mattr :cache_centrali_tecnologia_daily
+  mattr :cache_centrali_zona_daily
+  mattr :cache_centrali_tecnologia_hourly
+  mattr :cache_centrali_zona_hourly
 
-    difference_down = self - down
-    difference_up = up - self
-
-    if difference_down < difference_up
-      return down
-    else
-      return up
-    end
-  end
-end
-
-class Report
   class << self
-    def get_report(type)
-      # pipeline = set_pipeline(start_dt, end_dt)
-      # aggragation_result = DB[:remit_centrali_last].aggregate(pipeline).allow_disk_use(true).to_a
 
-      # tec_hourly = aggragation_result[0]["remit_tec_hourly"]
-      # zona_hourly = aggragation_result[0]["remit_zona_hourly"]
-      # tec_hourly = []
-      # zona_hourly = []
-      # threads = []
-      # threads << Thread.new do
-      # tec_hourly = DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia(start_dt, end_dt)).allow_disk_use(true).to_a
-      # end
-      # threads << Thread.new do
-      # zona_hourly = DB[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona(start_dt, end_dt)).allow_disk_use(true).to_a
-      # end
-      # threads.each do |t|
-      #   t.join
-      # end
-      # tec_hourly = DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia(start_dt, end_dt)).allow_disk_use(true).to_a
-      # zona_hourly = DB[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona(start_dt, end_dt)).allow_disk_use(true).to_a
-      # remit_tec_daily, remit_zona_daily = remit_daily(tec_hourly, zona_hourly)
-      # remit = {}
-      # remit[:tec_hourly] = tec_hourly
-      # remit[:zona_hourly] = zona_hourly
-      # remit[:tec_daily] = remit_tec_daily
-      # remit[:zona_daily] = remit_zona_daily
+    def initialize_cache
+      @@cache_centrali_tecnologia_daily = get_report("centrali_tecnologia_daily")
+      @@cache_centrali_zona_daily = get_report("centrali_zona_daily")
+      @@cache_centrali_tecnologia_hourly = get_report("centrali_tecnologia_hourly")
+      @@cache_centrali_zona_hourly = get_report("centrali_zona_hourly")
+    end
+
+    def get_report(type)
       collection = case type
-                  when "tecnologia"
-                    DB[:remit_centrali_daily_tecologia].aggregate(pipeline_daily_tecologia()).allow_disk_use(true).to_a
-                  when "zona"
-                    DB[:remit_centrali_daily_zona].aggregate(pipeline_daily_zona()).allow_disk_use(true).to_a
-                  when "tecnologia_giornaliero"
-                    DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia()).allow_disk_use(true).to_a
-                  when "zona_giornaliero"
-                    DB[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona()).allow_disk_use(true).to_a
+                  when "centrali_tecnologia_daily"
+                    client[:remit_centrali_daily_tecologia].aggregate(pipeline_daily_tecologia()).allow_disk_use(true).to_a
+                  when "centrali_zona_daily"
+                    client[:remit_centrali_daily_zona].aggregate(pipeline_daily_zona()).allow_disk_use(true).to_a
+                  when "centrali_tecnologia_hourly"
+                    client[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia()).allow_disk_use(true).to_a
+                  when "centrali_zona_hourly"
+                    client[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona()).allow_disk_use(true).to_a
                   else
                     "Errore"
                   end
+      return "cache #{type} non trovata" if collection == "Errore"
+
       collection.inject({}) do |r, s| r.merge!({s["data"] => s.dup{|x| x.delete("data")}.to_json }) end
    
-
       # remit = {}
       # remit[:tec_hourly] = DB[:remit_centrali_hourly_tecologia].aggregate(pipeline_hourly_tecologia(start_dt, end_dt)).allow_disk_use(true).to_a
       # remit[:zona_hourly] = DB[:remit_centrali_hourly_zona].aggregate(pipeline_hourly_zona(start_dt, end_dt)).allow_disk_use(true).to_a

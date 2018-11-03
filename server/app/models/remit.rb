@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-class Remit
+class Remit < Mongodb
+  extend Mapbox
   class << self
     def get_remit(start_dt, end_dt, volt)
       if volt == "centrali"
         pipeline = set_pipeline_centrali(start_dt, end_dt)
-        remit_result = DB[:remit_centrali].aggregate(pipeline).allow_disk_use(true).to_a
+        remit_result = client[:remit_centrali].aggregate(pipeline).allow_disk_use(true).to_a
         features = features_centrali(remit_result)
       else
         pipeline = set_pipeline_linee(start_dt, end_dt, volt)
-        remit_result = DB[:remit_linee].aggregate(pipeline).allow_disk_use(true).to_a
+        remit_result = client[:remit_linee].aggregate(pipeline).allow_disk_use(true).to_a
         features = features_linee(remit_result, volt)
       end
       return {"type" => "FeatureCollection", "features" => features}
@@ -23,19 +24,19 @@ class Remit
         feature["properties"] = {}
         feature["properties"]["nome"] = x["nome"]
         # feature["properties"]["volt"]     = x["volt"]
-        feature["properties"]["update"] = x["dt_upd"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["start"] = x["start_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["properties"]["end"] = x["end_dt"].strftime("%d-%m-%Y %H:%M")
-        feature["geometry"] = MAPBOX.send("linee_#{volt}").detect { |f| f["id"] == id_transmission }["geometry"]
+        feature["properties"]["update"] = x["dt_upd"]
+        feature["properties"]["start"] = x["start_dt"]
+        feature["properties"]["end"] = x["end_dt"]
+        feature["geometry"] = self.send("linee_#{volt}").detect { |f| f["id"] == id_transmission }["geometry"]
         feature
       end
     end
-    
+
     def features_centrali(remit_result)
       Parallel.map(remit_result, in_threads: 4) do |x|
         feature = {}
         etso = x["etso"]
-        mapbox_feature = MAPBOX.centrali.detect { |f| f["properties"]["etso"] == etso }
+        mapbox_feature = centrali.detect { |f| f["properties"]["etso"] == etso }
         feature["type"] = "Feature"
         feature["properties"] = {}
         feature["properties"]["nome"] = x["etso"]
@@ -54,25 +55,26 @@ class Remit
 
     def set_pipeline_centrali(start_dt, end_dt)
       pipeline = []
-      
+
       pipeline << {
         "$match": {
           "$and": [
-          {
-            "event_status": "Active"
-          },
-          {
-            "is_last":	1
-          },
-          {
-            "dt_start": {
-              "$lte": end_dt,
+            {
+              "event_status": "Active",
             },
-          }, {
-            "dt_end": {
-              "$gte": start_dt,
+            {
+              "is_last": 1,
             },
-          }],
+            {
+              "dt_start": {
+                "$lte": end_dt,
+              },
+            }, {
+              "dt_end": {
+                "$gte": start_dt,
+              },
+            },
+          ],
         },
       }
       # pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, :$or => [{:$and => [{"dt_start": {:$gte => start_dt}}, {"dt_start": {:$lte => end_dt}}]}, {"dt_start": {:$lte => start_dt}, "dt_end": {:$gte => start_dt}}]}}
@@ -93,11 +95,23 @@ class Remit
       pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, "volt": volt}}
       pipeline << {:$match => {"start_dt": {:$lte => end_dt}, "end_dt": {:$gte => start_dt}}}
       pipeline << {:$group => {'_id': "$nome",
-                               'dt_upd': {'$last': "$dt_upd"},
+                               'dt_upd': {'$last': {"$dateToString": {
+                                 format: "%d-%m-%Y %H:%M",
+                                 date: "$dt_upd",
+                                 timezone: "Europe/Rome",
+                               }}},
                                'nome': {'$first': "$nome"},
                                'volt': {'$first': "$volt"},
-                               'start_dt': {'$first': "$start_dt"},
-                               'end_dt': {'$first': "$end_dt"},
+                               'start_dt': {'$first':  {"$dateToString": {
+                                  format: "%d-%m-%Y %H:%M",
+                                  date: "$start_dt",
+                                  timezone: "Europe/Rome",
+                                }}},
+                               'end_dt': {'$first':  {"$dateToString": {
+                                  format: "%d-%m-%Y %H:%M",
+                                  date: "$end_dt",
+                                  timezone: "Europe/Rome",
+                                }}},
                                'reason': {'$first': "$reason"},
                                'id_transmission': {'$first': "$id_transmission"}}}
       return pipeline

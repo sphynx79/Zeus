@@ -42,8 +42,6 @@ GEM
     puma (3.12.0)
     raabro (1.1.6)
     rack (2.0.5)
-    rack-cache (1.8.0)
-      rack (>= 0.4)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack-unreloader (1.6.0)
@@ -75,7 +73,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2018.6)
+    tzinfo-data (1.2018.7)
       tzinfo (>= 1.0.0)
     unicode (0.4.4.4)
 
@@ -97,16 +95,16 @@ DEPENDENCIES
   pry-clipboard (~> 0.1.1)
   pry-inline (~> 1.0.4)
   puma (~> 3.12.0)
-  rack-cache (~> 1.8.0)
   rack-test
   rack-unreloader (~> 1.6.0)
   rake (~> 12.3.1)
   roda (~> 3.13.0)
   rspec (~> 3.8.0)
-  rufus-scheduler
+  rufus-scheduler (~> 3.5.2)
   settingslogic (~> 2.0.9)
   simplecov
-  tzinfo-data
+  tzinfo (~> 1.2.5)
+  tzinfo-data (~> 1.2018.7)
 
 RUBY VERSION
    ruby 2.5.1p57

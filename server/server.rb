@@ -3,20 +3,37 @@
 # warn_indent: true
 # frozen_string_literal: true
 
-class Ampere < Roda
+APP_ROOT = Pathname.new(File.expand_path(__dir__)).freeze
+APP_NAME = APP_ROOT.basename.to_s.freeze
+VERSION = File.read("../VERSION").strip
+
+require 'tzinfo'
+ENV["TZ"] = "UTC"
+TZ = TZInfo::Timezone.get('Europe/Rome')
+
+env = ENV["RACK_ENV"] || "development"
+
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
+require "bundler/setup" if File.exist?(ENV["BUNDLE_GEMFILE"])
+Bundler.require(:default, env)
+
+require_relative 'app/initializers/settings'
+require_relative 'app/boot'
+require_relative 'app/boot_jobs'
+require_glob APP_ROOT.to_s + '/app/routes/*.rb'
+
+Logger.class_eval { alias :write :'<<' }
+
+class Server < Roda
   plugin :environments
-  plugin :multi_route
-  plugin :optimized_string_matchers
   plugin :public, gzip: true
   plugin :caching
-  plugin :halt
   # plugin :json, serializer: proc { |o| Oj.dump o, mode: :compat }
-  plugin :not_found do |r|
-    {"error" => "Api #{r.path} non trovata"}
-  end
   # plugin :early_hints
+  include Logging
 
   configure :development do
+    plugin :common_logger, Logging.logger 
     p "#" * 80
     p "Start Development mode"
     p "Version: #{VERSION}"
@@ -33,13 +50,13 @@ class Ampere < Roda
     p "ip: #{ip}:80"
     p "ip db: #{Settings.database.adress.join(", ")}"
     p "#" * 80
-    use Rack::Cache, verbose: false
+    # use Rack::Cache, verbose: false
     # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
     # IMPORTANTE: Uso deflate perchè brotli funziona solo con localhost o su https, con http toglie brotli da Accept-Encoding: gzip, deflate
     # Ho provato anche a settare nella richiesta ajax Accept-Encoding: gzip, deflate, br ma il browser mi restituisce un allert
     use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600 }
+    # use Rack::RubyProf, :path => 'profile', :printers => [::RubyProf::CallTreePrinter]
     # set :public_folder, 'public'
-
   end
 
   route do |r|
@@ -51,12 +68,9 @@ class Ampere < Roda
     end
 
     r.on "api/v1" do
-      response["Content-Type"] = "application/json"
-      response["Access-Control-Allow-Headers"] = "*"
-      response["Access-Control-Allow-Origin"] = "*"
-      response["Access-Control-Allow-Methods"] = "POST, PUT, DELETE, GET, OPTIONS"
+      
+      r.run V1::Api
 
-      r.multi_route("api/v1")
     end
 
   end

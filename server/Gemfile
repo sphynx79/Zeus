@@ -11,15 +11,17 @@ gem 'mongo', '~>2.6.2'
 gem 'settingslogic', '~>2.0.9'
 gem 'oj', '~>3.6.12'
 gem 'parallel', '~>1.12.1'
-gem 'rufus-scheduler'
-gem 'tzinfo-data'
+gem 'rufus-scheduler', '~>3.5.2' 
+gem 'tzinfo-data', '~>1.2018.7'
 gem 'colorize', '~>0.8.1'
+gem 'tzinfo', '~>1.2.5'
+# gem 'ruby-prof'
 # gem 'brotli'
 # gem 'rack-brotli'
 
 
 group :production do
-  gem "rack-cache", "~>1.8.0"
+  # gem "rack-cache", "~>1.8.0"
 end
 
 group :development, :test do
