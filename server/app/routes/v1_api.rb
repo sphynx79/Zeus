@@ -8,7 +8,6 @@ module V1
     include RequestHelpers
 
     plugin :multi_route
-    plugin :caching
     plugin :halt
     plugin :optimized_string_matchers
     plugin :not_found do |r| 

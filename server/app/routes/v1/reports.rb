@@ -2,7 +2,10 @@
 
 V1::Api.route("reports") do |r|
   def get_value(dates, cache)
-    dates.reduce("[".dup) { |cum, data| cum << "#{cache[data]}," }[0..-2] << "]"
+    # la ricerca nella cache ha sempre la key nel timezone italiano
+    LOCK.with_read_lock do 
+      dates.reduce("[".dup) { |cum, data| cum << "#{cache[data]}," }[0..-2] << "]" 
+    end
   end
 
   r.on String, String do |start_dt, end_dt|
@@ -14,6 +17,7 @@ V1::Api.route("reports") do |r|
     remaining_path = request.remaining_path.tr("/", "")
     cache = Report.send("cache_#{remaining_path}")
     r.halt(403, json({"error" => cache})) unless cache.is_a? (Hash)
+
     # daily teconlogia
     r.is_exactly "centrali_tecnologia_daily" do
       while (start_dt += (3600 * 24)) <= end_dt
@@ -21,6 +25,7 @@ V1::Api.route("reports") do |r|
       end
       get_value(dates, cache)
     end
+
     # daily zona
     r.is_exactly "centrali_zona_daily" do
       while (start_dt += (3600 * 24)) <= end_dt
@@ -28,6 +33,7 @@ V1::Api.route("reports") do |r|
       end
       get_value(dates, cache)
     end
+
     # hourly tecnologia
     r.is_exactly "centrali_tecnologia_hourly" do
       while (start_dt += (3600)) <= end_dt
@@ -35,6 +41,7 @@ V1::Api.route("reports") do |r|
       end
       get_value(dates, cache)
     end
+
     # hourly zona
     r.is_exactly "centrali_zona_hourly" do
       while (start_dt += (3600)) <= end_dt
@@ -42,6 +49,7 @@ V1::Api.route("reports") do |r|
       end
       get_value(dates, cache)
     end
+
   end
 end
 

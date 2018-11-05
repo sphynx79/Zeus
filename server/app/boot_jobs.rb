@@ -20,7 +20,7 @@ class Scheduler
       end
       jobs.each do |job|
         Thread.new {
-          sleep 10
+          sleep 7
           start_job(job)
         }
         scheduler.every job.time_interval, :timeout => job.timeout, :tag => job.description do

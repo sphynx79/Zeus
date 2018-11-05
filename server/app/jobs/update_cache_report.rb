@@ -7,7 +7,7 @@ class UpdateCacheReport
   attr_reader :description, :time_interval, :timeout, :result
   def initialize
     @description = "Update della cache dei report"
-    @time_interval = "1m"
+    @time_interval = "10m"
     @timeout = "10m"
   end
 

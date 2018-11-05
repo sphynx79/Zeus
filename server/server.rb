@@ -27,7 +27,7 @@ Logger.class_eval { alias :write :'<<' }
 class Server < Roda
   plugin :environments
   plugin :public, gzip: true
-  plugin :caching
+  # plugin :caching
   # plugin :json, serializer: proc { |o| Oj.dump o, mode: :compat }
   # plugin :early_hints
   include Logging
