@@ -1,3 +1,9 @@
+## 1.6.0 (2018-11-05)
+### Changed
+-  Creato meccanismo di cache per report e per le remit, e sistemato problema UTC localtime  ( 2018-11-05 ) [ sphynx79]
+
+
+
 ## 1.5.1 (2018-10-17)
 
 
