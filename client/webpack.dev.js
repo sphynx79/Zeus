@@ -4,7 +4,7 @@ const merge = require("webpack-merge")
 const common = require("./webpack.common.js")
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
-const compress = require('koa-compress')
+const compress = require("koa-compress")
 
 module.exports = merge(common, {
     mode: "development",
@@ -15,7 +15,7 @@ module.exports = merge(common, {
             clipboard: false,
         },
         add: (app, middleware, options) => {
-            app.use(compress({threshold: 2048}));
+            app.use(compress({ threshold: 2048 }))
         },
     },
     // optimization: {
@@ -41,12 +41,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /(\.css|\.scss)$/,
-                use: [
-                    ExtractCssChunks.loader,
-                    { loader: "css-loader", options: { sourceMap: true } },
-                    { loader: "postcss-loader" },
-                    { loader: "sass-loader" },
-                ],
+                use: [ExtractCssChunks.loader, { loader: "css-loader", options: { sourceMap: true } }, { loader: "postcss-loader" }, { loader: "sass-loader" }],
             },
         ],
     },
@@ -54,7 +49,7 @@ module.exports = merge(common, {
         new HtmlWebPackPlugin({
             template: "./index.html",
             filename: "./index.html",
-            inject: true,
+            // inject: true,
         }),
         new webpack.DefinePlugin({
             NEXT: JSON.stringify(process.env.next),

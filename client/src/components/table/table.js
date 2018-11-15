@@ -24,7 +24,7 @@ class Table {
                 m.redraw()
             })
         } else {
-            state.titolo = "Centrali"
+            state.titolo = "CENTRALI"
             appState.$remitCentraliFiltered.react(r => {
                 state.remit = r
                 m.redraw()

@@ -38,7 +38,7 @@ class Mongodb
       1) Controllare che il server mongodb sia avviato
       2) Controllare in config che IP, PORTA, NOME database siano corretti
     MESSAGE
-    p message
+    print message
     exit!
     # puts 'Cannot connect to the server:'
     # puts '1) Controllare che il server mongodb sia avviato'

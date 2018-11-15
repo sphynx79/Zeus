@@ -36,7 +36,6 @@
         "imports-loader": "^0.8.0",
         "koa-compress": "^3.0.0",
         "mini-css-extract-plugin": "^0.4.4",
-        "mobius1-selectr": "https://github.com/sphynx79/Selectr",
         "mopt": "^5.1.1",
         "node-sass": "^4.9.4",
         "nodemon": "^1.18.5",
@@ -54,10 +53,11 @@
         "webpack-serve": "1.0.0-beta.1"
     },
     "dependencies": {
-        "carbon-components": "^9.40.0",
+        "carbon-components": "^9.48.0",
         "echarts": "^4.2.0-rc.2",
         "mainloop.js": "^1.0.4",
-        "mithril": "^2.0.0-rc.0",
+        "mithril": "2.0.0-rc.1",
+        "mobius1-selectr": "^2.4.6",
         "nouislider": "^12.1.0",
         "remove": "^0.1.5",
         "simplebar": "3.0.0-beta.4"
