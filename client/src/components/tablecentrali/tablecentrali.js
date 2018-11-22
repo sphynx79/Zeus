@@ -139,14 +139,22 @@ class TableCentrali {
 
                 element.append(hoursRow.firstChild)
             },
+
+            rowClick: (e, row) => {
+                console.log(e.target.tagName)
+                console.log(e.target.firstElementChild)
+                if (e.target.firstElementChild == null && e.target.tagName != "path") {
+                    return appState.$selectCentrale.set(row.getData())
+                }
+            },
         })
 
         appState.$remitCentraliFiltered.react(r => {
             let remit = r.map(item => {
-                return item["properties"]
+                let merged = { ...item["properties"], ...{ geometry: item["geometry"] } }
+                return merged
             })
             this.tabulator.setData(remit)
-            // m.redraw()
         })
 
         if (process.env.NODE_ENV !== "production") {
