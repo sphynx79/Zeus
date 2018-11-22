@@ -2,196 +2,215 @@
 
 table {
     width: 100%;
-    table-layout: fixed;
+
+    // table-layout: fixed;
     @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
         backdrop-filter: blur(3px);
+        }
     }
-}
 
 .tbl {
-    margin-top: 5vh;
     width: 100%;
+    margin-top: 5vh;
+
     background: #333;
     @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
         background: #333333c9;
-    }
+        }
     @media screen and (max-height: 600px) {
         margin-top: 3.7vh;
-    }
+        }
     &__header {
         width: 100%;
         // padding-right: 0.58vw;
+
         border-top: 1.2px solid #b1b1b1;
-        border-left: 1.2px solid #b1b1b1;
         border-right: 1.2px solid #b1b1b1;
-        > table {
+        border-left: 1.2px solid #b1b1b1;
+         > table {
             caption {
-                letter-spacing: 1px;
-                font-weight: bold;
                 font-size: 1.05rem;
-                // background: #333;
-                background:linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, 0.8) 50%, #143b63 40%);
-                padding: 0.6vh 0;
+                font-weight: bold;
+
+                padding: .6vh 0;
+
+                letter-spacing: 1px;
                 // margin-right: -0.64vw;
+
                 border-bottom: 1.2px solid #b1b1b1;
-            }
+                // background: #333;
+                background: linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, .8) 50%, #143b63 40%);
+                }
             thead {
                 background: #333;
-                > tr {
+                 > tr {
                     height: 2.6vh;
                     th {
-                        overflow: hidden;
-                        background: linear-gradient(to bottom, rgba(47, 47, 47, 0.14) 0%, rgba(86, 86, 86, 0.41) 50%, rgba(47, 47, 47, 0.48) 20%);;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        font-size: 0.86rem;
+                        font-size: .86rem;
                         font-weight: 400;
+
+                        overflow: hidden;
+
+                        padding-left: .4vw;
+
                         text-align: left;
-                        letter-spacing: 1px;
                         vertical-align: middle;
-                        padding-left: 0.4vw;
+                        white-space: nowrap;
+                        letter-spacing: 1px;
+                        text-overflow: ellipsis;
+
                         border-right: 1px solid #b1b1b1;
+                        background: linear-gradient(to bottom, rgba(47, 47, 47, .14) 0%, rgba(86, 86, 86, .41) 50%, rgba(47, 47, 47, .48) 20%);;
                         &:last-of-type {
                             border-right: none;
+                            }
                         }
                     }
                 }
-            }
             .thead-centrali {
-                > tr th {
+                 > tr th {
                     text-transform: capitalize;
                     &.nome {
                         width: 6.3vw;
-                    }
+                        }
                     &.company {
                         width: 4.2vw;
-                    }
+                        }
                     &.update,
                     &.start,
                     &.end {
                         width: 5.4vw;
-                    }
+                        }
                     &.remit {
                         width: 3.2vw;
-                    }
+                        }
                     &.pmax {
                         width: 3.2vw;
-                    }
+                        }
                     &.tipo {
                         width: 4.6vw;
-                    }
+                        }
                     &.sottotipo {
                         width: 4.6vw;
+                        }
                     }
                 }
-            }
             .thead-linee {
-                > tr th {
+                 > tr th {
                     text-transform: capitalize;
                     &.nome {
                         width: 11.9vw;
-                    }
+                        }
                     &.update,
                     &.start,
                     &.end {
                         width: 6vw;
+                        }
                     }
                 }
             }
         }
-    }
     &__content {
-        max-height: 18vh;
         overflow-x: hidden;
         overflow-y: hidden;
+
+        max-height: 18vh;
+
         border: 1.2px solid #b1b1b1;
 
-         table > tbody {
+        table > tbody {
             tr {
-                cursor: pointer;
                 height: 1.2vh;
+
+                cursor: pointer;
                 &:nth-child(even) {
-                    background-color: rgba(90, 90, 90, 0.3);
-                }
+                    background-color: rgba(90, 90, 90, .3);
+                    }
                 &:hover {
+                    font-weight: bold;
+
                     z-index: 100;
+
                     border-width: 1.8px;
                     border-style: solid;
                     border-color: rgb(90, 170, 250);
-                    font-weight: bold;
-                }
+                    }
                 &.active {
                     background-color: #1285f7 !important;
-                    box-shadow: inset rgb(10, 67, 123) 0px 0px 4px 2px;
-                }
+                    box-shadow: inset rgb(10, 67, 123) 0 0 4px 2px;
+                    }
                 td {
+                    font-size: .6rem;
+
+                    overflow: hidden;
+
                     padding-top: 1%;
                     padding-bottom: 1%;
-                    font-size: 0.6rem;
-                    padding-left: 0.4vw;
-                    overflow: hidden;
+                    padding-left: .4vw;
+
                     white-space: nowrap;
                     text-overflow: ellipsis;
+
                     border-right: 1px solid #b1b1b1;
                     &:last-of-type {
                         border-right: none;
+                        }
                     }
                 }
             }
-        }
         table > .tbody-centrali {
             tr td {
                 &.nome {
                     width: 6.3vw;
-                }
+                    }
                 &.company {
                     width: 4.2vw;
-                }
+                    }
                 &.update,
                 &.start,
                 &.end {
                     width: 5.4vw;
-                }
+                    }
                 &.pmax {
                     width: 3.2vw;
-                }
+                    }
                 &.remit {
                     width: 3.2vw;
-                }
+                    }
                 &.tipo {
                     width: 4.6vw;
-                }
-                 &.sottotipo {
+                    }
+                &.sottotipo {
                     width: 4.6vw;
+                    }
                 }
             }
-        }
-         table > .tbody-linee {
+        table > .tbody-linee {
             tr td {
                 &.nome {
                     width: 11.9vw;
-                }
+                    }
                 &.update,
                 &.start,
                 &.end {
                     width: 6vw;
+                    }
                 }
             }
         }
     }
-}
 
 .simplebar-scrollbar {
     right: 1px;
-}
+    }
 
 .simplebar-scrollbar:before {
     background: rgb(92, 166, 245);
     // box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-}
+    }
 .simplebar-track:hover .simplebar-scrollbar:before, .simplebar-track .simplebar-scrollbar.visible:before {
-    opacity: 0.98;
     -webkit-transition: opacity 0 linear;
-    transition: opacity 0 linear;
-}
+            transition: opacity 0 linear;
 
+    opacity: .98;
+    }

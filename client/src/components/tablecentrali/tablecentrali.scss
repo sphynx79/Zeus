@@ -1,0 +1,124 @@
+/* src/components/table/table.scss */
+
+@import "./tabulator_midnight.scss";
+
+.tbl {
+    margin-top: 5vh;
+    // border: 1.2px solid #b1b1b1;
+
+    @media screen and (max-height: 600px) {
+        margin-top: 3.7vh;
+    }
+
+    &__header {
+        font-size: 1.05rem;
+        font-weight: bold;
+
+        width: 100%;
+        padding: 0.6vh 0;
+
+        text-align: center;
+        letter-spacing: 1px;
+        // padding-right: 0.58vw;
+
+        border-top: 1px solid #b1b1b1;
+        border-right: 1px solid #b1b1b1;
+        border-bottom: 1px solid #b1b1b1;
+        border-left: 1px solid #b1b1b1;
+        background: linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, 0.8) 47%, #143b63 40%);
+    }
+
+    .tabulator {
+        background-color: transparent;
+    }
+
+    .tabulator-tableHolder {
+        border-bottom: 1px solid #b1b1b1;
+    }
+
+    .tabulator-col {
+        border-bottom: 1px solid #b1b1b1;
+        border-right: 1px solid #b1b1b1;
+    }
+
+    .tabulator-col:first-child {
+        border-left: 1px solid #b1b1b1;
+    }
+
+    .tabulator-col:last-child {
+        border-right: 1px solid #b1b1b1;
+    }
+
+    .table {
+        width: 100%;
+
+        .tabulator-table {
+            background: #333;
+
+            @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                background: rgba(60, 60, 60, 0.8);
+            }
+
+            @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                backdrop-filter: blur(3px);
+            }
+        }
+
+        > .tabulator-header .tabulator-col-content {
+            font-weight: 400;
+            font-size: 0.86rem;
+            background: linear-gradient(to bottom, rgba(47, 47, 47, 0.28) 0%, rgba(86, 86, 86, 0.54) 50%, rgba(47, 47, 47, 0.67) 20%);
+
+            > .tabulator-col-title {
+                padding-left: 0.4vw;
+
+                vertical-align: middle;
+                letter-spacing: 1px;
+            }
+
+            > .tabulator-arrow {
+                top: 6.5px;
+            }
+        }
+
+        .tabulator-row {
+            vertical-align: baseline;
+            width: 99.76%;
+            border-left: 1px solid #b1b1b1;
+            border-right: 1px solid #b1b1b1;
+            &:hover {
+                cursor: pointer;
+                font-weight: bold;
+
+                z-index: 100;
+
+                box-shadow: inset 0px 0.5px 0px 1.6px #388ee6;
+            }
+
+            .tabulator-cell {
+                font-size: 0.6rem;
+                line-height: 9px;
+
+                padding-top: 1%;
+                padding-left: 0.4vw;
+
+                border-top: 1px solid #777;
+                border-right: 1px solid #777;
+            }
+
+            .table {
+                .hours-row > .tabulator-cell {
+                    color: #cccccc;
+                }
+
+                .hours-row > .tabulator-cell:first-child {
+                    border-left: 1px solid #777777;
+                }
+
+                .hours-row > .tabulator-cell:last-child {
+                    border-right: 1px solid #b1b1b1;
+                }
+            }
+        }
+    }
+}
