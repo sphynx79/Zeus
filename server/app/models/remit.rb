@@ -29,7 +29,7 @@ class Remit < Mongodb
     def get_remit_linee(start_dt, end_dt, volt)
       pipeline = set_pipeline_linee(start_dt, end_dt, volt)
       remit_result = client[:remit_linee].aggregate(pipeline).allow_disk_use(true).to_a
-      features = features_linee(remit_result, volt)
+      features = features_linee(remit_result, volt, start_dt, end_dt)
       return {'type' => 'FeatureCollection', 'features' => features}
     end
 
@@ -40,14 +40,16 @@ class Remit < Mongodb
       return {'type' => 'FeatureCollection', 'features' => features}
     end
 
-    def features_linee(remit_result, volt)
+    def features_linee(remit_result, volt, input_start_dt, input_end_dt)
       remit_result.map do |x|
         feature = {}
         id_transmission = x['id_transmission']
         feature['type'] = 'Feature'
         feature['properties'] = {}
+        feature['properties']['fold'] = true
         feature['properties']['nome'] = x['nome']
         # feature["properties"]["volt"]     = x["volt"]
+        feature['properties']['hours'] = crea_24_ore_linee(x['start_dt'], x['end_dt'], input_start_dt, input_end_dt)
         feature['properties']['update'] = TZ.utc_to_local(x['dt_upd']).strftime('%d-%m-%Y %H:%M')
         feature['properties']['start'] = TZ.utc_to_local(x['start_dt']).strftime('%d-%m-%Y %H:%M')
         feature['properties']['end'] = TZ.utc_to_local(x['end_dt']).strftime('%d-%m-%Y %H:%M')
@@ -76,6 +78,18 @@ class Remit < Mongodb
         feature['geometry'] = mapbox_feature['geometry']
         feature
       end
+    end
+
+    def crea_24_ore_linee(start_dt, end_dt, input_start_dt, input_end_dt)
+      db_timerange = ( TZ.utc_to_local(start_dt) ..  TZ.utc_to_local(end_dt) ).to_time_range
+      input_timerange = ( TZ.utc_to_local(input_start_dt) ..  TZ.utc_to_local(input_end_dt + 1) ).to_time_range
+      overlap = db_timerange.overlap_with(input_timerange)
+      hours = ('1'..'24').each_with_object(Hash.new(0)) { |key, hash| hash[key] = "0" }
+      hour = overlap.min
+      while (hour += 3600) <= overlap.max
+        hour.hour == 0 ? hours["24"] = 1 : hours[(hour.hour).to_s] = 1
+      end
+      return hours
     end
 
     def crea_24_ore(hours)

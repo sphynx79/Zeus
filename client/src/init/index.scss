@@ -6,7 +6,6 @@
 $font-path: '~carbon-components/src/globals/fonts';
 // $font-path: 'https://cdn.jsdelivr.net/npm/@ibm/type@0.5.4/fonts/Sans/web/woff2/';
 @import "./node_modules_custom/carbon-components/scss/globals/scss/styles";
-@import "~simplebar/dist/simplebar.css";
 
 html {
   font-size: calc(0.4em + 1vmin);
@@ -37,7 +36,9 @@ body {
 //   height: 12px;
 // }
 
-// ::-webkit-resizer {}
+// ::-webkit-resizer {
+//   display: none;
+// }
 
 // ::-webkit-scrollbar-corner {
 //   background-color: transparent;

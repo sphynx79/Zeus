@@ -1,10 +1,7 @@
 // src/components/table/table.js
 
 import "./tablecentrali.scss"
-import { derive } from "derivable"
 import Tabulator from "tabulator-tables"
-// import SimpleBar from "SimpleBar"
-import "simplebar"
 
 class TableCentrali {
     constructor() {
@@ -34,9 +31,10 @@ class TableCentrali {
         var el = vnode.dom.children[1]
 
         vnode.state.tabulator = new Tabulator(el, {
-            height: "210px",
+            // height: "210px",
             layout: "fitColumns",
             resizableColumns: false,
+            minHeight: 200,
             // data: vnode.state.tableData,
             placeholder: "No Data Set",
             columns: [
@@ -70,43 +68,43 @@ class TableCentrali {
                 {
                     title: "Nome",
                     field: "nome",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 100,
                 },
                 {
                     title: "Company",
                     field: "company",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 100,
                 },
                 {
                     title: "Tipo",
                     field: "tipo",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 100,
                 },
                 {
                     title: "Sottotipo",
                     field: "sottotipo",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 150,
                 },
                 {
                     title: "Update",
                     field: "update",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 150,
                 },
                 {
                     title: "Start",
                     field: "start",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 150,
                 },
                 {
                     title: "End",
                     field: "end",
-                    // headerFilter: true,
+                    headerFilter: true,
                     // width: 150,
                 },
             ],
@@ -141,20 +139,19 @@ class TableCentrali {
             },
 
             rowClick: (e, row) => {
-                console.log(e.target.tagName)
-                console.log(e.target.firstElementChild)
                 if (e.target.firstElementChild == null && e.target.tagName != "path") {
                     return appState.$selectCentrale.set(row.getData())
                 }
             },
         })
 
-        appState.$remitCentraliFiltered.react(r => {
-            let remit = r.map(item => {
+        vnode.attrs.remit.react(r => {
+            let remit = vnode.attrs.type == "linee" ? r.features : r
+            let propAndGeometry = remit.map(item => {
                 let merged = { ...item["properties"], ...{ geometry: item["geometry"] } }
                 return merged
             })
-            this.tabulator.setData(remit)
+            this.tabulator.setData(propAndGeometry)
         })
 
         if (process.env.NODE_ENV !== "production") {

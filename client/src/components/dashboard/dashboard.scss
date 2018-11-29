@@ -9,42 +9,67 @@ nav.dashboard {
     display: flex;
     flex-direction: column;
     align-items: center;
-   
+
     width: 98vw;
     height: 98vh;
 
-    transition: transform 700ms cubic-bezier(.6, .05, .28, .91), opacity 800ms cubic-bezier(.6, .05, .28, .91) ;
+    transition: transform 700ms cubic-bezier(0.6, 0.05, 0.28, 0.91), opacity 800ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
     transform: translate3d(-50%, 100%, 0);
 
     border: 2px solid #152935;
     border-radius: 10px 10px 0 0;
-    background-color: rgba(37, 37, 37, .93);
+    background-color: rgba(37, 37, 37, 0.93);
 
-    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none)
-    {
-        background-color: rgba(37, 37, 37, .6);
+    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+        background-color: rgba(37, 37, 37, 0.6);
         backdrop-filter: blur(3px);
     }
 
-    @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))
-    {
-        box-shadow: rgba(0, 0, 0, .39) -3px 2px 2px 0;
+    @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+        box-shadow: rgba(0, 0, 0, 0.39) -3px 2px 2px 0;
     }
 
-  &.active {
-      transform: translate3d(-50%, 0, 0);
-      opacity: 1;
-  }
- 
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 0.2vw;
+        background: rgba(92, 166, 245, 0.819608);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        height: 20px;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+        height: 12px;
+    }
+
+    ::-webkit-resizer {
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 0.2vw;
+    }
+
+    &.active {
+        transform: translate3d(-50%, 0, 0);
+        opacity: 1;
+    }
 }
 
 #grafico {
-  width: 80%;
-  margin-top: 65px;
-  &::-webkit-scrollbar { 
-      // display: none;
-  }
-  overflow-y: auto;
-
+    width: 80%;
+    margin-top: 65px;
+    &::-webkit-scrollbar {
+        // display: none;
+    }
+    overflow-y: auto;
 }
-

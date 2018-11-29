@@ -64,6 +64,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    ruby-time_range (0.1.0)
     rufus-scheduler (3.5.2)
       fugit (~> 1.1, >= 1.1.5)
     settingslogic (2.0.9)
@@ -102,6 +103,7 @@ DEPENDENCIES
   rake (~> 12.3.1)
   roda (~> 3.13.0)
   rspec (~> 3.8.0)
+  ruby-time_range
   rufus-scheduler (~> 3.5.2)
   settingslogic (~> 2.0.9)
   simplecov

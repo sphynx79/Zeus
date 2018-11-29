@@ -14,6 +14,7 @@ gem 'rufus-scheduler', '~>3.5.2'
 gem 'tzinfo-data', '~>1.2018.7'
 gem 'tzinfo', '~>1.2.5'
 gem 'concurrent-ruby-ext', '1.1.1', require: false
+gem 'ruby-time_range', require: 'time_range'
 # gem 'ruby-prof'
 # gem 'brotli'
 # gem 'rack-brotli'

@@ -36,3 +36,6 @@ Style/ClassAndModuleChildren:
 
 Metrics/ParameterLists:
   Enabled: false
+
+Layout/EndOfLine:
+  Enabled: false

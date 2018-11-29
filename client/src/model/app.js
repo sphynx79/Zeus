@@ -1,7 +1,5 @@
 // src/model/app.js
 
-import { atom, derive } from "derivable"
-
 class App {
     constructor() {
         this._modelName = this.constructor.name

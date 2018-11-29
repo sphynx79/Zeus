@@ -1,41 +1,67 @@
 /* src/components/filtri/filtri.scss */
 
 .filtri {
-  width: 100%;
-  max-width: 100%;
-  display: block;
-  color: #fff;
-  margin-top: 50px;
-  ::-webkit-scrollbar-thumb, 
-  ::-webkit-scrollbar-track  {  
-    visibility: hidden;
-  }
-  // &:hover ::-webkit-scrollbar-thumb,  
-  //  &:hover ::-webkit-scrollbar-track { 
-  //   visibility: visible;
-  // }
-
-  .bx--accordion {
-    max-height: 86vh;
-    overflow-x: scroll;
-    > .bx--accordion__item{
-        margin-right: 6px;
-        .bx--accordion__heading > .bx--accordion__title {
-          font-size: 1rem;
-          line-height: 1.25;
-          font-weight: 600;
-        }
-    
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    color: #fff;
+    margin-top: 50px;
+    ::-webkit-scrollbar {
+        width: 6px;
     }
-  }
 
-  .bx--fieldset {
-      margin-bottom: .1rem;
-  }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 0.2vw;
+        background: rgba(92, 166, 245, 0.819608);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+        visibility: hidden;
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        height: 20px;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+        height: 12px;
+    }
+
+    ::-webkit-resizer {
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 0.2vw;
+        visibility: hidden;
+    }
+   
+    &:hover ::-webkit-scrollbar-thumb,
+    &:hover ::-webkit-scrollbar-track {
+        visibility: visible;
+    }
+
+    .bx--accordion {
+        max-height: 86vh;
+        overflow-x: scroll;
+        > .bx--accordion__item {
+            margin-right: 6px;
+            .bx--accordion__heading > .bx--accordion__title {
+                font-size: 1rem;
+                line-height: 1.25;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .bx--fieldset {
+        margin-bottom: 0.1rem;
+    }
 }
 
 .bx--accordion__item--active .bx--accordion__content {
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
 }
-
