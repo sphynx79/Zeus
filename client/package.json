@@ -4,9 +4,9 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "set next=false && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-serve  --config webpack.dev.js\"",
+        "start": "set next=false && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
         "build": "set next=false && webpack --config webpack.prod.js",
-        "start:next": "set next=true && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-serve --config webpack.dev.js\"",
+        "start:next": "set next=true && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
         "build:next": "set next=true && webpack --config webpack.prod.js",
         "watch": "webpack --watch --progress --colors --display-error-details --config webpack.watch.js"
     },
@@ -49,8 +49,8 @@
         "terser-webpack-plugin": "^1.1.0",
         "webpack": "^4.26.1",
         "webpack-cli": "^3.1.2",
-        "webpack-merge": "^4.1.4",
-        "webpack-serve": "1.0.0-beta.1"
+        "webpack-dev-server": "^3.1.10",
+        "webpack-merge": "^4.1.4"
     },
     "dependencies": {
         "carbon-components": "^9.57.0",
