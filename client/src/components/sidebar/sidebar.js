@@ -1,9 +1,7 @@
 // src/components/sidebar/sidebar.js
 
 import "./sidebar.scss"
-import TableCentrali from "components/tablecentrali/tablecentrali.js"
-import TableLinee from "components/tablelinee/tablelinee.js"
-// import Table from "components/table/table.js"
+import Table from "components/table/table.js"
 import Filtri from "components/filtri/filtri.js"
 
 class SideBar {
@@ -19,9 +17,9 @@ class SideBar {
             return m("nav.sidebar#sidebar_right", attrs, [appState.$lista_centrali.get() === undefined ? "" : m(Filtri)])
         } else {
             return m("nav.sidebar#sidebar_left", attrs, [
-                appState.$remit_380.get() === undefined ? "" : m(TableLinee, { type: "linee", volt: "380", remit: appState.$remit_380  }),
-                appState.$remit_220.get() === undefined ? "" : m(TableLinee, { type: "linee", volt: "220", remit: appState.$remit_220 }),
-                appState.$remit_centrali.get() === undefined ? "" : m(TableCentrali, { type: "centrali", remit: appState.$remitCentraliFiltered }),
+                appState.$remit_380.get()      === undefined ? "" : m(Table, { type: "linee",    volt: "380", remit: appState.$remit_380  }),
+                appState.$remit_220.get()      === undefined ? "" : m(Table, { type: "linee",    volt: "220", remit: appState.$remit_220 }),
+                appState.$remit_centrali.get() === undefined ? "" : m(Table, { type: "centrali", remit: appState.$remitCentraliFiltered }),
             ])
         }
     }

@@ -1,216 +1,140 @@
 /* src/components/table/table.scss */
 
-table {
-    width: 100%;
-
-    // table-layout: fixed;
-    @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
-        backdrop-filter: blur(3px);
-        }
-    }
+@import "~tabulator-tables/src/scss/tabulator_midnight.scss";
 
 .tbl {
-    width: 100%;
     margin-top: 5vh;
 
-    background: #333;
-    @supports ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) {
-        background: #333333c9;
-        }
     @media screen and (max-height: 600px) {
         margin-top: 3.7vh;
-        }
-    &__header {
-        width: 100%;
-        // padding-right: 0.58vw;
+    }
 
-        border-top: 1.2px solid #b1b1b1;
-        border-right: 1.2px solid #b1b1b1;
-        border-left: 1.2px solid #b1b1b1;
-         > table {
-            caption {
-                font-size: 1.05rem;
+    &__header {
+        font-size: 1.05rem;
+        font-weight: bold;
+
+        width: 100%;
+        padding: 0.6vh 0;
+
+        text-align: center;
+        letter-spacing: 1px;
+
+        border-top: 1px solid #b1b1b1;
+        border-right: 1px solid #b1b1b1;
+        border-bottom: 1px solid #b1b1b1;
+        border-left: 1px solid #b1b1b1;
+        background: linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, 0.8) 47%, #143b63 40%);
+    }
+
+    .tabulator {
+        background-color: transparent;
+        border: none;
+    }
+
+    .tabulator-tableHolder {
+        border-bottom: 1px solid #b1b1b1;
+        max-height: 180px;
+    }
+
+    .tabulator-col {
+        border-bottom: 1px solid #b1b1b1;
+        border-right: 1px solid #b1b1b1;
+    }
+
+    .tabulator-col:first-child {
+        border-left: 1px solid #b1b1b1;
+    }
+
+    .tabulator-col:last-child {
+        border-right: 1px solid #b1b1b1;
+    }
+
+    .table {
+        width: 100%;
+
+        .tabulator-table {
+            background: #333;
+
+            @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                background: rgba(60, 60, 60, 0.8);
+            }
+
+            @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                backdrop-filter: blur(3px);
+            }
+        }
+
+        > .tabulator-header {
+            border-bottom: none;
+
+            .tabulator-col-content {
+                font-weight: 400;
+                font-size: 0.86rem;
+                background: linear-gradient(to bottom, rgba(47, 47, 47, 0.28) 0%, rgba(86, 86, 86, 0.54) 50%, rgba(47, 47, 47, 0.67) 20%);
+
+                > .tabulator-col-title {
+                    padding-left: 0.4vw;
+
+                    vertical-align: middle;
+                    letter-spacing: 1px;
+                }
+
+                > .tabulator-arrow {
+                    top: 6.5px;
+                }
+            }
+        }
+
+        .tabulator-row {
+            width: 99.76%;
+
+            vertical-align: baseline;
+
+            border-right: 1px solid #b1b1b1;
+            border-left: 1px solid #b1b1b1;
+
+            background-color: transparent;
+
+          	&:nth-child(odd){
+              background-color: rgba(120, 120, 120, 0.26);
+          	}
+            &:nth-child(even){
+		          background-color: transparent;
+	          }
+
+            &:hover {
+                cursor: pointer;
                 font-weight: bold;
 
-                padding: .6vh 0;
+                z-index: 100;
 
-                letter-spacing: 1px;
-                // margin-right: -0.64vw;
-
-                border-bottom: 1.2px solid #b1b1b1;
-                // background: #333;
-                background: linear-gradient(to bottom, #0f3b67 0%, rgba(41, 129, 216, .8) 50%, #143b63 40%);
-                }
-            thead {
-                background: #333;
-                 > tr {
-                    height: 2.6vh;
-                    th {
-                        font-size: .86rem;
-                        font-weight: 400;
-
-                        overflow: hidden;
-
-                        padding-left: .4vw;
-
-                        text-align: left;
-                        vertical-align: middle;
-                        white-space: nowrap;
-                        letter-spacing: 1px;
-                        text-overflow: ellipsis;
-
-                        border-right: 1px solid #b1b1b1;
-                        background: linear-gradient(to bottom, rgba(47, 47, 47, .14) 0%, rgba(86, 86, 86, .41) 50%, rgba(47, 47, 47, .48) 20%);;
-                        &:last-of-type {
-                            border-right: none;
-                            }
-                        }
-                    }
-                }
-            .thead-centrali {
-                 > tr th {
-                    text-transform: capitalize;
-                    &.nome {
-                        width: 6.3vw;
-                        }
-                    &.company {
-                        width: 4.2vw;
-                        }
-                    &.update,
-                    &.start,
-                    &.end {
-                        width: 5.4vw;
-                        }
-                    &.remit {
-                        width: 3.2vw;
-                        }
-                    &.pmax {
-                        width: 3.2vw;
-                        }
-                    &.tipo {
-                        width: 4.6vw;
-                        }
-                    &.sottotipo {
-                        width: 4.6vw;
-                        }
-                    }
-                }
-            .thead-linee {
-                 > tr th {
-                    text-transform: capitalize;
-                    &.nome {
-                        width: 11.9vw;
-                        }
-                    &.update,
-                    &.start,
-                    &.end {
-                        width: 6vw;
-                        }
-                    }
-                }
+                box-shadow: inset 0px 0.5px 0px 1.6px #388ee6;
             }
-        }
-    &__content {
-        overflow-x: hidden;
-        overflow-y: hidden;
 
-        max-height: 18vh;
+            .tabulator-cell {
+                font-size: 0.6rem;
+                line-height: 9px;
 
-        border: 1.2px solid #b1b1b1;
+                padding-top: 1%;
+                padding-left: 0.4vw;
 
-        table > tbody {
-            tr {
-                height: 1.2vh;
+                border-top: 1px solid #777;
+                border-right: 1px solid #777;
+            }
 
-                cursor: pointer;
-                &:nth-child(even) {
-                    background-color: rgba(90, 90, 90, .3);
-                    }
-                &:hover {
-                    font-weight: bold;
+            .table {
+                .hours-row > .tabulator-cell {
+                    color: #cccccc;
+                }
 
-                    z-index: 100;
+                .hours-row > .tabulator-cell:first-child {
+                    border-left: 1px solid #777777;
+                }
 
-                    border-width: 1.8px;
-                    border-style: solid;
-                    border-color: rgb(90, 170, 250);
-                    }
-                &.active {
-                    background-color: #1285f7 !important;
-                    box-shadow: inset rgb(10, 67, 123) 0 0 4px 2px;
-                    }
-                td {
-                    font-size: .6rem;
-
-                    overflow: hidden;
-
-                    padding-top: 1%;
-                    padding-bottom: 1%;
-                    padding-left: .4vw;
-
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-
+                .hours-row > .tabulator-cell:last-child {
                     border-right: 1px solid #b1b1b1;
-                    &:last-of-type {
-                        border-right: none;
-                        }
-                    }
-                }
-            }
-        table > .tbody-centrali {
-            tr td {
-                &.nome {
-                    width: 6.3vw;
-                    }
-                &.company {
-                    width: 4.2vw;
-                    }
-                &.update,
-                &.start,
-                &.end {
-                    width: 5.4vw;
-                    }
-                &.pmax {
-                    width: 3.2vw;
-                    }
-                &.remit {
-                    width: 3.2vw;
-                    }
-                &.tipo {
-                    width: 4.6vw;
-                    }
-                &.sottotipo {
-                    width: 4.6vw;
-                    }
-                }
-            }
-        table > .tbody-linee {
-            tr td {
-                &.nome {
-                    width: 11.9vw;
-                    }
-                &.update,
-                &.start,
-                &.end {
-                    width: 6vw;
-                    }
                 }
             }
         }
     }
-
-.simplebar-scrollbar {
-    right: 1px;
-    }
-
-.simplebar-scrollbar:before {
-    background: rgb(92, 166, 245);
-    // box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-    }
-.simplebar-track:hover .simplebar-scrollbar:before, .simplebar-track .simplebar-scrollbar.visible:before {
-    -webkit-transition: opacity 0 linear;
-            transition: opacity 0 linear;
-
-    opacity: .98;
-    }
+}
