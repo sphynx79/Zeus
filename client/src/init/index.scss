@@ -6,7 +6,6 @@
 $font-path: '~carbon-components/src/globals/fonts';
 // $font-path: 'https://cdn.jsdelivr.net/npm/@ibm/type@0.5.4/fonts/Sans/web/woff2/';
 @import "./node_modules_custom/carbon-components/scss/globals/scss/styles";
-@import "~simplebar/dist/simplebar.css";
 
 html {
   font-size: calc(0.4em + 1vmin);
@@ -19,48 +18,48 @@ body {
   overflow: hidden;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
+// ::-webkit-scrollbar {
+//   width: 6px;
+// }
 
-::-webkit-scrollbar-thumb {
-  border-radius: .2vw;
-  background: rgba(92, 166, 245, 0.819608);
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-}
+// ::-webkit-scrollbar-thumb {
+//   border-radius: .2vw;
+//   background: rgba(92, 166, 245, 0.819608);
+//   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+// }
 
-::-webkit-scrollbar-track-piece {
-  height: 20px;
-}
+// ::-webkit-scrollbar-track-piece {
+//   height: 20px;
+// }
 
-::-webkit-scrollbar:horizontal {
-  height: 12px;
-}
+// ::-webkit-scrollbar:horizontal {
+//   height: 12px;
+// }
 
-::-webkit-resizer {}
+// ::-webkit-resizer {
+//   display: none;
+// }
 
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
+// ::-webkit-scrollbar-corner {
+//   background-color: transparent;
+// }
 
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: .2vw;
-}
+// ::-webkit-scrollbar-track {
+//   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   border-radius: .2vw;
+// }
 
-.simplebar-scrollbar {
-  right: 1px;
-}
+// .simplebar-scrollbar {
+//   right: 1px;
+// }
 
-.simplebar-scrollbar:before {
-  background: rgb(92, 166, 245);
+// .simplebar-scrollbar:before {
+//   background: rgb(92, 166, 245);
+// }
 
-  // box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-}
-
-.simplebar-track:hover .simplebar-scrollbar:before, .simplebar-track .simplebar-scrollbar.visible:before {
-  opacity: 0.98;
-  -webkit-transition: opacity 0 linear;
-  transition: opacity 0 linear;
-}
+// .simplebar-track:hover .simplebar-scrollbar:before, .simplebar-track .simplebar-scrollbar.visible:before {
+//   opacity: 0.98;
+//   -webkit-transition: opacity 0 linear;
+//   transition: opacity 0 linear;
+// }
 

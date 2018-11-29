@@ -1,7 +1,5 @@
 // src/model/app.js
 
-import { atom, derive } from "derivable"
-
 class App {
     constructor() {
         this._modelName = this.constructor.name
@@ -11,7 +9,7 @@ class App {
         // sidebar state to interact with burger with sidebar, in layout.js
         this.sidebarLeft = false
         this.sidebarRight = false
-        this.$data = atom(dayjs().add(1, "day").format('YYYY-MM-DD'))
+        this.$data = atom(dayjs().add(1, "day").format("YYYY-MM-DD"))
         // toogle dashboard
         this.dashboard = false
         // click table row fly in mapbox
@@ -169,8 +167,6 @@ class App {
                 console.log(`Errore richiesta json remit  ${url}`, err)
             })
     }
-    
-    
 }
 
 window.appState = new App()

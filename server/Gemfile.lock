@@ -7,6 +7,7 @@ GEM
     byebug (10.0.2)
     clipboard (1.1.2)
     coderay (1.1.2)
+    colorize (0.8.1)
     concurrent-ruby (1.1.1)
     concurrent-ruby-ext (1.1.1)
       concurrent-ruby (= 1.1.1)
@@ -63,6 +64,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    ruby-time_range (0.1.0)
     rufus-scheduler (3.5.2)
       fugit (~> 1.1, >= 1.1.5)
     settingslogic (2.0.9)
@@ -83,6 +85,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 1.8.0)
+  colorize (~> 0.8.1)
   concurrent-ruby-ext (= 1.1.1)
   ffi (~> 1.9.25)
   hirb (~> 0.7.3)
@@ -100,6 +103,7 @@ DEPENDENCIES
   rake (~> 12.3.1)
   roda (~> 3.13.0)
   rspec (~> 3.8.0)
+  ruby-time_range
   rufus-scheduler (~> 3.5.2)
   settingslogic (~> 2.0.9)
   simplecov

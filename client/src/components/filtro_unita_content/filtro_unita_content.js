@@ -1,7 +1,6 @@
 // src/components/filtro_unita_content/filtro_unita_content.js
 
 import Select from "components/select/select.js"
-import { lens } from "derivable"
 
 class FiltroUnitaContent {
     constructor() {

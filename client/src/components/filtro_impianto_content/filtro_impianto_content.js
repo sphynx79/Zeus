@@ -1,7 +1,6 @@
 // src/components/filtro_impianto_content/filtro_impianto_content.js
 
 import Select from "components/select/select.js"
-import { lens } from "derivable"
 
 class FiltroImpiantoContent {
     constructor() {

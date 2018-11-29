@@ -34,7 +34,6 @@ class Layout {
             m(attrs.dashBoard, {class: (appState.dashboard ? "active" : "") }),
             m(attrs.burgerDashboard, {class: (appState.dashboard ? "active" : ""), onclick: () => { state._toggleDashBoard() }}),
             m(attrs.remitTransmission),
-            // m(attrs.remitTransmission, {onclick: () => {state._hideSideBar()}}),
         ])
     }
 

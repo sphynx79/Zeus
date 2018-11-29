@@ -2,7 +2,6 @@
 
 import "./mapbox.scss"
 // import mapboxgl from "mapbox-gl"
-import { atom, derive } from "derivable"
 import Legend from "components/legend/legend.js"
 
 var map
@@ -129,22 +128,22 @@ class MapBox {
                         .setLngLat(coordinates[midle])
                         .setHTML(
                             "<b>" +
-                                feature.properties.nome +
+                                feature.nome +
                                 "</b><br>" +
                                 "<b>" +
                                 "update: " +
                                 "</b>" +
-                                feature.properties.dt_upd +
+                                feature.update +
                                 "<br>" +
                                 "<b>" +
                                 "start: " +
                                 "</b>" +
-                                feature.properties.start_dt +
+                                feature.start +
                                 "<br>" +
                                 "<b>" +
                                 "end:  " +
                                 "</b>" +
-                                feature.properties.end_dt +
+                                feature.end +
                                 "<br>"
                         )
                         .addTo(map)
