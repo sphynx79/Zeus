@@ -1,0 +1,20 @@
+localhost:2015 {
+  root ..\public
+  gzip {
+    min_length 2500
+  }
+  tls localhost.crt localhost.key
+  index index.html
+
+  log / logfile.log "{remote} - [{when}] {method} {uri} {query} {proto} {status} {size} {>User-Agent}" {
+     rotate_size 3
+  }
+  header / {
+       Cache-Control "max-age=86400"
+  }  
+  proxy /api localhost:9292 {
+    transparent
+    insecure_skip_verify
+    keepalive 10
+  }
+}

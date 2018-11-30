@@ -5,7 +5,7 @@ class App {
         this._modelName = this.constructor.name
         this.server = window.location.hostname
         // server configuration
-        this.port = process.env.NODE_ENV == "production" ? 80 : 9292
+        this.port = process.env.NODE_ENV == "production" ? 2015 : 2015
         // sidebar state to interact with burger with sidebar, in layout.js
         this.sidebarLeft = false
         this.sidebarRight = false
@@ -131,7 +131,7 @@ class App {
         // prettier-ignore
         m.request({ 
             method: "GET",
-            url: `http://${this.server}:${this.port}/api/v1/units`,
+            url: `https://${this.server}:${this.port}/api/v1/units`,
             headers: (process.env.NODE_ENV == "production") ? {"Cache-Control": "public, max-age=0" } : {},
         }).then(response => {
             this.$lista_centrali.set(response)

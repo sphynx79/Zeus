@@ -5,6 +5,8 @@ GEM
     bond (0.5.1)
     bson (4.3.0)
     byebug (10.0.2)
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
     clipboard (1.1.2)
     coderay (1.1.2)
     colorize (0.8.1)
@@ -85,6 +87,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 1.8.0)
+  childprocess (~> 0.9.0)
   colorize (~> 0.8.1)
   concurrent-ruby-ext (= 1.1.1)
   ffi (~> 1.9.25)

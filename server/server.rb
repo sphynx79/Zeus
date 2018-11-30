@@ -29,7 +29,7 @@ class Server < Roda
   plugin :public, gzip: true
   # plugin :caching
   # plugin :json, serializer: proc { |o| Oj.dump o, mode: :compat }
-  # plugin :early_hints
+  plugin :early_hints
   include Logging
 
   configure :development do
