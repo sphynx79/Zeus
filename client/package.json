@@ -4,7 +4,8 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "set next=false && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
+        "start": "set next=false && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --progress --config webpack.dev.js\"",
+        "start_ssl": "set next=false && set ssl=true && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --progress --config webpack.dev.js\"",
         "build": "set next=false && webpack --config webpack.prod.js",
         "start:next": "set next=true && nodemon --watch  webpack.dev.js --watch webpack.common.js --exec \"webpack-dev-server --colors --config webpack.dev.js\"",
         "build:next": "set next=true && webpack --config webpack.prod.js",
@@ -34,7 +35,6 @@
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "imports-loader": "^0.8.0",
-        "koa-compress": "^3.0.0",
         "mini-css-extract-plugin": "^0.4.5",
         "mopt": "^5.1.1",
         "node-sass": "^4.9.4",

@@ -51,9 +51,8 @@ class Server < Roda
     p "ip db: #{Settings.database.adress.join(", ")}"
     p "#" * 80
     # use Rack::Cache, verbose: false
-    # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"] > "360" }
-    # IMPORTANTE: Uso deflate perchè brotli funziona solo con localhost o su https, con http toglie brotli da Accept-Encoding: gzip, deflate
-    # Ho provato anche a settare nella richiesta ajax Accept-Encoding: gzip, deflate, br ma il browser mi restituisce un allert
+    # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600 }
+    # IMPORTANTE: Uso deflate al posto di brotli perchè dai test mi e risultava piu performante
     use Rack::Deflater, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600 }
     # use Rack::RubyProf, :path => 'profile', :printers => [::RubyProf::CallTreePrinter]
     # set :public_folder, 'public'
