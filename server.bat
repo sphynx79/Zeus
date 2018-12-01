@@ -1,14 +1,14 @@
 ::[Bat To Exe Converter]
 ::
 ::YAwzoRdxOk+EWAjk
-::fBw5plQjdCyDJGyX8VAjFB5aHlPXaTiGIrAP4/z0/9a1p0AUQN0cfYHPyLWCKdwA+EbYZ4MvzzRTm8Rs
+::fBw5plQjdCyDJGyX8VAjFB5aHlPXaTiGILQK5/ry+++Unm4SWO46f47W37qaKdwy51XhZ5MR5H9Xkd8zABJWexeXfR03lXxXtH3LPsST0w==
 ::YAwzuBVtJxjWCl3EqQJgSA==
 ::ZR4luwNxJguZRRnk
 ::Yhs/ulQjdF+5
 ::cxAkpRVqdFKZSzk=
 ::cBs/ulQjdF+5
 ::ZR41oxFsdFKZSTk=
-::eBoioBt6dFKZSDk=
+::eBoioBt6dFKZSTk=
 ::cRo6pxp7LAbNWATEpCI=
 ::egkzugNsPRvcWATEpCI=
 ::dAsiuh18IRvcCxnZtBJQ
@@ -26,7 +26,7 @@
 ::ZQ0/vhVqMQ3MEVWAtB9wSA==
 ::Zg8zqx1/OA3MEVWAtB9wSA==
 ::dhA7pRFwIByZRRnk
-::Zh4grVQjdCyDJGyX8VAjFB5aHlPXaTiGIrAP4/z0/9a1p0AUQN0MfZ3N36ayDeED+kSqcI4otg==
+::Zh4grVQjdCyDJGyX8VAjFB5aHlPXaTiGIrAP4/z0/9aqo10NVaw6YIq7
 ::YB416Ek+ZG8=
 ::
 ::
@@ -60,5 +60,5 @@ IF NOT EXIST "%bundle%" (
     EXIT /B 1
 )
 
-START %conemu_exe% /icon %conemu_ico% /title "Map"  /loadcfgfile %conemu_cfgfile% /cmd cmd /k "%conemu_init% && cd /D %MAP_FOLDER% && %bundle% exec rackup -E production --port 80"
+START %conemu_exe% /icon %conemu_ico% /title "Map"  /loadcfgfile %conemu_cfgfile% /cmd cmd /k "%conemu_init% && cd /D %MAP_FOLDER% && %bundle% exec puma -C .\config\puma_prod_wpws07133656.rb"
 

@@ -7,16 +7,16 @@ require 'childprocess'
 #
 port 80
 
-bind 'tcp://wpws07288419:443'
-bind 'tcp://wpws07288419:80'
+bind 'tcp://wpws07133656:443'
+bind 'tcp://wpws07133656:80'
 
-ssl_bind 'wpws07288419', '443', {
-  key: "./config/wpws07288419.key",
-  cert: "./config/wpws07288419.crt"
+ssl_bind 'wpws07133656', '443', {
+  key: "./config/wpws07133656.key",
+  cert: "./config/wpws07133656.crt"
 }
 
 
-process = ChildProcess.build("caddy.exe", "-quic", "-conf", "CaddyfileProd_wpws07288419")
+process = ChildProcess.build("caddy.exe", "-quic", "-conf", "CaddyfileProd_wpws07133656")
 process.cwd = '.\config'
 process.io.inherit!
 process.leader = true

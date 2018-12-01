@@ -1,0 +1,20 @@
+wpws07133656:2015 {
+  root ..\public
+  gzip {
+    min_length 2500
+  }
+  tls wpws07133656.crt wpws07133656.key
+  index index.html
+  cache
+  push
+
+  header / {
+    Cache-Control "max-age=86400"
+  }  
+  proxy /api wpws07133656:443 {
+    transparent
+    insecure_skip_verify
+    keepalive 10
+  }
+}
+
