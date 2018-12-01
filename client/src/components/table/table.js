@@ -11,10 +11,7 @@ class Table {
     }
 
     _columns() {
-        let columnsFields =
-            this.type == "linee"
-                ? ["fold", "nome", "update", "start", "end"]
-                : ["fold", "nome", "company", "tipo", "sottotipo", "update", "start", "end"]
+        let columnsFields = this.type == "linee" ? ["fold", "nome", "update", "start", "end"] : ["fold", "nome", "company", "tipo", "sottotipo", "update", "start", "end"]
         let columns = columnsFields.map(col => {
             return col == "fold" ? this._columFold() : this._column(col)
         })
@@ -126,7 +123,8 @@ class Table {
             // height: "210px",
             layout: "fitColumns",
             resizableColumns: false,
-            minHeight: 200,
+            // minHeight: 40,
+            // maxHeight: 40,
             // data: vnode.state.tableData,
             placeholder: "No Data Set",
             columns: this._columns(),

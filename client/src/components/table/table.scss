@@ -3,7 +3,7 @@
 @import "~tabulator-tables/src/scss/tabulator_midnight.scss";
 
 .tbl {
-    margin-top: 5vh;
+    margin-top: 4vh;
 
     @media screen and (max-height: 600px) {
         margin-top: 3.7vh;
@@ -33,7 +33,12 @@
 
     .tabulator-tableHolder {
         border-bottom: 1px solid #b1b1b1;
-        max-height: 180px;
+        max-height: 170px;
+        overflow-x: hidden;
+    }
+
+    .tabulator-tableHolder::-webkit-scrollbar { 
+      display: none;  // Safari and Chrome
     }
 
     .tabulator-col {
