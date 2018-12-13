@@ -11,17 +11,17 @@ class Grafico {
     _Option() {
         let option = (id => {
             switch (id) {
-                case "grafico__remit": {
-                    return this._remitOption()
+                case "grafico-remit-tecnologia-daily": {
+                    return this._remitTecnologiaDailyOption()
                 }
-                case "grafico__giornaliero": {
-                    return this._remitGiornalieraOption()
+                case "grafico-remit-tecnologia-hourly": {
+                    return this._remitTecnologiaHourlyOption()
                 }
-                case "grafico__zone": {
-                    return this._remitZoneOption()
+                case "grafico-remit-zona-daily": {
+                    return this._remitZonaDailyOption()
                 }
-                case "grafico__giornaliero__zone": {
-                    return this._remitGiornalieroZoneOption()
+                case "grafico-remit-zona-hourly": {
+                    return this._remitZonaHourlyOption()
                 }
                 default: {
                     console.log("Invalid choice")
@@ -42,9 +42,10 @@ class Grafico {
             calculable: true,
             grid: {
                 borderWidth: 1,
-                top: 116,
-                bottom: 95,
-                height: "50%",
+                top: 90,
+                bottom: 10,
+                height: "40%",
+                width: "84%",
                 textStyle: {
                     color: "#90979c",
                 },
@@ -75,7 +76,7 @@ class Grafico {
                 },
             },
             legend: {
-                top: "48px",
+                top: "38px",
                 itemWidth: 18,
                 itemHeight: 8,
                 padding: 15,
@@ -85,6 +86,7 @@ class Grafico {
                 textStyle: {
                     color: "#F4F5F5",
                     fontWeight: "bold",
+                    fontSize: 10,
                 },
             },
             toolbox: {
@@ -92,7 +94,7 @@ class Grafico {
                 // orient: "vertical",
                 right: 130,
                 // top: "center",
-                top: 20,
+                top: 10,
                 showTitle: false,
                 feature: {
                     mark: {
@@ -161,7 +163,7 @@ class Grafico {
                 minInterval: 40,
                 nameTextStyle: {
                     color: "#DADBDD",
-                    fontSize: 12,
+                    fontSize: 10,
                     padding: [0, 0, 0, -30],
                 },
                 axisTick: {
@@ -180,7 +182,7 @@ class Grafico {
                 },
                 axisLabel: {
                     color: "#DADBDD",
-                    fontSize: 12,
+                    fontSize: 10,
                 },
                 splitLine: {
                     show: true,
@@ -195,7 +197,7 @@ class Grafico {
         return Object.assign(globalOption, option)
     }
 
-    _remitOption() {
+    _remitTecnologiaDailyOption() {
         let option = {
             // tooltip: {
             //     trigger: "item",
@@ -224,7 +226,7 @@ class Grafico {
                 nameGap: 0,
                 nameTextStyle: {
                     color: "#DADBDD",
-                    fontSize: 12,
+                    fontSize: 10,
                     padding: [0, 0, -24, 0],
                 },
                 splitLine: {
@@ -253,7 +255,7 @@ class Grafico {
                         return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
                     },
                     // color: "#DADBDD",
-                    fontSize: 10,
+                    fontSize: 9,
                     rotate: 45,
                 },
             },
@@ -262,7 +264,7 @@ class Grafico {
         return option
     }
 
-    _remitGiornalieraOption() {
+    _remitTecnologiaHourlyOption() {
         let option = {
             xAxis: {
                 name: "Data-Ora",
@@ -271,7 +273,7 @@ class Grafico {
                 boundaryGap: false,
                 nameTextStyle: {
                     color: "#DADBDD",
-                    fontSize: 12,
+                    fontSize: 10,
                     padding: [0, 0, -24, 0],
                 },
                 splitLine: {
@@ -324,7 +326,7 @@ class Grafico {
                     xAxisIndex: 0,
                     start: 50,
                     end: 100,
-                    bottom: "10",
+                    bottom: "20",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
                     fillerColor: "rgba(47,69,84,0.3)",
@@ -350,7 +352,7 @@ class Grafico {
         return option
     }
 
-    _remitZoneOption() {
+    _remitZonaDailyOption() {
         let option = {
             xAxis: {
                 name: "Data",
@@ -358,7 +360,7 @@ class Grafico {
                 boundaryGap: false,
                 nameTextStyle: {
                     color: "#DADBDD",
-                    fontSize: 12,
+                    fontSize: 10,
                     padding: [0, 0, -24, 0],
                 },
                 splitLine: {
@@ -396,7 +398,7 @@ class Grafico {
         return option
     }
 
-    _remitGiornalieroZoneOption() {
+    _remitZonaHourlyOption() {
         let option = {
             xAxis: {
                 name: "Data-Ora",
@@ -404,7 +406,7 @@ class Grafico {
                 nameGap: 0,
                 nameTextStyle: {
                     color: "#DADBDD",
-                    fontSize: 12,
+                    fontSize: 10,
                     padding: [0, 0, -24, 0],
                 },
                 splitLine: {
@@ -453,7 +455,7 @@ class Grafico {
                     xAxisIndex: 0,
                     start: 50,
                     end: 100,
-                    bottom: "10",
+                    bottom: "20",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
                     fillerColor: "rgba(47,69,84,0.3)",
@@ -483,17 +485,17 @@ class Grafico {
     _Series() {
         let series = (id => {
             switch (id) {
-                case "grafico__remit": {
-                    return this._remitTecnologiaSeries()
+                case "grafico-remit-tecnologia-daily": {
+                    return this._remitTecnologiaDailySeries()
                 }
-                case "grafico__giornaliero": {
-                    return this._remitTecnologiaGiornalieraSeries()
+                case "grafico-remit-tecnologia-hourly": {
+                    return this._remitTecnologiaHourlySeries()
                 }
-                case "grafico__zone": {
-                    return this._remitZoneSeries()
+                case "grafico-remit-zona-daily": {
+                    return this._remitZonaDailySeries()
                 }
-                case "grafico__giornaliero__zone": {
-                    return this._remitGiornalieraZoneSeries()
+                case "grafico-remit-zona-hourly": {
+                    return this._remitZonaHourlySeries()
                 }
                 default: {
                     console.log("Invalid choice")
@@ -505,7 +507,7 @@ class Grafico {
         return series
     }
 
-    _remitTecnologiaSeries() {
+    _remitTecnologiaDailySeries() {
         let series = this.dimensions.slice(1, this.dimensions.length).map(dim => {
             return {
                 type: "bar",
@@ -576,7 +578,7 @@ class Grafico {
         return series
     }
 
-    _remitTecnologiaGiornalieraSeries() {
+    _remitTecnologiaHourlySeries() {
         let series = this.dimensions.slice(1, this.dimensions.length).map(dim => {
             return {
                 type: "line",
@@ -641,7 +643,7 @@ class Grafico {
         return series
     }
 
-    _remitZoneSeries() {
+    _remitZonaDailySeries() {
         let series = this.dimensions.slice(1, this.dimensions.length).map(dim => {
             return {
                 // TERMICO
@@ -676,7 +678,7 @@ class Grafico {
         return series
     }
 
-    _remitGiornalieraZoneSeries() {
+    _remitZonaHourlySeries() {
         let series = this.dimensions.slice(1, this.dimensions.length).map(dim => {
             return {
                 type: "line",
@@ -719,9 +721,6 @@ class Grafico {
     oninit({ attrs, state }) {
         state.dimensions = []
         state.source = []
-        // state.dimensions = Object.keys(attrs.remit[0])
-        // state.source = attrs.remit
-
         state.elId = attrs.elId
 
         state.background = {
@@ -733,23 +732,23 @@ class Grafico {
             colorStops: [
                 {
                     offset: 0,
-                    color: "rgba(28, 30, 40, 0.9)",
+                    color: "rgba(28, 30, 40, 0.3)",
                 },
                 {
                     offset: 0.4,
-                    color: "rgba(28, 30, 40, 0.9)",
+                    color: "rgba(28, 30, 40, 0.3)",
                 },
                 {
                     offset: 0.5,
-                    color: "rgba(50, 50, 50, 0.9)",
+                    color: "rgba(50, 50, 50, 0.3)",
                 },
                 {
                     offset: 0.7,
-                    color: "rgba(28, 30, 40, 0.9)",
+                    color: "rgba(28, 30, 40, 0.3)",
                 },
                 {
                     offset: 1,
-                    color: "rgba(28, 30, 40, 0.9)",
+                    color: "rgba(28, 30, 40, 0.3)",
                 },
             ],
         }
@@ -761,7 +760,7 @@ class Grafico {
             y: "100",
             top: "16",
             textStyle: {
-                fontSize: 20,
+                fontSize: 12,
                 fontStyle: "italic",
                 fontWeight: "bolder",
                 color: "#F4F5F5",
@@ -812,7 +811,7 @@ class Grafico {
     }
 
     oncreate({ attrs, state }) {
-        let myChart = echarts.init(document.getElementById(state.elId), "dark")
+        let myChart = echarts.init(document.getElementById(state.elId), "dark", {height: 300})
         let option = this._Option()
         window.onresize = myChart.resize
 

@@ -19,27 +19,83 @@ nav.sidebar {
     }
 
     z-index: 2;
+
     &.left {
-        width: 45vw;
+      
+        width: 50vw;
         min-width: 600px;
-        // width: 760px;
-        transform: translate3d(-46vw, 0, 0);  
+        transform: translate3d(-50vw, 0, 0);  
         left: 0vw;
         border-radius: 0 6px 6px 0;
         @media screen and (max-width: 1390px) {
-            transform: translate3d(-624px, 0, 0);
+            transform: translate3d(-50vw, 0, 0);
         }
         @supports ( not ( (-webkit-backdrop-filter: none) or (backdrop-filter: none) ) ) {
           box-shadow: rgba(0, 0, 0, 0.39) -3px 2px 2px 0px;
         }
         transition: transform 350ms cubic-bezier(0.6, 0.05, 0.28, 0.91);
         padding-top: 20px;
+
+        & > .sidebar__content-wrapper[hidden] {
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        & > .sidebar__content-wrapper:not([hidden]) {
+          opacity: 1;
+          visibility: visible;
+          animation: fadeInFromNone .3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         &.active {
           transform: translate3d(0, 0, 0);
-            // left: 0;
         }
-       
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 0.2vw;
+            background: rgba(92, 166, 245, 0.819608);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar-track-piece {
+            height: 20px;
+        }
+
+        ::-webkit-scrollbar:horizontal {
+            height: 12px;
+        }
+
+        ::-webkit-resizer {
+        }
+
+        ::-webkit-scrollbar-corner {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            border-radius: 0.2vw;
+        }
+
+        #grafici {
+          display: flex;
+          overflow-y: auto;
+          align-items: center;
+          flex-direction: column;
+
+          height: 86vh;
+          margin-top: 20px;
+
+          > .grafico:first-child {
+              margin-top: 0;
+          }
+        }
     }
+
     &.right {
         width: 20vw;
         min-width: 230px;
@@ -62,3 +118,27 @@ nav.sidebar {
 
      will-change: transform;
 }
+
+@-webkit-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    20% {
+        display: none;
+        opacity: 0.1;
+    }
+
+    50% {
+        display: block;
+        opacity: 0.5;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+

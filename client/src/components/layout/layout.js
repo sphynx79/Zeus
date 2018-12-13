@@ -20,19 +20,13 @@ class Layout {
         appState.sidebarRight && appState.dispatch("hideSidebar", ["right"])
     }
 
-    _toggleDashBoard() {
-        appState.dashboard = !appState.dashboard
-    }
-
     view({ attrs, state }) {
         // prettier-ignore
         return m("#layout", [
-            m(attrs.sidebarLeft,  {class: (appState.sidebarLeft ? "active" : "") + " " + "left",type: "left", }),
-            m(attrs.burgerLeft,   {class: (appState.sidebarLeft ? "active" : "") + " " + "left",onclick: () => { state._toggleSideBar("left") }}),
+            m(attrs.sidebarLeft, {class: (appState.sidebarLeft ? "active" : "") + " " + "left",type: "left", }),
+            m(attrs.burgerLeft, {class: (appState.sidebarLeft ? "active" : "") + " " + "left",onclick: () => { state._toggleSideBar("left") }}),
             m(attrs.sidebarRight, {class: (appState.sidebarRight ? "active" : "") + " " + "right", type: "right"}),
-            m(attrs.burgerRight,  {class: (appState.sidebarRight ? "active" : "") + " " + "right", onclick: () => { state._toggleSideBar("right") }}),
-            m(attrs.dashBoard, {class: (appState.dashboard ? "active" : "") }),
-            m(attrs.burgerDashboard, {class: (appState.dashboard ? "active" : ""), onclick: () => { state._toggleDashBoard() }}),
+            m(attrs.burgerRight, {class: (appState.sidebarRight ? "active" : "") + " " + "right", onclick: () => { state._toggleSideBar("right") }}),
             m(attrs.remitTransmission),
         ])
     }

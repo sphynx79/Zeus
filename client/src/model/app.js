@@ -12,8 +12,6 @@ class App {
         this.sidebarLeft = false
         this.sidebarRight = false
         this.$data = atom(dayjs().add(1, "day").format("YYYY-MM-DD"))
-        // toogle dashboard
-        this.dashboard = false
         // click table row fly in mapbox
         this.$selectLine = atom()
         this.$selectCentrale = atom()
