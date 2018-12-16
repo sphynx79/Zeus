@@ -5,7 +5,7 @@ class Units
 
   class << self
     def initialize_cache
-      @@cache_units = get_all_units
+        get_all_units
     end
 
     def get_all_units
