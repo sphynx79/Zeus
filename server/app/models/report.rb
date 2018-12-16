@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 class Report < Mongodb
-  cattr_reader :cache_centrali_tecnologia_daily
-  cattr_reader :cache_centrali_zona_daily
-  cattr_reader :cache_centrali_tecnologia_hourly
-  cattr_reader :cache_centrali_zona_hourly
 
   class << self
 
     def initialize_cache
-      LOCK.with_write_lock { 
-        @@cache_centrali_tecnologia_daily = set_cache("centrali_tecnologia_daily") 
-        @@cache_centrali_zona_daily = set_cache("centrali_zona_daily")
-        @@cache_centrali_tecnologia_hourly = set_cache("centrali_tecnologia_hourly")
-        @@cache_centrali_zona_hourly = set_cache("centrali_zona_hourly")
-      }
+      cache = {}
+      cache[:cache_centrali_tecnologia_daily] = set_cache("centrali_tecnologia_daily") 
+      cache[:cache_centrali_zona_daily] = set_cache("centrali_zona_daily")
+      cache[:cache_centrali_tecnologia_hourly] = set_cache("centrali_tecnologia_hourly")
+      cache[:cache_centrali_zona_hourly] = set_cache("centrali_zona_hourly")
+      return cache
     end
 
     def set_cache(type)

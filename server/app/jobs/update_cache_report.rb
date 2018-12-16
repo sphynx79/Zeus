@@ -4,25 +4,15 @@
 # frozen_string_literal: true
 
 class UpdateCacheReport
-  attr_reader :description, :time_interval, :timeout, :result
+  attr_reader :name, :description, :time_interval
   def initialize
+    @name = "cache_report" 
     @description = "Update della cache dei report"
-    @time_interval = "10m"
-    @timeout = "10m"
+    @time_interval = 60*10
   end
 
   def call
-    begin
-      Report.initialize_cache
-      return true
-    rescue Exception
-      @result = $! # $! global variable reference to the Exception object
-      return false
-    end
-  end
-
-  def failed
-    @result
+    Report.initialize_cache
   end
 
 end

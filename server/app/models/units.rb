@@ -2,7 +2,6 @@
 
 class Units
   extend Mapbox
-  mattr_reader :cache_units
 
   class << self
     def initialize_cache

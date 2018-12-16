@@ -3,9 +3,7 @@
 V1::Api.route("reports") do |r|
   def get_value(dates, cache)
     # la ricerca nella cache ha sempre la key nel timezone italiano
-    LOCK.with_read_lock do 
-      dates.reduce("[".dup) { |cum, data| cum << "#{cache[data]}," }[0..-2] << "]" 
-    end
+    dates.reduce("[".dup) { |cum, data| cum << "#{cache[data]}," }[0..-2] << "]" 
   end
 
   r.on String, String do |start_dt, end_dt|
@@ -15,7 +13,7 @@ V1::Api.route("reports") do |r|
     end_dt = (Time.parse(end_dt) + (3600 * 24) - 1)
     dates = Set.new
     remaining_path = request.remaining_path.tr("/", "")
-    cache = Report.send("cache_#{remaining_path}")
+    cache = Caddy[:cache_report]["cache_#{remaining_path}".to_sym]
     r.halt(403, json({"error" => cache})) unless cache.is_a? (Hash)
 
     # daily teconlogia

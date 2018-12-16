@@ -6,16 +6,12 @@
 require "net/http"
 require "digest/sha1"
 require 'json'
-require 'concurrent/atomic/reentrant_read_write_lock'
-require 'concurrent/atomic/atomic_fixnum'
 
 def require_glob(glob)
   Dir.glob(glob).sort.each do |path|
     require path
   end
 end
-
-LOCK = Concurrent::ReentrantReadWriteLock.new
 
 require_glob APP_ROOT.to_s + '/app/patch/*.rb'
 require_glob APP_ROOT.to_s + '/app/initializers/*.rb'
