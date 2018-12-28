@@ -48,7 +48,7 @@ class Scheduler
     include Logging
 
     def jobs
-      @@jobs ||= [UpdateCacheReport.new, UpdateCacheUnits.new]
+      @@jobs ||= [UpdateCacheReport.new, UpdateCacheUnits.new, UpdateCacheRemit.new ]
     end
 
     def start

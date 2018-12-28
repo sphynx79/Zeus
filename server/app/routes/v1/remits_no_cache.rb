@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-V1::Api.route("remits") do |r|
+V1::Api.route("remits_no_cache") do |r|
   r.on String do |data|
     r.halt(403, json({"error" => "Data non corretta"})) if data_is_correct(data)
     # le data viene portata nel formato ora locale
     # quindi avanti di +2 ore (ora legale estate) +1 ora (ora solare inverno)
     r.is_exactly "centrali" do
-      start_dt = Time.parse(data)
-      json(Remit.get_remit_centrali_cache(start_dt))
+      start_dt = TZ.local_to_utc(Time.parse(data))
+      end_dt = (start_dt + (3600 * 24) - 1)
+      json(Remit.get_remit_centrali(start_dt, end_dt))
     end
     r.on "linee", String do |volt|
       start_dt = TZ.local_to_utc(Time.parse(data))

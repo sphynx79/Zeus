@@ -3,16 +3,16 @@
 # warn_indent: true
 # frozen_string_literal: true
 
-class UpdateCacheUnits
+class UpdateCacheRemit
   attr_reader :name, :description, :time_interval 
   def initialize
-    @name = "cache_units"
-    @description = "Update della cache delle unita"
+    @name = "cache_remits"
+    @description = "Update della cache delle remit"
     @time_interval = 60*20
   end
 
   def call
-    Units.refresh_cache
+    Remit.refresh_cache
   end
 
 end

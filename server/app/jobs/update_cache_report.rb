@@ -12,7 +12,7 @@ class UpdateCacheReport
   end
 
   def call
-    Report.initialize_cache
+    Report.refresh_cache
   end
 
 end

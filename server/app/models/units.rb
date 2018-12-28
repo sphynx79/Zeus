@@ -4,7 +4,7 @@ class Units
   extend Mapbox
 
   class << self
-    def initialize_cache
+    def refresh_cache
         get_all_units
     end
 
