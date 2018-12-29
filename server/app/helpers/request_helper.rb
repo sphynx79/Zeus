@@ -11,7 +11,6 @@ module RequestHelpers
       log_message = "\n#{e.class} (#{e.message}):\n"
       log_message += "  #{e.backtrace.join("\n  ")}\n\n" if e.backtrace
       puts log_message
-
       json({ message: 'Internal server error' })
     end
   end

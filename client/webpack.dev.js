@@ -62,6 +62,7 @@ module.exports = merge(common, {
         new HtmlWebPackPlugin({
             template: "./index.html",
             filename: "./index.html",
+            // favicon: './images/favicon.png',
             // inject: true,
         }),
         new webpack.DefinePlugin({

@@ -11,7 +11,7 @@ module V1
     plugin :halt
     plugin :optimized_string_matchers
     plugin :not_found do |r| 
-      json({"error" => "Api #{r.path} non trovata"}) 
+      json({"error" => "Api #{r.path} non trovata"})
     end
       
     require_glob APP_ROOT.to_s + "/app/routes/v1/*.rb"

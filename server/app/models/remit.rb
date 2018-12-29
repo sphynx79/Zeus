@@ -3,30 +3,8 @@
 class Remit < Mongodb
   extend Mapbox
 
-  # cattr :cache_remit_linee_220
-  # cattr :cache_remit_linee_220
-
   class << self
-    # def initialize_cache
-    #   @@cache_remit_linee_220 = set_cache("linee_220")
-    #   @@cache_remit_linee_220 = set_cache("linee_380")
-    # end
-
-    # def set_cache(type)
-    #   collection = case type
-    #                when "linee_220"
-    #                  client[:remit_centrali_daily_tecologia].aggregate(pipeline_daily_tecologia()).allow_disk_use(true).to_a
-    #                when "linee_380"
-    #                  client[:remit_centrali_daily_zona].aggregate(pipeline_daily_zona()).allow_disk_use(true).to_a
-    #                else
-    #                  "Errore"
-    #                end
-    #   return "cache #{type} non trovata" if collection == "Errore"
-
-    #   collection.inject({}) do |r, s| r.merge!({s["data"] => s.dup { |x| x.delete("data") }.to_json}) end
-    # end
-    #
-
+   
     def refresh_cache
       pipeline = set_pipeline_centrali_cache()
       remit_result = client[:remit_centrali_last].aggregate(pipeline).allow_disk_use(true).to_a
@@ -330,7 +308,8 @@ class Remit < Mongodb
 
     def set_pipeline_linee(start_dt, end_dt, volt)
       pipeline = []
-      pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, "volt": volt}}
+      pipeline << {:$match => {"volt": volt}}
+      # pipeline << {:$match => {"dt_upd": {:$lte => start_dt}, "volt": volt}}
       pipeline << {:$match => {"start_dt": {:$lte => end_dt}, "end_dt": {:$gte => start_dt}}}
       pipeline << {:$group => {
         '_id': '$nome',

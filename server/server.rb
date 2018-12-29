@@ -67,9 +67,7 @@ class Server < Roda
     end
 
     r.on "api/v1" do
-      
       r.run V1::Api
-
     end
 
   end

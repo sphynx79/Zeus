@@ -5,7 +5,6 @@ wpws07288419:2015 {
   }
   tls wpws07288419.crt wpws07288419.key
   index index.html
-  cache
   push
 
   header / {
