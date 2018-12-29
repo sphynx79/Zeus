@@ -197,8 +197,7 @@ class MapBox {
 
         map = new mapboxgl.Map({
             container: "mapid",
-            // style: "mapbox://styles/browserino/cj60wfdfe228u2rmmns6i5bjr?optimize=true",
-            style: "mapbox://styles/browserino/cjhpwzyrx3ymw2smgsezxdwra?optimize=true",
+            style: "mapbox://styles/browserino/cjhpwzyrx3ymw2smgsezxdwra",
             center: [11.88, 42.13],
             zoom: 5.6,
             maxZoom: 13,
