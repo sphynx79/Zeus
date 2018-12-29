@@ -1,3 +1,13 @@
+## 1.6.1 (2018-12-29)
+### Changed
+-  Messo la dashboard dei grafici nella sidebar  ( 2018-12-13 ) [ sphynx79]
+
+### Added
+-  Aggiunto supporto alle tabelle orarie anche per le linee  ( 2018-11-29 ) [ sphynx79]
+-  Aggiunto il supporto per le remit orarie nella tabella centrali  ( 2018-11-22 ) [ sphynx79]
+
+
+
 ## 1.6.0 (2018-11-05)
 ### Changed
 -  Creato meccanismo di cache per report e per le remit, e sistemato problema UTC localtime  ( 2018-11-05 ) [ sphynx79]
