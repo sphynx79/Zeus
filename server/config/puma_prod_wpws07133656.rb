@@ -1,5 +1,5 @@
 tag 'Ampere'
-threads 0, 16
+threads 1, 1
 
 require 'childprocess'
 
