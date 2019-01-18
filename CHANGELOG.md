@@ -1,3 +1,9 @@
+## 1.6.2 (2019-01-19)
+### Added
+-  Implementato cache probabilistica  ( 2019-01-19 ) [ sphynx79]
+
+
+
 ## 1.6.1 (2018-12-29)
 ### Changed
 -  Messo la dashboard dei grafici nella sidebar  ( 2018-12-13 ) [ sphynx79]
