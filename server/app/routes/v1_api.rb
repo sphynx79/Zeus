@@ -33,22 +33,7 @@ module V1
       r.on_branch "units" do
         r.route "units"
       end
-
-      r.on_branch "no_cache" do
-        r.on_branch "remits" do
-          r.route "remits_no_cache"
-        end
-
-        r.on_branch "reports" do
-          r.route "reports_no_cache"
-        end
-
-        r.on_branch "units" do
-          r.route "units_no_cache"
-        end
-      end
-
-
+      
     end
   end
 end

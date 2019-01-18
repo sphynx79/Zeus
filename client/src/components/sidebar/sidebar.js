@@ -24,7 +24,7 @@ class SideBar {
     oninit({ state }) {
         let startDtDaily = derive(() =>
             dayjs(appState.$data.get())
-                .subtract(11, "month")
+                .subtract(6, "month")
                 .format("DD-MM-YYYY")
         )
         let endDtDaily = derive(() =>

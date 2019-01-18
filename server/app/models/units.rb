@@ -2,10 +2,11 @@
 
 class Units
   extend Mapbox
+  cattr :cache
 
   class << self
     def refresh_cache
-        get_all_units
+      @@cache = get_all_units
     end
 
     def get_all_units

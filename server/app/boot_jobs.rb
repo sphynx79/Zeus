@@ -5,6 +5,26 @@
 
 require_glob APP_ROOT.to_s + "/app/jobs/*.rb"
 
+class Scheduler
+  class << self
+    include Logging
+
+    def jobs
+       @@jobs ||= [UpdateCacheReport.new, UpdateCacheRemit.new, UpdateCacheUnits.new]
+    end
+
+    def start
+      jobs.each do |job|
+        task = job.init
+        task.execute
+      end
+    end
+
+  end
+
+end
+Scheduler.start
+
 # class Scheduler
 #   class << self
 #     include Logging
@@ -43,30 +63,31 @@ require_glob APP_ROOT.to_s + "/app/jobs/*.rb"
 
 # Scheduler.start
 
-class Scheduler
-  class << self
-    include Logging
+# class Scheduler2
+#   class << self
+#     include Logging
 
-    def jobs
-      @@jobs ||= [UpdateCacheReport.new, UpdateCacheUnits.new, UpdateCacheRemit.new ]
-    end
+#     def jobs
+#       @@jobs ||= [UpdateCacheReport.new]
+#       # @@jobs ||= [UpdateCacheRemit.new ]
+#     end
 
-    def start
-      jobs.each do |job|
-        cache_id = job.name.to_sym
-        Caddy[cache_id].refresher = -> { job.call }
-        Caddy[cache_id].refresh_interval = job.time_interval
-        Caddy[cache_id].error_handler = -> (exception) {  
-          Logging.logger.warn  job.description
-          puts "Message:\n\t#{exception.message}"
-          puts "Backtrace:\n\t#{exception.backtrace.join("\n\t")}"
-        }
-      end
-      Caddy.logger = Logging.logger
-      Caddy.start
-    end
-  end
-end
+#     def start
+#       jobs.each do |job|
+#         cache_id = job.name.to_sym
+#         Caddy[cache_id].refresher = -> { job.call }
+#         Caddy[cache_id].refresh_interval = job.time_interval
+#         Caddy[cache_id].error_handler = -> (exception) {  
+#           Logging.logger.warn  job.description
+#           puts "Message:\n\t#{exception.message}"
+#           puts "Backtrace:\n\t#{exception.backtrace.join("\n\t")}"
+#         }
+#       end
+#       Caddy.logger = Logging.logger
+#       Caddy.start
+#     end
+#   end
+# end
 
-Scheduler.start
+# Scheduler2.start
 

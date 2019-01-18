@@ -8,11 +8,19 @@ class UpdateCacheUnits
   def initialize
     @name = "cache_units"
     @description = "Update della cache delle unita"
-    @time_interval = 60*20
+    @execution_interval = 60*60*8
+    @timeout_interval   = 30
   end
 
-  def call
-    Units.refresh_cache
+  def init
+    Concurrent::TimerTask.new(
+      run_now: true, 
+      execution_interval: @execution_interval, 
+      timeout_interval: @timeout_interval
+    ) do
+      Units.refresh_cache
+      nil # no need for the {#Concurrent::TimerTask} to keep a reference to the value
+    end
   end
 
 end
