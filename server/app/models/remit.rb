@@ -10,38 +10,48 @@ class Remit < Mongodb
     def refresh_cache(expiration_time: 240)
       # print "Refresh cache .......\n"
       @@expiration_time ||= expiration_time
+      around_before = 10 
+      around_after  = 10
       @@cache ||= Hash.new do |hash, key|
-        puts "did not find key in cache, fetch from db ..."
+        # puts "did not find key #{key} in cache, fetch from db ..."
         Concurrent::ScheduledTask.execute(4) do
-          refresh_cache_around_day(data: Date.strptime(key,"%d-%m-%Y"), keep_old: true,  keep_day: false)
+            refresh_cache_around_day(data: Date.strptime(key,"%d-%m-%Y"), keep_old: true,  keep_day: false, around_before: around_before, around_after: around_after)
         end
-        @@cache[key] = {entries: fetch_from_db(key), expiration_time: Time.now.to_i + @@expiration_time}
+        @@cache[key] = { value: fetch_from_db(key), expiration_time: Time.now.to_i + @@expiration_time }
       end
       Concurrent::Promise.new{refresh_cache_around_today}.then{delete_expired_key }.execute
     end
-
-    def refresh_cache_around_today
-      # print "refresh around today\n"
-      refresh_cache_around_day(data: Date.today, keep_old: false, keep_day: true)
-    end
     
-    def refresh_cache_around_day(data: nil, keep_old: false, keep_day: false)
+    def refresh_cache_around_day(data: nil, keep_old: false, keep_day: false, around_before: 30, around_after: 30)
       # p "refresh cache aroud day => #{data}"
-      range_date = keep_day ? (data-5..data+5).to_a : (data-5..data+5).to_a - [data]
-      (range_date).each do |dt|
-        dt.strftime('%d-%m-%Y').tap do |key|
-          remit = fetch_from_db(key)
-          next if remit.nil?
-          if (!keep_old || !@@cache.key?(key))
-            # p "Aggiorno day: #{key}"
-            @@cache[key] = {entries: remit, expiration_time: Time.now.to_i + @@expiration_time}
-          end
+      step        = 1.0
+      data_parser = '%d-%m-%Y'
+      st_dt       = data - around_before
+      end_dt      = data + around_after
+
+      range_date = st_dt.step(end_dt, step).map { |e| e.strftime(data_parser) }
+      range_date.delete_if { |x| x.include?(data.strftime('%d-%m-%Y')) } unless keep_day
+
+      Parallel.each(range_date, in_threads: 8) do |key|
+        remit = fetch_from_db(key)
+        next if remit.nil?
+        if (!keep_old || !@@cache.key?(key))
+          @@cache[key] = { value: remit, expiration_time: Time.now.to_i + @@expiration_time }
         end
       end
     end
 
+    def refresh_cache_around_today
+      prima         = Time.now
+      around_before = 180
+      around_after  = 30
+      today         = Date.today
+      refresh_cache_around_day(data: today, keep_old: false, keep_day: true, around_before: around_before, around_after: around_after)
+      puts "Refresh_cache_around_today remits in: #{Time.now - prima}"
+    end
+
     def delete_expired_key
-      print "delete expired key to remit\n"
+      # print "delete expired key to remit\n"
       now   = Time.now.to_i
       @@cache.delete_if { |_, v| now > v[:expiration_time] }
     end
@@ -54,17 +64,22 @@ class Remit < Mongodb
     end
 
     def get_remit_centrali(data)
-      # pp  @@cache.keys.sort
-      @@cache[data][:entries]
-        .yield_self { |remit| features_centrali(remit) }
-        .yield_self { |features| Hash[type: 'FeatureCollection', features: features] }
+      @@cache[data][:value]
+        # .yield_self { |remit| features_centrali(remit) }
+        # .yield_self { |features| Hash[type: 'FeatureCollection', features: features] }
     end
 
     def fetch_from_db(data)
       pipeline = set_pipeline_centrali(data)
       remit_result = client[:remit_centrali_last].aggregate(pipeline).allow_disk_use(true).to_a
-      # data = remit_result[0]['data']
-      remit_result.empty? ? nil : remit_result[0]['entries']
+      if remit_result.empty? 
+        nil 
+      else 
+        remit_result[0]['entries']
+          .yield_self { |remit| features_centrali(remit) }
+          .yield_self { |features| Hash[type: 'FeatureCollection', features: features] }
+          .yield_self { |feature_collection|  Oj.dump(feature_collection, mode: :compat) }
+      end
     end
 
     def features_linee(remit_result, volt, input_start_dt, input_end_dt)

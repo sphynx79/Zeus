@@ -7,7 +7,7 @@ V1::Api.route("remits") do |r|
     # quindi avanti di +2 ore (ora legale estate) +1 ora (ora solare inverno)
     r.is_exactly "centrali" do
       data = Date.parse(data).strftime('%d-%m-%Y')
-      json(Remit.get_remit_centrali(data))
+      Remit.get_remit_centrali(data)
     end
     r.on "linee", String do |volt|
       start_dt = TZ.local_to_utc(Time.parse(data))

@@ -1,22 +1,24 @@
+#!/usr/bin/env ruby
+# warn_indent: true
 # frozen_string_literal: true
 
-ruby '2.5.1'
+ruby '>=2.5.1'
 
 source 'https://rubygems.org'
 
-gem 'caddy', '~>1.6.0'
+# gem 'caddy', '~>1.6.0'
 gem 'childprocess', '~>0.9.0'
 gem 'concurrent-ruby-ext', '~>1.1.4', require: false
 gem 'mongo', '~>2.6.2'
-gem 'oj', '~>3.7.6'
+gem 'oj', '~>3.7.7'
+gem 'parallel', '~>1.13.0'
 gem 'puma', '~>3.12.0'
 gem 'rake', '~>12.3.1'
-gem 'roda', '~>3.15.0'
+gem 'roda', '~>3.16.0'
 gem 'ruby-time_range', require: 'time_range'
 gem 'settingslogic', '~>2.0.9'
 gem 'tzinfo', '~>2.0'
 gem 'tzinfo-data', '~>1.2018.7'
-gem 'parallel'
 # gem 'ruby-prof'
 # gem 'brotli'
 # gem 'rack-brotli'

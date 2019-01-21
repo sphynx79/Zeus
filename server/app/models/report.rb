@@ -2,7 +2,6 @@
 
 class Report < Mongodb
   cattr :cache
-  cattr :expiration_time
 
   class << self
     def refresh_cache(expiration_time: 240)
@@ -13,7 +12,7 @@ class Report < Mongodb
       %i[centrali_tecnologia_daily centrali_zona_daily centrali_tecnologia_hourly centrali_zona_hourly].each do |cache_type|
         around_before, around_after = (cache_type.to_s.include? 'daily') ?  [30,15] : [15,7]
         @@cache[cache_type] ||= Hash.new do |_hash, key|
-          # puts 'did not find key in cache, fetch from db ...'
+          # puts "did not find key #{key} in cache, fetch from db ..."
           # @@task[cache_type] ||= Concurrent::Future.new do
           @@task[cache_type] ||= Concurrent::ScheduledTask.new(5) do
               date_time = (cache_type.to_s.include? 'daily') ? DateTime.strptime(key, '%d-%m-%Y') : DateTime.strptime(key, '%d-%m-%Y %H:%M:%S')
@@ -42,7 +41,7 @@ class Report < Mongodb
       Parallel.each(range_date, in_threads: 8) do |key|
         remit = fetch_from_db(key, cache_type)
         next if remit.nil?
-        if !keep_old || !@@cache[cache_type].key?(key)
+        if (!keep_old || !@@cache[cache_type].key?(key))
           @@cache[cache_type][key] = { value: remit, expiration_time: Time.now.to_i + @@expiration_time }
         end
       end
@@ -50,11 +49,9 @@ class Report < Mongodb
 
     def refresh_cache_around_today(cache_type)
       prima = Time.now
-      puts "start refresh_cache_around_today #{cache_type}"
-      around_before, around_after = (cache_type.to_s.include? 'daily') ?  [600,360] : [380,60] 
+      around_before, around_after = (cache_type.to_s.include? 'daily') ?  [365,180] : [180,30] 
       refresh_cache_around_day(data: Date.today.to_datetime, cache_type: cache_type, keep_old: false, keep_day: true, around_before: around_before, around_after: around_after)
-      puts "end refresh_cache_around_today #{cache_type}"
-      puts Time.now - prima
+      puts "Refresh_cache_around_today #{cache_type} in: #{Time.now - prima}"
     end
 
     def delete_expired_key(cache_type)
@@ -112,13 +109,13 @@ class Report < Mongodb
               date: "$dataTime",
               timezone: "Europe/Rome",
             }},
-            termico:        "$termico",
-            pompaggio:      "$pompaggio",
-            autoproduttore: "$autoproduttore",
-            idrico:         "$idrico",
-            eolico:         "$eolico",
-            solare:         "$solare",
-            geotermico:     "$geotermico",
+            termico:         { "$trunc": "$termico" },
+            pompaggio:       { "$trunc": "$pompaggio" },
+            autoproduttore:  { "$trunc": "$autoproduttore" },
+            idrico:          { "$trunc": "$idrico" },
+            eolico:          { "$trunc": "$eolico" },
+            solare:          { "$trunc": "$solare" },
+            geotermico:      { "$trunc": "$geotermico" } 
           }
         }
       else
@@ -130,16 +127,16 @@ class Report < Mongodb
               date: "$dataTime",
               timezone: "Europe/Rome",
             }},
-            brnn: "$brnn",
-            cnor: "$cnor",
-            csud: "$csud",
-            fogn: "$fogn",
-            nord: "$nord",
-            prgp: "$prgp",
-            rosn: "$rosn",
-            sard: "$sard",
-            sici: "$sici",
-            sud:  "$sud",
+            brnn: { "$trunc": "$brnn" },
+            cnor: { "$trunc": "$cnor" },
+            csud: { "$trunc": "$csud" },
+            fogn: { "$trunc": "$fogn" },
+            nord: { "$trunc": "$nord" },
+            prgp: { "$trunc": "$prgp" },
+            rosn: { "$trunc": "$rosn" },
+            sard: { "$trunc": "$sard" },
+            sici: { "$trunc": "$sici" },
+            sud:  { "$trunc": "$sud" },
           }
         }
       end

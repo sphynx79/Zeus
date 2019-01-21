@@ -43,16 +43,16 @@ class SideBar {
                 .format("DD-MM-YYYY")
         )
         state.$remitCentraliTecnologiaDaily = derive(() =>
-            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtDaily.get()}/${endDtDaily.get()}/centrali_tecnologia_daily`)
+            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtDaily.get()}/${endDtDaily.get()}/centrali_tecnologia_daily${appState.cache}`)
         )
         state.$remitCentraliTecnologiaHourly = derive(() =>
-            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtHourly.get()}/${endDtHourly.get()}/centrali_tecnologia_hourly`)
+            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtHourly.get()}/${endDtHourly.get()}/centrali_tecnologia_hourly${appState.cache}`)
         )
         state.$remitCentraliZonaDaily = derive(() =>
-            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtDaily.get()}/${endDtDaily.get()}/centrali_zona_daily`)
+            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtDaily.get()}/${endDtDaily.get()}/centrali_zona_daily${appState.cache}`)
         )
         state.$remitCentraliZonaHourly = derive(() =>
-            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtHourly.get()}/${endDtHourly.get()}/centrali_zona_hourly`)
+            state._getRemit(`${appState.protocolo}://${appState.server}:${appState.port}/api/v1/reports/${startDtHourly.get()}/${endDtHourly.get()}/centrali_zona_hourly${appState.cache}`)
         )
     }
 

@@ -52,15 +52,19 @@ class Grafico {
             },
             tooltip: {
                 trigger: "axis",
-                // backgroundColor: "rgba(0, 0, 0, 0.7)",
+                backgroundColor: "#2b2b2bed",
                 textStyle: {
-                    fontSize: 12,
+                    fontSize: 10,
+                },
+                padding: 2,
+                position:function(p) {
+                    return [p[0] + 4, p[1] - 4];
                 },
                 axisPointer: {
                     type: "cross",
                     label: {
                         backgroundColor: "#2b2b2bd6",
-                        fontSize: 10,
+                        fontSize: 8,
                         shadowColor: "#25252599",
                         shadowBlur: 10,
                         // show: false,
@@ -70,13 +74,13 @@ class Grafico {
                         color: "rgba(230, 230, 230, 0.6)",
                         textStyle: {
                             backgroundColor: "rgba(0, 0, 0, 0.9)",
-                            fontSize: 11,
+                            fontSize: 8,
                         },
                     },
                 },
             },
             legend: {
-                top: "38px",
+                top: "34px",
                 itemWidth: 18,
                 itemHeight: 8,
                 padding: 15,
@@ -199,27 +203,6 @@ class Grafico {
 
     _remitTecnologiaDailyOption() {
         let option = {
-            // tooltip: {
-            //     trigger: "item",
-            //     triggerOn: "click",
-            //     hideDelay: 40,
-            //     backgroundColor: "rgba(0, 0, 0, 0.7)",
-            //     textStyle: {
-            //         fontSize: 12,
-            //     },
-            //     axisPointer: {
-            //         type: "shadow",
-            //         snap: true,
-            //         crossStyle: {
-            //             color: "rgba(230, 230, 230, 0.6)",
-            //             type: "solid",
-            //             textStyle: {
-            //                 backgroundColor: "rgba(0, 0, 0, 0.9)",
-            //                 fontSize: 11,
-            //             },
-            //         },
-            //     },
-            // },
             xAxis: {
                 name: "Data",
                 type: "category",
@@ -252,9 +235,9 @@ class Grafico {
                 },
                 axisLabel: {
                     color: function (value, index) {
-                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                        
+                        return dayjs(appState.$data.get()).format("DD-MM-YYYY") == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
                     },
-                    // color: "#DADBDD",
                     fontSize: 9,
                     rotate: 45,
                 },
@@ -300,13 +283,10 @@ class Grafico {
                 axisLabel: {
                     // color: "#DADBDD",
                     color: function (value, index) {
-                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                        return dayjs(appState.$data.get()).format("DD-MM-YYYY") == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
                     },
                     fontSize: 9,
                     rotate: 45,
-                    // formatter: function (value) {
-                    //     return echarts.format.formatTime('yyyy-MM-dd hh', value);
-                    // }
                     formatter: function(value) {
                         let label
                         let m = value.match(/(\d+)-(\d+)-(\d+)\s+(\d+)/)
@@ -326,7 +306,7 @@ class Grafico {
                     xAxisIndex: 0,
                     start: 50,
                     end: 100,
-                    bottom: "20",
+                    bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
                     fillerColor: "rgba(47,69,84,0.3)",
@@ -385,7 +365,7 @@ class Grafico {
                 },
                 axisLabel: {
                     color: function (value, index) {
-                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                        return dayjs(appState.$data.get()).format("DD-MM-YYYY") == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
                     },
                     fontSize: 9,
                     rotate: 45,
@@ -432,7 +412,7 @@ class Grafico {
                 },
                 axisLabel: {
                     color: function (value, index) {
-                        return appState.$data.get() == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
+                        return dayjs(appState.$data.get()).format("DD-MM-YYYY") == value.substring(0, 10) ? "#5aaafa" : "#DADBDD"
                     },
                     fontSize: 9,
                     rotate: 45,
@@ -455,7 +435,7 @@ class Grafico {
                     xAxisIndex: 0,
                     start: 50,
                     end: 100,
-                    bottom: "20",
+                    bottom: "10",
                     backgroundColor: "rgba(47,69,84,0)",
                     borderColor: "rgba(250,250,250,0.5)",
                     fillerColor: "rgba(47,69,84,0.3)",

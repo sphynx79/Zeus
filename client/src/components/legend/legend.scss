@@ -39,7 +39,10 @@
 
     &__item {
         border-bottom: 1px solid #20343e;
-        padding: 4px;
+        padding: 5px;
+        @media screen and (max-height: 670px) {
+          padding: 2px;
+        }
 
         &__label {
             display: inline-block;

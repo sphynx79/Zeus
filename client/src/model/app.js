@@ -4,6 +4,9 @@ class App {
     constructor() {
         this._modelName = this.constructor.name
         this.server = window.location.hostname
+        // controllo se usare la cache si o no dai parametri dell'url
+        this.cache = /cache=(true|false)/.exec(window.location.href) ? `?${/cache=(true|false)/.exec(window.location.href)[0]}` : '?cache=true';
+        console.log(this.cache)
         // server configuration
         this.port = process.env.NODE_ENV == "production" ? window.location.port : PORTDEV
         this.protocolo = ([80, 9292].includes(this.port) || location.protocol === 'http:') ? "http" : "https"
