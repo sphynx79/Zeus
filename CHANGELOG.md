@@ -1,3 +1,6 @@
+## 1.6.3 (2019-01-21)
+
+
 ## 1.6.2 (2019-01-19)
 ### Added
 -  Implementato cache probabilistica  ( 2019-01-19 ) [ sphynx79]
