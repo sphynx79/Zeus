@@ -201,7 +201,7 @@ class MapBox {
             center: [11.88, 42.13],
             zoom: 5.6,
             maxZoom: 13,
-            minZoom: 5.3,
+            minZoom: 5.0,
         })
         let nav = new mapboxgl.NavigationControl()
         map.addControl(nav, "bottom-right")

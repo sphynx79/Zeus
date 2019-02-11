@@ -51,7 +51,7 @@ class Report < Mongodb
       prima = Time.now
       around_before, around_after = (cache_type.to_s.include? 'daily') ?  [365,180] : [180,30] 
       refresh_cache_around_day(data: Date.today.to_datetime, cache_type: cache_type, keep_old: false, keep_day: true, around_before: around_before, around_after: around_after)
-      puts "Refresh_cache_around_today #{cache_type} in: #{Time.now - prima}"
+      puts "Refresh cache #{cache_type} in: #{Time.now - prima}"
     end
 
     def delete_expired_key(cache_type)

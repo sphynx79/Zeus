@@ -16,7 +16,7 @@ ssl_bind 'wpws07133656', '443', {
 }
 
 
-process = ChildProcess.build("caddy.exe", "-quic", "-conf", "CaddyfileProd_wpws07133656")
+process = ChildProcess.build("caddy.exe", "-quiet", "-quic", "-conf", "CaddyfileProd_wpws07133656")
 process.cwd = '.\config'
 process.io.inherit!
 process.leader = true

@@ -47,7 +47,7 @@ class Remit < Mongodb
       around_after  = 30
       today         = Date.today
       refresh_cache_around_day(data: today, keep_old: false, keep_day: true, around_before: around_before, around_after: around_after)
-      puts "Refresh_cache_around_today remits in: #{Time.now - prima}"
+      puts "Refresh cache remits in: #{Time.now - prima}"
     end
 
     def delete_expired_key

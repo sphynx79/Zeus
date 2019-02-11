@@ -34,22 +34,24 @@ class Server < Roda
 
   configure :development do
     plugin :common_logger, Logging.logger 
-    p "#" * 80
-    p "Start Development mode"
-    p "Version: #{VERSION}"
-    p "ip: localhost:9292"
-    p "ip db: #{Settings.database.adress.join(", ")}"
-    p "#" * 80
+    puts "#" * 80
+    puts "Start Development mode"
+    puts "Version: #{VERSION}"
+    puts "ip: localhost:9292"
+    puts "ip db: #{Settings.database.adress.join(", ")}"
+    puts "#" * 80
   end
 
   configure :production do
-    ip = Socket.ip_address_list.keep_if { |intf| intf.ipv4_private? && (intf.ip_address =~ /^10/ || intf.ip_address =~ /^192/) }[0].ip_address
-    p "#" * 80
-    p "Start Production mode"
-    p "Version: #{VERSION}"
-    p "ip: #{ip}:80"
-    p "ip db: #{Settings.database.adress.join(", ")}"
-    p "#" * 80
+    # ip = Socket.ip_address_list.keep_if { |intf| intf.ipv4_private? && (intf.ip_address =~ /^10/ || intf.ip_address =~ /^192/) }[0].ip_address
+    # ip = Socket::getaddrinfo(Socket.gethostname,"echo",Socket::AF_INET)[0][3]
+    adress = Socket.gethostname
+    puts "#" * 80
+    puts "Start Production mode"
+    puts "* Version: #{VERSION}"
+    puts "* Application avviable at: https://#{adress}:2015"
+    puts "* DB avviable at : #{Settings.database.adress.join(", ")}"
+    puts "#" * 80
     # use Rack::Cache, verbose: false
     # use Rack::Brotli, :if => lambda { |env, status, headers, body| headers["Content-Length"].to_i > 3600 }
     # IMPORTANTE: Uso deflate al posto di brotli perchè dai test mi e risultava piu performante
