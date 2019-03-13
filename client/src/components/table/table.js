@@ -140,8 +140,8 @@ class Table {
             })
             this.tabulator.setData(propAndGeometry)
         })
-        
-        document.addEventListener('content-switcher-selected', (evt) => {
+
+        document.addEventListener("content-switcher-selected", evt => {
             let el = evt.target.getElementsByClassName("bx--content-switcher--selected")[0].getAttribute("data-target")
             if (el == "#tabelle") {
                 vnode.state.tabulator.redraw()

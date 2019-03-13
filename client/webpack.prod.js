@@ -71,7 +71,7 @@ module.exports = merge(common, {
             },
             canPrint: true,
         }),
-        new CleanWebpackPlugin(["dist/*.*"]),
+        new CleanWebpackPlugin(),
         new ExtractCssChunks({
             filename: "css/[name].css",
         }),
