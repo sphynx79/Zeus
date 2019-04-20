@@ -10,21 +10,21 @@ module Mapbox
   @@dataset_centrali_url = "#{Settings.mapbox.url}/datasets/v1/browserino/cjaoj0nr54iq92wlosvaaki0y/features?access_token=#{Settings.mapbox.api_token}"
 
   def self.extended(klass)
-    @@centrali  ||= Oj.load(klass.get_json_data(@@dataset_centrali_url), mode: :compat)["features"]
-    @@linee_380 ||= Oj.load(klass.get_json_data(@@dataset_linee380_url), mode: :compat)["features"]
-    @@linee_220 ||= Oj.load(klass.get_json_data(@@dataset_linee220_url), mode: :compat)["features"]
+    @@centrali ||= Oj.load(klass.get_json_data(@@dataset_centrali_url), mode: :compat)['features']
+    @@linee_380 ||= Oj.load(klass.get_json_data(@@dataset_linee380_url), mode: :compat)['features']
+    @@linee_220 ||= Oj.load(klass.get_json_data(@@dataset_linee220_url), mode: :compat)['features']
   end
 
   def centrali
-    @@centrali ||= Oj.load(get_json_data(@@dataset_centrali_url), mode: :compat)["features"]
+    @@centrali ||= Oj.load(get_json_data(@@dataset_centrali_url), mode: :compat)['features']
   end
 
   def linee_380
-    @@linee_380 ||= Oj.load(get_json_data(@@dataset_linee380_url), mode: :compat)["features"]
+    @@linee_380 ||= Oj.load(get_json_data(@@dataset_linee380_url), mode: :compat)['features']
   end
 
   def linee_220
-    @@linee_220 ||= Oj.load(get_json_data(@@dataset_linee220_url), mode: :compat)["features"]
+    @@linee_220 ||= Oj.load(get_json_data(@@dataset_linee220_url), mode: :compat)['features']
   end
 
   def get_json_data(url)
@@ -34,4 +34,3 @@ module Mapbox
     http.get(uri.request_uri).body
   end
 end
-

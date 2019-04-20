@@ -24,11 +24,11 @@ class Mongodb
   # @return [Mongo::Client]
   #
   def self.connect_db
-    client = Mongo::Client.new(Settings.database.adress, 
-                               database: Settings.database.name, 
-                               write: {w: 0, j: false}, 
-                               wait_queue_timeout: 3, 
-                               min_pool_size: 10, 
+    client = Mongo::Client.new(Settings.database.adress,
+                               database: Settings.database.name,
+                               write: { w: 0, j: false },
+                               wait_queue_timeout: 3,
+                               min_pool_size: 10,
                                max_pool_size: 50)
     client.database_names
     client
@@ -45,6 +45,4 @@ class Mongodb
     # puts '2) Controllare in config che IP, PORTA, NOME database siano corretti'
     # exit!
   end
-
 end
-
