@@ -1,3 +1,9 @@
+## 1.6.7 (2019-04-21)
+### Fixed
+-  Sistamato problema di mithril quando lo importo globalmente  ( 2019-04-21 ) [ sphynx79]
+
+
+
 ## 1.6.6 (2019-04-21)
 
 
