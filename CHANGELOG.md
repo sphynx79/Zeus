@@ -1,3 +1,6 @@
+## 1.6.6 (2019-04-21)
+
+
 ## 1.6.5 (2019-03-17)
 ### Fixed
 -  sistema problema altezza tabelle che usciva dalla sidebar  ( 2019-03-17 ) [ sphynx79]
