@@ -15,6 +15,8 @@ module.exports = {
         extensions: [".js"],
         alias: {
             components: resolve(__dirname, "src/components"),
+            "mithril/stream": resolve(__dirname, "node_modules/mithril/stream/stream.js"),
+            "mithril": resolve(__dirname, "node_modules/mithril/mithril.js"),
             // carbon_component: resolve(__dirname, "node_modules_custom/carbon-components/es/components"),
         },
         // modules: [ resolve(__dirname, 'node_modules/') ]
