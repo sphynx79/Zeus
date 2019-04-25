@@ -65,7 +65,7 @@ module.exports = merge(common, {
     },
     plugins: [
         new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1
+            maxChunks: 1,
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebPackPlugin({

@@ -27,6 +27,7 @@
         "eslint-config-prettier": "^4.2.0",
         "eslint-loader": "^2.1.2",
         "eslint-plugin-prettier": "^3.0.1",
+        "extract-css-chunks-webpack-plugin": "4.3.0",
         "file-loader": "^3.0.1",
         "flatpickr": "^4.5.7",
         "html-loader": "^0.5.5",
@@ -52,8 +53,7 @@
     "dependencies": {
         "carbon-components": "^9.91.0",
         "dayjs": "^1.8.12",
-        "echarts": "^4.2.0-rc.4",
-        "extract-css-chunks-webpack-plugin": "4.3.0",
+        "echarts": "^4.2.1",
         "mainloop.js": "^1.0.4",
         "mithril": "2.0.0-rc.4",
         "mobius1-selectr": "^2.4.8",
