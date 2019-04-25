@@ -1,3 +1,12 @@
+## 1.6.8 (2019-04-25)
+### Changed
+-  Aggiornato alcuni pacchetti sul client  ( 2019-04-25 ) [ sphynx79]
+-  Aggiornato alcuni pacchetti sul client  ( 2019-04-25 ) [ sphynx79]
+-  Aggiornato alcune gemme ruby lato server  ( 2019-04-25 ) [ sphynx79]
+-  Aggiornato a mapbox-gl@0.50.0  ( 2019-04-25 ) [ sphynx79]
+
+
+
 ## 1.6.7 (2019-04-21)
 ### Fixed
 -  Sistamato problema di mithril quando lo importo globalmente  ( 2019-04-21 ) [ sphynx79]
