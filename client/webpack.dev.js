@@ -4,8 +4,8 @@ const merge = require("webpack-merge")
 const common = require("./webpack.common.js")
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
-// const compress = require("koa-compress")
 const fs = require("fs")
+
 if (process.env.ssl) {
     var serverport = 9000
     var port = 2015
@@ -40,7 +40,13 @@ module.exports = merge(common, {
             {
                 test: /(\.css|\.scss)$/,
                 use: [
-                    ExtractCssChunks.loader,
+                    {
+                        loader: ExtractCssChunks.loader,
+                        options: {
+                            hot: true,
+                            reloadAll: false,
+                        },
+                    },
                     {
                         loader: "css-loader",
                         options: {
@@ -58,6 +64,9 @@ module.exports = merge(common, {
         ],
     },
     plugins: [
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebPackPlugin({
             template: "./index.html",
