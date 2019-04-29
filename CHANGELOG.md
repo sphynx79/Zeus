@@ -1,3 +1,13 @@
+## 1.6.9 (2019-04-29)
+### Updated
+-  Aggiornato lato client dayjs e @babel/core @babel/preset-env  ( 2019-04-29 ) [ sphynx79]
+
+### Changed
+-  Aggiornato lato client libreria tabulator-tables  ( 2019-04-29 ) [ sphynx79]
+-  Aggiornato echarts  ( 2019-04-26 ) [ sphynx79]
+
+
+
 ## 1.6.8 (2019-04-25)
 ### Changed
 -  Aggiornato alcuni pacchetti sul client  ( 2019-04-25 ) [ sphynx79]
