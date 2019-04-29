@@ -12,8 +12,8 @@
         "watch": "webpack --watch --progress --colors --display-error-details --config webpack.watch.js"
     },
     "devDependencies": {
-        "@babel/core": "^7.4.3",
-        "@babel/preset-env": "^7.4.3",
+        "@babel/core": "^7.4.4",
+        "@babel/preset-env": "^7.4.4",
         "autoprefixer": "^9.5.1",
         "babel-eslint": "^10.0.1",
         "babel-loader": "^8.0.5",
@@ -52,7 +52,7 @@
     },
     "dependencies": {
         "carbon-components": "^9.91.0",
-        "dayjs": "^1.8.12",
+        "dayjs": "^1.8.13",
         "echarts": "^4.2.1",
         "mainloop.js": "^1.0.4",
         "mithril": "2.0.0-rc.4",
