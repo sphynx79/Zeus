@@ -1,3 +1,9 @@
+## 1.6.10 (2019-04-30)
+### Updated
+-  Aggiornato lato client la libreria tabulator-tables  ( 2019-04-30 ) [ sphynx79]
+
+
+
 ## 1.6.9 (2019-04-29)
 ### Updated
 -  Aggiornato lato client dayjs e @babel/core @babel/preset-env  ( 2019-04-29 ) [ sphynx79]
