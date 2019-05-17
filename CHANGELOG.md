@@ -1,3 +1,12 @@
+## 1.6.11 (2019-05-17)
+### Updated
+-  Aggiornato versione ruby (2.6.3-p62) + aggiornato alcuni pacchetti lato client  ( 2019-05-17 ) [ sphynx79]
+
+### Fixed
+-  Quando lo usavo in Tunisia e dove usare un proxy non funzionava, per cui per mapbox ho dovuto mettere OpenSSL::SSL::VERIFY_NONE  ( 2019-05-17 ) [ sphynx79]
+
+
+
 ## 1.6.10 (2019-04-30)
 ### Updated
 -  Aggiornato lato client la libreria tabulator-tables  ( 2019-04-30 ) [ sphynx79]
