@@ -1,3 +1,14 @@
+## 1.6.12 (2019-05-23)
+### Updated
+-  Aggiornato lato client extract-css-chunks-webpack-plugin  ( 2019-05-23 ) [ sphynx79]
+-  Aggiornato webpack  ( 2019-05-23 ) [ sphynx79]
+-   Aggiornato mapbox alla versione 1.0.0 che ha un nuovo piano prezzi  ( 2019-05-23 ) [ sphynx79]
+
+### updated
+-  Aggiornato lato client babel  ( 2019-05-23 ) [ sphynx79]
+
+
+
 ## 1.6.11 (2019-05-17)
 ### Updated
 -  Aggiornato versione ruby (2.6.3-p62) + aggiornato alcuni pacchetti lato client  ( 2019-05-17 ) [ sphynx79]
