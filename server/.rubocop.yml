@@ -1,8 +1,13 @@
+require: rubocop-performance
+
 AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'bin/**/*'
-  TargetRubyVersion: 2.2
+    - '.rblcl/**/*'
+    - '.git/**/*'
+    - '.vscode/**/*'
+  TargetRubyVersion: 2.6.3
 
 Metrics/LineLength:
   Max: 130

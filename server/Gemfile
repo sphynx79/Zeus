@@ -41,6 +41,9 @@ group :development, :test do
   gem 'pry-clipboard', '~>0.1.1'
   gem 'pry-state', '~>0.1.10'
   gem 'rspec', '~>3.8.0'
+  gem 'rubocop', '~>0.70.0', require: false
+  gem 'rubocop-performance', '~>1.3.0', require: false
+  gem 'rufo', '~>0.7', require: false
 end
 
 group :test do
