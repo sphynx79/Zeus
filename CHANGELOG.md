@@ -1,3 +1,6 @@
+## 1.6.13 (2019-05-24)
+
+
 ## 1.6.12 (2019-05-23)
 ### Updated
 -  Aggiornato lato client extract-css-chunks-webpack-plugin  ( 2019-05-23 ) [ sphynx79]
