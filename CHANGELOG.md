@@ -1,3 +1,18 @@
+## 1.6.14 (2019-06-01)
+### Updated
+-  Aggiornato alcune gemme lato server  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client terser-webpack-plugin@1.3.0  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client clean-webpack-plugin@3.0.0  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client mini-css-extract-plugin@0.7.0  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client extract-css-chunks-webpack-plugin@4.5.2  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client mobius1-selectr@2.4.12  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client nodemon@1.19.1  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato webpack-dev-server@3.5.1  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato lato client core-js  ( 2019-06-01 ) [ sphynx79]
+-  Aggiornato mithril versione mithril@2.0.0-rc.6  ( 2019-06-01 ) [ sphynx79]
+
+
+
 ## 1.6.13 (2019-05-24)
 
 
