@@ -70,4 +70,3 @@ class Server < Roda
     end
   end
 end
-

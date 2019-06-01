@@ -1,7 +1,16 @@
 {
   "root": true,
   "parser": "babel-eslint",
-  "globals": {},
+  "globals": {
+    "m": true,
+    "noUiSlider": true,
+    "MainLoop": true,
+    "echarts": true,
+    "dayjs": true,
+    "derive": true,
+    "atom": true,
+    "lens": true
+  },
   "plugins": [
     "prettier"
   ],
