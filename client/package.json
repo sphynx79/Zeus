@@ -1,6 +1,6 @@
 {
     "name": "Ampere",
-    "version": "1.0.0",
+    "version": "1.6.15",
     "main": "index.js",
     "license": "MIT",
     "scripts": {
