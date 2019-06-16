@@ -1,3 +1,19 @@
+## 1.6.15 (2019-06-16)
+### Updated
+-  Aggiornato lato client css-loader 2.1.1 => 3.0.0  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client compression-webpack-plugin 2.0.0 => 3.0.0  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client file-loader 3.0.2 => 4.0.0  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client eslint-config-prettier 4.3.0 => 5.0.0  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client autoprefixer 9.5.1 => 9.6.0  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client flatpickr 4.5.7 => 4.6.1  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client  prettier  1.17.1 => 1.18.2  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client  webpack-dev-server 3.5.1  => 3.7.1  ( 2019-06-16 ) [ sphynx79]
+-  Aggiornato lato client postcss  7.0.16 => 7.0.17  ( 2019-06-16 ) [ sphynx79]
+-  updaye lato client webpack  1.17.1 =>  1.18.2  ( 2019-06-16 ) [ sphynx79]
+-  Update lato client core-js 3.1.3  =>  3.1.4  ( 2019-06-16 ) [ sphynx79]
+
+
+
 ## 1.6.14 (2019-06-01)
 ### Updated
 -  Aggiornato alcune gemme lato server  ( 2019-06-01 ) [ sphynx79]
