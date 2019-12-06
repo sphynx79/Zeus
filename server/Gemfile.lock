@@ -42,7 +42,7 @@ GEM
       pry
     pry-state (0.1.10)
       pry (~> 0.12.2, >= 0.9.10)
-    puma (3.12.1)
+    puma (3.12.2)
     rack (2.0.7)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -108,7 +108,7 @@ DEPENDENCIES
   pry-byebug (~> 3.7.0)
   pry-clipboard (~> 0.1.1)
   pry-state (~> 0.1.10)
-  puma (~> 3.12.1)
+  puma (~> 3.12.2)
   rack (~> 2.0.7)
   rack-test
   rake (~> 12.3.1)
